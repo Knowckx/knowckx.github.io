@@ -19,6 +19,7 @@ https://zz2summer.github.io/github-pages-hugo-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%
 hugo new site blog2
 
 # 目前主题
+https://docs.stack.jimmycai.com/zh/configuration/
 
 
 
