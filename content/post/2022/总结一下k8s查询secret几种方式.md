@@ -10,7 +10,7 @@ DisableComments: false
 来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式
 
 
-## 1.先get 然后手动Decode
+## 手动Decode
 最常见的方式
 1. `kubectl get secret testsecret -o yaml `
 1. 然后手动把base64编码后的字符串复制出来
@@ -19,7 +19,7 @@ DisableComments: false
 这种应该是大部分使用k8s的开发人员最常用的方式，  
 缺点是中间有一段手动复制的操作，用上了鼠标，效率比较低，不够high level~
 
-## 2.使用jsonpath
+## 使用jsonpath
 
 这个其实是今天发现的，用jsonpath可以一条命令里完成取secret的操作  
 比如有下面的secret 
@@ -47,7 +47,7 @@ kubectl get secrets/testsecret -o jsonpath="{.data\.properties}" | base64 -D
 关于jsonpath的语法，可以看[这里](https://kubernetes.io/docs/reference/kubectl/jsonpath/)
 
 
-## 3.使用插件kubectl view-secret
+## 使用插件kubectl view-secret
 
 kubectl view-secret是一个kubectl的插件，
 安装之后可以直接通过kubectl view-secret命令看secret的内容，  
@@ -55,7 +55,7 @@ kubectl view-secret是一个kubectl的插件，
 
 [view-secret地址](https://github.com/elsesiy/kubectl-view-secret)
 
-## 4.安装Lens
+## 安装Lens
 Lens是一个k8s可视化工具，可视化工具嘛，鼠标点点就出来了。  
 Lens对应查pod，查pod里的log什么的都挺方便的，懒人必备~
 

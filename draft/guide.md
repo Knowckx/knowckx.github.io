@@ -20,7 +20,7 @@ hugo new site blog2
 
 # 目前主题
 https://docs.stack.jimmycai.com/zh/configuration/
-
+demo https://demo.stack.jimmycai.com/
 
 
 # 主题
@@ -39,9 +39,6 @@ https://themes.gohugo.io/themes/personal-web/
 
 ## 新主题
 git clone https://github.com/Knowckx/hugo-theme-stack/ themes/hugo-theme-stack
-
-
-
 
 # 旧主题
 ## anatole
