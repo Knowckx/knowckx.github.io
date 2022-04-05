@@ -12,7 +12,7 @@ DisableComments: false
 
 ## slice的实现
 先看一下slice的[结构体](https://go.dev/src/runtime/slice.go）定义：
-```
+``` go
 type slice struct {
 	array unsafe.Pointer
 	len   int
@@ -25,7 +25,7 @@ type slice struct {
 
 len和cap是第一个要理清的概念，特别是当我们使用make去创建新切片时
 
-```
+``` go
 s1 := make([]int, 3) 
 s2 := make([]int, 0, 3)
 fmt.Println(s1, s2) 
@@ -64,7 +64,7 @@ cap当达到一个阈值时，以1.25倍的方式扩容。
 所以当我们向新的切片append的时候，也改变了老切片的值
 
 示例代码：
-```
+``` go
 func Test_Slice(t *testing.T) {
 	s1 := []int{1, 2, 3, 4}
 	s2 := s1[:2]  // 切片操作 s2为[1 2]
@@ -74,13 +74,13 @@ func Test_Slice(t *testing.T) {
 }
 ```
 
-s1最后的值是 [1 2 5 4], 就会显得有些怪异。  
+最后s1的值是 [1 2 5 4]!!  很难理解吧。  
 因为上面的代码里，s2是从s1切片出来的，向s2添加元素后，实际上也在修改s1的值
 
 想要生成一个完全不同的底层数组怎么办？  
 引申：拷贝一个切片的最佳实践
 
-```
+``` go
 func CopySlice() {
 	nums := []int{1, 2, 3}
 	newNums := make([]int, len(nums))
