@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式 1.先get 然后手动Decode 最常见的方式 kubectl get secret testsecret -o yaml 然'><title>总结一下k8s查询secret几种方式</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式 手动Decode 最常见的方式 kubectl get secret testsecret -o yaml 然后手动把base'><title>总结一下k8s查询secret几种方式</title>
 
 <link rel='canonical' href='https://knowckx.github.io/p/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8Bk8s%E6%9F%A5%E8%AF%A2secret%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/'>
 
 <link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='总结一下k8s查询secret几种方式'>
-<meta property='og:description' content='来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式 1.先get 然后手动Decode 最常见的方式 kubectl get secret testsecret -o yaml 然'>
+<meta property='og:description' content='来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式 手动Decode 最常见的方式 kubectl get secret testsecret -o yaml 然后手动把base'>
 <meta property='og:url' content='https://knowckx.github.io/p/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8Bk8s%E6%9F%A5%E8%AF%A2secret%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/'>
 <meta property='og:site_name' content='Cheng&#39;s Blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='k8s' /><meta property='article:published_time' content='2022-01-25T18:36:44&#43;08:00'/><meta property='article:modified_time' content='2022-01-25T18:36:44&#43;08:00'/>
 <meta name="twitter:title" content="总结一下k8s查询secret几种方式">
-<meta name="twitter:description" content="来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式 1.先get 然后手动Decode 最常见的方式 kubectl get secret testsecret -o yaml 然">
+<meta name="twitter:description" content="来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式 手动Decode 最常见的方式 kubectl get secret testsecret -o yaml 然后手动把base">
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -342,7 +342,7 @@ if (!doNotTrack) {
     
     
     <p>来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式</p>
-<h2 id="1先get-然后手动decode">1.先get 然后手动Decode</h2>
+<h2 id="手动decode">手动Decode</h2>
 <p>最常见的方式</p>
 <ol>
 <li><code>kubectl get secret testsecret -o yaml </code></li>
@@ -351,7 +351,7 @@ if (!doNotTrack) {
 </ol>
 <p>这种应该是大部分使用k8s的开发人员最常用的方式，<br>
 缺点是中间有一段手动复制的操作，用上了鼠标，效率比较低，不够high level~</p>
-<h2 id="2使用jsonpath">2.使用jsonpath</h2>
+<h2 id="使用jsonpath">使用jsonpath</h2>
 <p>这个其实是今天发现的，用jsonpath可以一条命令里完成取secret的操作<br>
 比如有下面的secret</p>
 <div class="highlight"><div class="chroma">
@@ -392,13 +392,13 @@ if (!doNotTrack) {
 </div>
 </div><p>关于jsonpath的语法，可以看<a class="link" href="https://kubernetes.io/docs/reference/kubectl/jsonpath/"  target="_blank" rel="noopener"
     >这里</a></p>
-<h2 id="3使用插件kubectl-view-secret">3.使用插件kubectl view-secret</h2>
+<h2 id="使用插件kubectl-view-secret">使用插件kubectl view-secret</h2>
 <p>kubectl view-secret是一个kubectl的插件，
 安装之后可以直接通过kubectl view-secret命令看secret的内容，<br>
 我身边很多同事用的这个插件，一劳永逸~</p>
 <p><a class="link" href="https://github.com/elsesiy/kubectl-view-secret"  target="_blank" rel="noopener"
     >view-secret地址</a></p>
-<h2 id="4安装lens">4.安装Lens</h2>
+<h2 id="安装lens">安装Lens</h2>
 <p>Lens是一个k8s可视化工具，可视化工具嘛，鼠标点点就出来了。<br>
 Lens对应查pod，查pod里的log什么的都挺方便的，懒人必备~</p>
 <p><img src="/img/2022/4.1.jpg"
@@ -614,10 +614,10 @@ kubectl view-secret装好后方便一些</p>
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#1先get-然后手动decode">1.先get 然后手动Decode</a></li>
-    <li><a href="#2使用jsonpath">2.使用jsonpath</a></li>
-    <li><a href="#3使用插件kubectl-view-secret">3.使用插件kubectl view-secret</a></li>
-    <li><a href="#4安装lens">4.安装Lens</a></li>
+    <li><a href="#手动decode">手动Decode</a></li>
+    <li><a href="#使用jsonpath">使用jsonpath</a></li>
+    <li><a href="#使用插件kubectl-view-secret">使用插件kubectl view-secret</a></li>
+    <li><a href="#安装lens">安装Lens</a></li>
   </ol>
 </nav>
         </div>
