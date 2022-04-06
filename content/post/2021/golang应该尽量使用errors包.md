@@ -1,9 +1,9 @@
 ---
-title: "go不要抛裸错误 使用errors包"
+title: "golang不要抛裸错误 使用errors包"
 date: 2021-04-11T17:27:14+08:00
 Description: ""
 Tags: [go]
-Categories: [go语言]
+Categories: [golang]
 DisableComments: false
 ---
 
