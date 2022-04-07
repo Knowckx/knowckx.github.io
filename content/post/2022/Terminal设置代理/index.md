@@ -2,7 +2,7 @@
 title: "为Terminal设置代理"
 date: 2022-03-22T17:11:10+08:00
 draft: true
-Categories: [科学上网]
+Categories: [科学上网, 必备技能]
 
 ---
 
