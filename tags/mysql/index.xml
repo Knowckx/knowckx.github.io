@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>mysql on Cheng&#39;s Blog</title>
+        <link>https://knowckx.github.io/tags/mysql/</link>
+        <description>Recent content in mysql on Cheng&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Wed, 25 Mar 2020 18:53:20 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>mysql 子查询模拟开窗函数</title>
+        <link>https://knowckx.github.io/p/mysql-%E5%AD%90%E6%9F%A5%E8%AF%A2%E6%A8%A1%E6%8B%9F%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/</link>
+        <pubDate>Wed, 25 Mar 2020 18:53:20 +0800</pubDate>
+        
+        <guid>https://knowckx.github.io/p/mysql-%E5%AD%90%E6%9F%A5%E8%AF%A2%E6%A8%A1%E6%8B%9F%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/</guid>
+        <description>&lt;p&gt;今天写一个SQL时需要使用开窗函数，结果发现Mysql在8.0后才开始支持CTE和开窗函数，&lt;br&gt;
+我们目前所使用的版本比较低，所以我想了一种通过子查询来模拟的方法。&lt;/p&gt;
+&lt;h3 id=&#34;举个例子&#34;&gt;举个例子：&lt;/h3&gt;
+&lt;p&gt;现在有一张普通的表 &lt;code&gt;table_age&lt;/code&gt;，只有三列：ID, name, age.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://knowckx.github.io/img/2020/1.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;原表&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;现在想让每一行都带上年龄的和，类似开窗函数的效果&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://knowckx.github.io/img/2020/2.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;结果&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;可以像下面这样写：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;select 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	tempT.totalAge as &amp;#39;总年龄&amp;#39;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	table_age.*
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;from 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	table_age,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	(select sum(age) as &amp;#34;totalAge&amp;#34; from table_age) tempT
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;其他开窗函数可以用这样类似的方法去模拟。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
