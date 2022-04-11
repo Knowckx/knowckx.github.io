@@ -14,8 +14,8 @@
         <guid>https://knowckx.github.io/p/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E6%8E%A8%E8%8D%90%E4%B8%80%E4%B8%AA%E8%87%AA%E7%94%A8%E7%9A%84%E6%9C%BA%E5%9C%BA/</guid>
         <description>&lt;img src="https://knowckx.github.io/img/other/code.jpg" alt="Featured image of post [科学上网]推荐一个自用的机场" /&gt;&lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;两年前我也为了一个稳定的科学上网手段折腾过，还专门买过服务器自建Shadowsocks。&lt;br&gt;
-后面发现这事不太靠谱，一但被墙锁定IP被封了就要重新连VPS换IP，比较麻烦。（换IP有些VPS是要收费的）&lt;/p&gt;
-&lt;p&gt;这时候我发现机场才是我这样的懒人最需要的东西，交点钱，给我能稳定科学上网的节点，ok！&lt;br&gt;
+后面发现这事不太靠谱，一但被墙锁定IP就要重新去VPS换新IP，比较麻烦。（换IP有些VPS是要收费的）&lt;/p&gt;
+&lt;p&gt;这时候我发现机场才是我这样的懒人最需要的东西，交点钱，给我能稳定科学上网的节点，不要整多余的事！&lt;br&gt;
 目前这个机场我使用了2年半，感觉良好。关键胜在节点多，费用也比较便宜。推荐一下。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://knowckx.github.io/img/2022/1.png&#34;
 	
@@ -30,8 +30,8 @@
 &lt;p&gt;下面说几个重点：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;这是个公益站点。最好使用教育网邮箱注册，后面会有50%优惠。&lt;/li&gt;
-&lt;li&gt;登陆机场需要VPN. &lt;a class=&#34;link&#34; href=&#34;https://ggok.xyz/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;&amp;ldquo;传送门&amp;rdquo;&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;登陆这个机场需要挂VPN. &lt;a class=&#34;link&#34; href=&#34;https://ggok.xyz/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&amp;ldquo;机场传送门&amp;rdquo;&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;假如你注册时需要邀请码，可以试试这个&lt;code&gt;1KL9&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;提供的节点比较多，可以测速一下，连延迟最小的&lt;/li&gt;
 &lt;li&gt;翻墙的客户端站里都有，Mac的话我用的clashX。
