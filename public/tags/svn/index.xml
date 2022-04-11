@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>svn on Cheng&#39;s Blog</title>
+        <link>https://knowckx.github.io/tags/svn/</link>
+        <description>Recent content in svn on Cheng&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Mon, 21 Dec 2020 17:27:14 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/tags/svn/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>svn 文件部分提交</title>
+        <link>https://knowckx.github.io/p/svn-%E6%96%87%E4%BB%B6%E9%83%A8%E5%88%86%E6%8F%90%E4%BA%A4/</link>
+        <pubDate>Mon, 21 Dec 2020 17:27:14 +0800</pubDate>
+        
+        <guid>https://knowckx.github.io/p/svn-%E6%96%87%E4%BB%B6%E9%83%A8%E5%88%86%E6%8F%90%E4%BA%A4/</guid>
+        <description>&lt;p&gt;git中，一个文件可以只commit一部分改动(只提交特定的几行)，这里记录一下SVN的方式&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;以前用git的时候，代码可以部分行暂存然后提交&lt;/p&gt;
+&lt;p&gt;切到svn后发现没有这个功能，找了一圈，发现小乌龟提供了一个类似功能 &lt;code&gt;4.4.3&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://knowckx.github.io/img/2020/2.1.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;结果&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;注意，这不是SVN的功能，是Tortoise提供的辅助功能，&lt;br&gt;
+对应这里有一个不起眼的选项&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://knowckx.github.io/img/2020/2.2.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;结果&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;大概意思就是选了这个选项后，他会帮你按目前改动先备份一份。
+然后你就按自己需求改目前的文件，直接去掉不想提交的部分，然后提交。&lt;/p&gt;
+&lt;p&gt;提交完之后小乌龟会自动把前面的备份还原回来。相当于未丢失原来的状态，间接实现文件的部分提交。&lt;/p&gt;
+&lt;p&gt;emmmmm&amp;hellip;&amp;hellip;虽然没那么完美，但是凑合着用吧。&lt;/p&gt;</description>
+        </item>
+        <item>
+        <title>关于svn还原和重置操作</title>
+        <link>https://knowckx.github.io/p/%E5%85%B3%E4%BA%8Esvn%E8%BF%98%E5%8E%9F%E5%92%8C%E9%87%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/</link>
+        <pubDate>Thu, 27 Aug 2020 17:02:56 +0800</pubDate>
+        
+        <guid>https://knowckx.github.io/p/%E5%85%B3%E4%BA%8Esvn%E8%BF%98%E5%8E%9F%E5%92%8C%E9%87%8D%E7%BD%AE%E6%93%8D%E4%BD%9C/</guid>
+        <description>&lt;p&gt;git重置本地修改很方便，可以&lt;code&gt;git reset --hard&lt;/code&gt;&lt;br&gt;
+那svn的操作呢？&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;在网易游戏工作时，部门里为了方便与策划同事的协作，项目的代码和配置表格都使用了SVN作为版本控制工具。&lt;br&gt;
+用惯了Git的我其实不太适应，比如工作中改了几个文件，现在想重置回来，假如git就很好做了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;git reset &amp;ndash;hard&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Svn就只能在界面上右键，然后手动一个一个还原，太麻烦了。&lt;br&gt;
+作为懒人是不会满足于这种效率的。然后我就去查了一下，发现Svn也是有自己的命令行可以用的。&lt;br&gt;
+这里记两个和还原相关的:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;svn info    仓库信息
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;svn st      查版本状态
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;svn revert . -R     还原所有更改
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;svn cleanup . --remove-unversioned  清理未被版本控制的文件
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;hr&gt;</description>
+        </item>
+        
+    </channel>
+</rss>
