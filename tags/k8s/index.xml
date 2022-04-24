@@ -7,11 +7,11 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <lastBuildDate>Thu, 03 Feb 2022 21:24:22 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/tags/k8s/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>分享一个k8s常用的端口转发脚本</title>
-        <link>https://knowckx.github.io/p/%E5%88%86%E4%BA%AB%E4%B8%80%E4%B8%AAk8s%E5%B8%B8%E7%94%A8%E7%9A%84%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%84%9A%E6%9C%AC/</link>
+        <title>分享一个自用的k8s端口转发脚本</title>
+        <link>https://knowckx.github.io/p/%E5%88%86%E4%BA%AB%E4%B8%80%E4%B8%AA%E8%87%AA%E7%94%A8%E7%9A%84k8s%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%84%9A%E6%9C%AC/</link>
         <pubDate>Thu, 03 Feb 2022 21:24:22 +0800</pubDate>
         
-        <guid>https://knowckx.github.io/p/%E5%88%86%E4%BA%AB%E4%B8%80%E4%B8%AAk8s%E5%B8%B8%E7%94%A8%E7%9A%84%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%84%9A%E6%9C%AC/</guid>
+        <guid>https://knowckx.github.io/p/%E5%88%86%E4%BA%AB%E4%B8%80%E4%B8%AA%E8%87%AA%E7%94%A8%E7%9A%84k8s%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%84%9A%E6%9C%AC/</guid>
         <description>&lt;p&gt;我们知道有一些数据库或者服务的API设有白名单机制,只有在特定的生产集群内部才能访问。&lt;br&gt;
 因为不对公网暴露，我们本地肯定是访问不了的。&lt;/p&gt;
 &lt;p&gt;而在日常工作嘛，总会有一些紧急需求需要连上这些服务，在本地进行一些调试、触发、执行SQL什么的临时性操作，&lt;br&gt;
