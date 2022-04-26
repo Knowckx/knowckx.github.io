@@ -431,7 +431,7 @@ if (!doNotTrack) {
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">IsAddPwd</span>     <span class="kt">bool</span> <span class="c1">//5
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// ToBin return binary like &#34;01000&#34;
+</span></span><span class="line"><span class="cl"><span class="c1">// ToBin return binary like: FTFFF -&gt; &#34;01000&#34;
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">BoolConfig</span><span class="p">)</span> <span class="nf">ToBin</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">v</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="o">*</span><span class="nx">c</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">rst</span> <span class="o">:=</span> <span class="s">&#34;&#34;</span>
@@ -449,7 +449,7 @@ if (!doNotTrack) {
 </span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">rst</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// binary to Decimal  1010 -&gt; 10
+</span></span><span class="line"><span class="cl"><span class="c1">// binary to Decimal  1010 -&gt; 10 | 111 -&gt; 7
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">BinDec</span><span class="p">(</span><span class="nx">b</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">ss</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Split</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">	<span class="nx">l</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">ss</span><span class="p">)</span>
