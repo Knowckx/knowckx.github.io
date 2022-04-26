@@ -6,10 +6,10 @@
         <description>Recent content in go on Cheng&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 11 Apr 2021 17:27:14 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 11 Apr 2019 17:27:14 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>golang不要抛裸错误 使用errors包</title>
         <link>https://knowckx.github.io/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/</link>
-        <pubDate>Sun, 11 Apr 2021 17:27:14 +0800</pubDate>
+        <pubDate>Thu, 11 Apr 2019 17:27:14 +0800</pubDate>
         
         <guid>https://knowckx.github.io/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/</guid>
         <description>&lt;p&gt;Go目前对错误处理的支持太简单了，这导致排查错误不方便。应该使用errors包带上栈信息。&lt;/p&gt;

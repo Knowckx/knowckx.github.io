@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Go目前对错误处理的支持太简单了，这导致排查错误不方便。应该使用errors包带上栈信息。
-'><title>golang不要抛裸错误 使用errors包</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='sync.once的使用 sync.Once是go标准库的一个类型，用于在并发环境中保证某一段代码只被执行一次。 通常，我们会用它来进行一些初始'><title>一点想法，从sync.once说起</title>
 
-<link rel='canonical' href='https://knowckx.github.io/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/'>
+<link rel='canonical' href='https://knowckx.github.io/p/%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95%E4%BB%8Esync.once%E8%AF%B4%E8%B5%B7/'>
 
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='golang不要抛裸错误 使用errors包'>
-<meta property='og:description' content='Go目前对错误处理的支持太简单了，这导致排查错误不方便。应该使用errors包带上栈信息。
-'>
-<meta property='og:url' content='https://knowckx.github.io/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/'>
+<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='一点想法，从sync.once说起'>
+<meta property='og:description' content='sync.once的使用 sync.Once是go标准库的一个类型，用于在并发环境中保证某一段代码只被执行一次。 通常，我们会用它来进行一些初始'>
+<meta property='og:url' content='https://knowckx.github.io/p/%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95%E4%BB%8Esync.once%E8%AF%B4%E8%B5%B7/'>
 <meta property='og:site_name' content='Cheng&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='go' /><meta property='article:published_time' content='2019-04-11T17:27:14&#43;08:00'/><meta property='article:modified_time' content='2019-04-11T17:27:14&#43;08:00'/>
-<meta name="twitter:title" content="golang不要抛裸错误 使用errors包">
-<meta name="twitter:description" content="Go目前对错误处理的支持太简单了，这导致排查错误不方便。应该使用errors包带上栈信息。
-">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2022-04-26T16:33:07&#43;08:00'/><meta property='article:modified_time' content='2022-04-26T16:33:07&#43;08:00'/>
+<meta name="twitter:title" content="一点想法，从sync.once说起">
+<meta name="twitter:description" content="sync.once的使用 sync.Once是go标准库的一个类型，用于在并发环境中保证某一段代码只被执行一次。 通常，我们会用它来进行一些初始">
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -296,7 +293,7 @@ if (!doNotTrack) {
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/">golang不要抛裸错误 使用errors包</a>
+            <a href="/p/%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95%E4%BB%8Esync.once%E8%AF%B4%E8%B5%B7/">一点想法，从sync.once说起</a>
         </h2>
     
         
@@ -315,7 +312,7 @@ if (!doNotTrack) {
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Apr 11, 2019</time>
+                <time class="article-time--published">Apr 26, 2022</time>
             </div>
         
 
@@ -330,7 +327,7 @@ if (!doNotTrack) {
 
 
                 <time class="article-time--reading">
-                    2 minute read
+                    3 minute read
                 </time>
             </div>
         
@@ -344,22 +341,128 @@ if (!doNotTrack) {
     <section class="article-content">
     
     
-    <p>Go目前对错误处理的支持太简单了，这导致排查错误不方便。应该使用errors包带上栈信息。</p>
-<hr>
-<p>go语言最常见错误处理是一层一层向上抛错误，但是直接<code>return err</code>这样是不好的，<br>
-因为最上层打印错误的时候只有一行错误字符串，中间的错误栈全部丢失了，这不方便定位错误在代码中的传递过程。<br>
-我发现身边不少写了3年以上的go开发并未注意到这一点, 感觉很多人都没养成好习惯。</p>
-<p>所以推荐日常工作中应该尽量使用errors包带上栈信息。
-包：<code>&quot;github.com/pkg/errors&quot;</code><br>
-这个包最大的作用就是用error加上stack记录</p>
-<p>注意：</p>
+    <h1 id="synconce的使用">sync.once的使用</h1>
+<p>sync.Once是go标准库的一个类型，用于在并发环境中保证某一段代码只被执行一次。<br>
+通常，我们会用它来进行一些初始化的工作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Test_Once</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">once</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Once</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">done</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">bool</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">once</span><span class="p">.</span><span class="nf">Do</span><span class="p">(</span><span class="nx">onceFunc</span><span class="p">)</span> <span class="c1">// 执行十次
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="nx">done</span> <span class="o">&lt;-</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="o">&lt;-</span><span class="nx">done</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">KeyCount</span><span class="p">)</span> <span class="c1">// output: 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">KeyCount</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">onceFunc</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">KeyCount</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面的例子中，onceFunc会被执行10次，但是因为我们用了sync.Once，所以最终KeyCount只会被加一次。</p>
+<h1 id="synconce的源码">sync.once的源码</h1>
+<p>所以，他是怎么实现的呢？ 我们在IDE中点开Once的实现。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Once</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">done</span> <span class="kt">uint32</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">m</span>    <span class="nx">Mutex</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>结构很简单，done用来标记执行过的状态，m就是锁。说白了还是靠锁。<br>
+继续看：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">o</span> <span class="o">*</span><span class="nx">Once</span><span class="p">)</span> <span class="nf">Do</span><span class="p">(</span><span class="nx">f</span> <span class="kd">func</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadUint32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">o</span><span class="p">.</span><span class="nx">done</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">o</span><span class="p">.</span><span class="nf">doSlow</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">o</span> <span class="o">*</span><span class="nx">Once</span><span class="p">)</span> <span class="nf">doSlow</span><span class="p">(</span><span class="nx">f</span> <span class="kd">func</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">o</span><span class="p">.</span><span class="nx">m</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">o</span><span class="p">.</span><span class="nx">m</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">o</span><span class="p">.</span><span class="nx">done</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">defer</span> <span class="nx">atomic</span><span class="p">.</span><span class="nf">StoreUint32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">o</span><span class="p">.</span><span class="nx">done</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">f</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里就是比较有趣的地方了，</p>
 <ul>
-<li>打印错误的时候需要%+v 才能打印出stack信息</li>
-<li>假如你的日志包用的<code>zerolog</code>，需要配置成这样<br>
-<code>zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack</code></li>
-<li>假如想判断底层错误就使用<code>Cause</code>方法</li>
+<li>首先他通过<code>atomic.LoadUint32</code>这个原子操作来判断<code>done</code>这个Int是否已经被改过了。<br>
+并发操作有个原则，能用原子操作的地方别用锁。原子操作效率更高。</li>
+<li>在<code>doSlow</code>中，可以看到加锁操作，临界区里再进行一次状态判断，随后改掉状态值。</li>
 </ul>
-<p>示例代码：</p>
+<blockquote>
+<p>Q：这里会容易产生一个疑问，明明已经拿到锁了，为什么还要再执行一次<code>if o.done == 0</code>的判断呢? <br>
+我仔细考虑了下，是因为在并发环境下，两个协程有机会同时通过了<code>atomic.LoadUint32(&amp;o.done) == 0</code>的检查，他们先后调用<code>doSlow</code>，<br>
+比如协程A先拿到锁进入临界区，然后释放锁。 此时协程B会把临界区代码再执行一次！
+因此临界区里也需要加入<code>if o.done == 0</code>来让协程B早点返回。</p>
+</blockquote>
+<p>想通之后感慨，sync.once的代码写得真好啊，又短又精，很适合让我们学习。</p>
+<h1 id="synconce的扩展">sync.once的扩展</h1>
+<p>sync.Once可以保证代码只被执行一次，看完源码我的脑洞就来了。<br>
+工作中有一些执行比较重的后端接口（比如计划任务）需要有调用频率保护，<br>
+前端不小心连续点击了5次，而后端只希望5次中的1次可以成功调用，在这个接口执行完毕并返回以前，其他点击都要废弃。<br>
+相当于保证<code>同时只有一个实例在跑</code>。<br>
+是不是可以借用这个Once的实现呢？<br>
+然后我就写一版。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -384,87 +487,42 @@ if (!doNotTrack) {
 </span><span class="lnt">20
 </span><span class="lnt">21
 </span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;testing&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/pkg/errors&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Test_Errors</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nf">GetErrorLayer2</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%+v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span> <span class="c1">// 必需是%+v 才能打印出stack信息
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">LimitOne</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">done</span> <span class="kt">uint32</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">m</span>    <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">GetErrorLayer2</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nf">GetBaseError</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">WithStack</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">LimitError</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;We are working on the task! please try again later&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">GetErrorLayer1</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nf">GetBaseError</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">WithStack</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">o</span> <span class="o">*</span><span class="nx">LimitOne</span><span class="p">)</span> <span class="nf">Do</span><span class="p">(</span><span class="nx">f</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">error</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadUint32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">o</span><span class="p">.</span><span class="nx">done</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">LimitError</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">o</span><span class="p">.</span><span class="nx">m</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">o</span><span class="p">.</span><span class="nx">m</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">GetBaseError</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;base error&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">o</span><span class="p">.</span><span class="nx">done</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">atomic</span><span class="p">.</span><span class="nf">StoreUint32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">o</span><span class="p">.</span><span class="nx">done</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">defer</span> <span class="nx">atomic</span><span class="p">.</span><span class="nf">StoreUint32</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">o</span><span class="p">.</span><span class="nx">done</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">err</span> <span class="o">:=</span> <span class="nf">f</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">LimitError</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>输出结果：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">=== RUN   Test_Errors
-</span></span><span class="line"><span class="cl">base error
-</span></span><span class="line"><span class="cl">github.com/Knowckx/Asuka/QuickTest.GetErrorLayer2
-</span></span><span class="line"><span class="cl">	/Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:18
-</span></span><span class="line"><span class="cl">github.com/Knowckx/Asuka/QuickTest.Test_Errors
-</span></span><span class="line"><span class="cl">	/Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:11
-</span></span><span class="line"><span class="cl">testing.tRunner
-</span></span><span class="line"><span class="cl">	/usr/local/go/src/testing/testing.go:1194
-</span></span><span class="line"><span class="cl">runtime.goexit
-</span></span><span class="line"><span class="cl">	/usr/local/go/src/runtime/asm_amd64.s:1371
-</span></span><span class="line"><span class="cl">--- PASS: Test_Errors (0.00s)
-</span></span><span class="line"><span class="cl">PASS
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>第11行，第18行正是通过WithStack包装错误的地方。</p>
+</div><p>大体按照sync.once的结构抄一遍，
+唯一不同的是当传入的函数执行完之后，需要把done再设置为0。此时又处于就绪状态，又可以接新的请求了。<br>
+以此来保证不论有多少请求，每次只有一个task在跑。</p>
+<p>简单好用~</p>
+
 </section>
 
 
     <footer class="article-footer">
     
-    <section class="article-tags">
-        
-            <a href="/tags/go/">go</a>
-        
-    </section>
-
 
     
     <section class="article-copyright">
@@ -495,24 +553,24 @@ if (!doNotTrack) {
             
                 
 <article class="">
-    <a href="/p/%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95%E4%BB%8Esync.once%E8%AF%B4%E8%B5%B7/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">一点想法，从sync.once说起</h2>
-        </div>
-    </a>
-</article>
-            
-                
-<article class="">
     <a href="/p/golang%E8%8E%B7%E5%8F%96%E4%B8%80%E4%B8%AA%E5%91%A8%E6%9C%9F%E7%9A%84%E6%97%B6%E9%97%B4%E8%8C%83%E5%9B%B4/">
         
         
 
         <div class="article-details">
             <h2 class="article-title">golang获取一个周期的时间范围</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">golang不要抛裸错误 使用errors包</h2>
         </div>
     </a>
 </article>

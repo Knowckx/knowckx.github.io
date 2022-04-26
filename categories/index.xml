@@ -6,7 +6,15 @@
         <description>Recent content in Categories on Cheng&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Fri, 22 Apr 2022 16:33:07 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 26 Apr 2022 16:33:07 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>golang</title>
+        <link>https://knowckx.github.io/categories/golang/</link>
+        <pubDate>Tue, 26 Apr 2022 16:33:07 +0800</pubDate>
+        
+        <guid>https://knowckx.github.io/categories/golang/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>代码之外</title>
         <link>https://knowckx.github.io/categories/%E4%BB%A3%E7%A0%81%E4%B9%8B%E5%A4%96/</link>
         <pubDate>Fri, 22 Apr 2022 16:33:07 +0800</pubDate>
@@ -36,14 +44,6 @@
         <pubDate>Thu, 03 Feb 2022 21:24:22 +0800</pubDate>
         
         <guid>https://knowckx.github.io/categories/k8s/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>golang</title>
-        <link>https://knowckx.github.io/categories/golang/</link>
-        <pubDate>Sat, 09 Oct 2021 17:11:10 +0800</pubDate>
-        
-        <guid>https://knowckx.github.io/categories/golang/</guid>
         <description></description>
         </item>
         <item>
