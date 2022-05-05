@@ -196,14 +196,16 @@
         <pubDate>Fri, 22 Apr 2022 16:33:07 +0800</pubDate>
         
         <guid>https://knowckx.github.io/p/%E6%8E%A5%E5%8A%9B%E5%9B%9B%E6%9C%88%E4%B9%8B%E5%A3%B0/</guid>
-        <description>&lt;p&gt;接力被封视频《四月之声》&lt;/p&gt;
+        <description>&lt;p&gt;在上海被封了一个多月，今天早上看到这个视频时感触是很深的。&lt;br&gt;
+很多悲剧的发生并不是天灾，更多的其实是人祸。&lt;/p&gt;
+&lt;p&gt;接力被封视频《四月之声》&lt;/p&gt;
 &lt;video class=&#34;video-shortcode&#34; preload=&#34;auto&#34; controls&gt;
     &lt;source src=&#34;https://github.com/mingjiezhou/dingdong-tools/blob/main/src/voice-of-shanhai/%E5%9B%9B%E6%9C%88%E4%B9%8B%E5%A3%B0in%20Shanghai.mp4?raw=true&#34; type=&#34;video/mp4&#34;&gt;
     There should have been a video here but your browser does not seem
     to support it.
 &lt;/video&gt;
-&lt;p&gt;原视频来自Youtube: &lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=38_thLXNHY8&amp;amp;t=2s&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Voice from Shanghai Lockdown&lt;/a&gt; 访问Youtube需要科学上网&lt;/p&gt;
+&lt;p&gt;原视频地址: &lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=38_thLXNHY8&amp;amp;t=2s&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Voice from Shanghai Lockdown&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -1050,6 +1052,24 @@ cap当达到一个阈值时，以1.25倍的方式扩容。&lt;/p&gt;
 </description>
         </item>
         <item>
+        <title>About</title>
+        <link>https://knowckx.github.io/about/</link>
+        <pubDate>Tue, 28 Jan 2020 00:00:00 +0800</pubDate>
+        
+        <guid>https://knowckx.github.io/about/</guid>
+        <description>&lt;p&gt;自从开始写代码以来，无论是第一次按教程一步一步安装Java写出第一个hello world,&lt;br&gt;
+还是第一次安装Mysql创建第一个表, 在网上的各个博客获得了许许多多的帮助。&lt;br&gt;
+后面从业期间也时时刻刻在在网上查资料（踩坑）并学习了大量的知识和技巧，&lt;br&gt;
+感谢互联网的开源的精神，让我受益匪浅。&lt;/p&gt;
+&lt;p&gt;以前我也写过一些文章，但是没有找到比较好的个人blog站点，所以散落在知乎，csdn，掘金等处，&lt;br&gt;
+这次发现了&lt;code&gt;GithubPages&lt;/code&gt;这个东西，趁此机会收集起来放一起吧。&lt;/p&gt;
+&lt;p&gt;与人玫瑰，手有余香。希望我的这个小小博客也可以让别人受益。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;很惭愧，就做了一点微小的工作，谢谢大家&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
         <title>go打印嵌套的复杂结构体</title>
         <link>https://knowckx.github.io/p/go%E6%89%93%E5%8D%B0%E5%B5%8C%E5%A5%97%E7%9A%84%E5%A4%8D%E6%9D%82%E7%BB%93%E6%9E%84%E4%BD%93/</link>
         <pubDate>Wed, 30 Oct 2019 11:37:09 +0800</pubDate>
@@ -1321,40 +1341,13 @@ PrintJson这个函数才几行？ 简单好用~&lt;/p&gt;
 &lt;/div&gt;&lt;p&gt;第11行，第18行正是通过WithStack包装错误的地方。&lt;/p&gt;</description>
         </item>
         <item>
-        <title>About</title>
-        <link>https://knowckx.github.io/about/</link>
-        <pubDate>Thu, 28 Feb 2019 00:00:00 +0800</pubDate>
-        
-        <guid>https://knowckx.github.io/about/</guid>
-        <description>&lt;p&gt;Written in Go, Hugo is an open source static site generator available under the &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio/hugo/blob/master/LICENSE&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Apache Licence 2.0.&lt;/a&gt; Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.&lt;/p&gt;
-&lt;p&gt;Hugo makes use of a variety of open source projects including:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/yuin/goldmark&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/yuin/goldmark&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/alecthomas/chroma&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/alecthomas/chroma&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/muesli/smartcrop&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/muesli/smartcrop&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/spf13/cobra&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/spf13/cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/spf13/viper&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/spf13/viper&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.&lt;/p&gt;
-&lt;p&gt;Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.&lt;/p&gt;
-&lt;p&gt;Websites built with Hugo are extremelly fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.&lt;/p&gt;
-&lt;p&gt;Learn more and contribute on &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>Links</title>
-        <link>https://knowckx.github.io/links/</link>
+        <title></title>
+        <link>https://knowckx.github.io/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://knowckx.github.io/links/</guid>
-        <description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
+        <guid>https://knowckx.github.io/</guid>
+        <description>&lt;hr&gt;
+&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
 &lt;p&gt;This page&amp;rsquo;s frontmatter:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
