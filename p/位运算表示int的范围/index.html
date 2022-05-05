@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Mac在终端下通过设置环境变量来配置代理，Linux应该也是一样，这里记录一下。 打开你的代理软件，我用的是ClashX. 找到代理的端口，我这'><title>为Terminal设置代理</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='今天刷题时涉及到了int32的取值范围，查了下是“-2147483648”到“2147483647”，有没有办法快速表示这个数呢？ 在我翻了其'><title>位运算表示int的范围</title>
 
-<link rel='canonical' href='https://knowckx.github.io/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/'>
+<link rel='canonical' href='https://knowckx.github.io/p/%E4%BD%8D%E8%BF%90%E7%AE%97%E8%A1%A8%E7%A4%BAint%E7%9A%84%E8%8C%83%E5%9B%B4/'>
 
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='为Terminal设置代理'>
-<meta property='og:description' content='Mac在终端下通过设置环境变量来配置代理，Linux应该也是一样，这里记录一下。 打开你的代理软件，我用的是ClashX. 找到代理的端口，我这'>
-<meta property='og:url' content='https://knowckx.github.io/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/'>
+<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='位运算表示int的范围'>
+<meta property='og:description' content='今天刷题时涉及到了int32的取值范围，查了下是“-2147483648”到“2147483647”，有没有办法快速表示这个数呢？ 在我翻了其'>
+<meta property='og:url' content='https://knowckx.github.io/p/%E4%BD%8D%E8%BF%90%E7%AE%97%E8%A1%A8%E7%A4%BAint%E7%9A%84%E8%8C%83%E5%9B%B4/'>
 <meta property='og:site_name' content='Cheng&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2021-03-22T17:11:10&#43;08:00'/><meta property='article:modified_time' content='2021-03-22T17:11:10&#43;08:00'/>
-<meta name="twitter:title" content="为Terminal设置代理">
-<meta name="twitter:description" content="Mac在终端下通过设置环境变量来配置代理，Linux应该也是一样，这里记录一下。 打开你的代理软件，我用的是ClashX. 找到代理的端口，我这">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='位运算' /><meta property='article:published_time' content='2021-09-05T15:57:47&#43;08:00'/><meta property='article:modified_time' content='2021-09-05T15:57:47&#43;08:00'/>
+<meta name="twitter:title" content="位运算表示int的范围">
+<meta name="twitter:description" content="今天刷题时涉及到了int32的取值范围，查了下是“-2147483648”到“2147483647”，有没有办法快速表示这个数呢？ 在我翻了其">
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -245,10 +245,6 @@ if (!doNotTrack) {
     
     <header class="article-category">
         
-            <a href="/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" >
-                科学上网
-            </a>
-        
             <a href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/" >
                 程序员必知必会
             </a>
@@ -258,7 +254,7 @@ if (!doNotTrack) {
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/">为Terminal设置代理</a>
+            <a href="/p/%E4%BD%8D%E8%BF%90%E7%AE%97%E8%A1%A8%E7%A4%BAint%E7%9A%84%E8%8C%83%E5%9B%B4/">位运算表示int的范围</a>
         </h2>
     
         
@@ -277,7 +273,7 @@ if (!doNotTrack) {
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Mar 22, 2021</time>
+                <time class="article-time--published">Sep 05, 2021</time>
             </div>
         
 
@@ -306,73 +302,60 @@ if (!doNotTrack) {
     <section class="article-content">
     
     
-    <p>Mac在终端下通过设置环境变量来配置代理，Linux应该也是一样，这里记录一下。</p>
-<ol>
-<li>
-<p>打开你的代理软件，我用的是ClashX.</p>
-</li>
-<li>
-<p>找到代理的端口，我这边<code>http</code>和<code>socks5</code>都是7890
-<img src="/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/1.jpg"
-	width="1503"
-	height="660"
-	srcset="/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/1_huc45e8b6a1dd78d1984839a3faf61f91b_77992_480x0_resize_q75_box.jpg 480w, /p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/1_huc45e8b6a1dd78d1984839a3faf61f91b_77992_1024x0_resize_q75_box.jpg 1024w"
-	loading="lazy"
-	
-		alt="节点"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="227"
-		data-flex-basis="546px"
-	
-></p>
-</li>
-<li>
-<p>终端里输入:</p>
-</li>
-</ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:7890 <span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:7890 <span class="nv">all_proxy</span><span class="o">=</span>socks5://127.0.0.1:7890
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ol start="4">
-<li>设置好代理后，对该终端下执行的二进制都会生效，比如golang开发中的go get。<br>
-一般设置好可以用<code>curl</code>测试一下</li>
-</ol>
+    <p>今天刷题时涉及到了int32的取值范围，查了下是“-2147483648”到“2147483647”，有没有办法快速表示这个数呢？</p>
+<p>在我翻了其他人的提交后发现一个有趣的代码：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl google.com
-</span></span><span class="line"><span class="cl"><span class="c1"># 输出HTML</span>
-</span></span><span class="line"><span class="cl">&lt;HTML&gt;&lt;HEAD&gt;&lt;meta http-equiv<span class="o">=</span><span class="s2">&#34;content-type&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;text/html;charset=utf-8&#34;</span>&gt;
-</span></span><span class="line"><span class="cl">&lt;TITLE&gt;301 Moved&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;
-</span></span><span class="line"><span class="cl">&lt;H1&gt;301 Moved&lt;/H1&gt;
-</span></span><span class="line"><span class="cl">The document has moved
-</span></span><span class="line"><span class="cl">&lt;A <span class="nv">HREF</span><span class="o">=</span><span class="s2">&#34;http://www.google.com/&#34;</span>&gt;here&lt;/A&gt;.
-</span></span><span class="line"><span class="cl">&lt;/BODY&gt;&lt;/HTML&gt;
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="p">(</span> 
+</span></span><span class="line"><span class="cl">	<span class="nx">int32min</span> <span class="p">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">31</span> 
+</span></span><span class="line"><span class="cl">	<span class="nx">int32max</span> <span class="p">=</span> <span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>科学又稳定！！</p>
+</div><p>写个UT打印一下, 也是正确的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Test_PrintConstInt32</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">int32min</span><span class="p">,</span> <span class="nx">int32max</span><span class="p">)</span> <span class="c1">// -2147483648 2147483647
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>关于位运算很多东西都扔回给老师了，今天再补一下知识</p>
+<h3 id="位运算左移和右移">位运算，左移和右移</h3>
+<p><code>&lt;&lt;</code> 表示左移<br>
+对于一个正数 左移N位 = 乘2n次方<br>
+比如：<br>
+1100（12） 左移1位 &ndash;&gt; 11000(24)</p>
+<p><code>&gt;&gt;</code> 表示右移<br>
+对于一个正数 右移N位 = 除2n次方<br>
+比如：<br>
+1100（12） 右移1位 &ndash;&gt; 110(6)</p>
+<p>int32的范围大小:
+[-1 <code>&lt;&lt;</code> 31，1<code>&lt;&lt;</code>31 - 1]</p>
+<p>精准，高逼格，High Level!</p>
 
 </section>
 
 
     <footer class="article-footer">
     
+    <section class="article-tags">
+        
+            <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a>
+        
+    </section>
+
 
     
     <section class="article-copyright">
@@ -402,31 +385,13 @@ if (!doNotTrack) {
         <div class="flex article-list--tile">
             
                 
-<article class="has-image">
-    <a href="/p/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E6%8E%A8%E8%8D%90%E4%B8%80%E4%B8%AA%E8%87%AA%E7%94%A8%E7%9A%84%E6%9C%BA%E5%9C%BA/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="/img/other/code.jpg" loading="lazy" data-key="" data-hash="/img/other/code.jpg"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">[科学上网]推荐一个自用的机场</h2>
-        </div>
-    </a>
-</article>
-            
-                
 <article class="">
-    <a href="/p/%E4%BD%8D%E8%BF%90%E7%AE%97%E8%A1%A8%E7%A4%BAint%E7%9A%84%E8%8C%83%E5%9B%B4/">
+    <a href="/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">位运算表示int的范围</h2>
+            <h2 class="article-title">为Terminal设置代理</h2>
         </div>
     </a>
 </article>
@@ -577,7 +542,42 @@ if (!doNotTrack) {
             >
 
             </main>
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#位运算左移和右移">位运算，左移和右移</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
         </div>
         <script 
