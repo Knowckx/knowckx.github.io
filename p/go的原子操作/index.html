@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Go目前对错误处理的支持太简单了，这导致排查错误不方便。应该使用errors包带上栈信息。
-'><title>golang不要抛裸错误 使用errors包</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='学习一下sync/atomic包里的内容~'><title>go的原子操作</title>
 
-<link rel='canonical' href='https://knowckx.github.io/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/'>
+<link rel='canonical' href='https://knowckx.github.io/p/go%E7%9A%84%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/'>
 
-<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='golang不要抛裸错误 使用errors包'>
-<meta property='og:description' content='Go目前对错误处理的支持太简单了，这导致排查错误不方便。应该使用errors包带上栈信息。
-'>
-<meta property='og:url' content='https://knowckx.github.io/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/'>
+<link rel="stylesheet" href="/scss/style.min.450926226e724574a6b936335ea06111f8aeb253d932c86cb2cc807341cd2889.css"><meta property='og:title' content='go的原子操作'>
+<meta property='og:description' content='学习一下sync/atomic包里的内容~'>
+<meta property='og:url' content='https://knowckx.github.io/p/go%E7%9A%84%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/'>
 <meta property='og:site_name' content='Cheng&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='go' /><meta property='article:published_time' content='2019-04-11T17:27:14&#43;08:00'/><meta property='article:modified_time' content='2019-04-11T17:27:14&#43;08:00'/>
-<meta name="twitter:title" content="golang不要抛裸错误 使用errors包">
-<meta name="twitter:description" content="Go目前对错误处理的支持太简单了，这导致排查错误不方便。应该使用errors包带上栈信息。
-">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='golang' /><meta property='article:published_time' content='2021-09-05T15:57:47&#43;08:00'/><meta property='article:modified_time' content='2021-09-05T15:57:47&#43;08:00'/>
+<meta name="twitter:title" content="go的原子操作">
+<meta name="twitter:description" content="学习一下sync/atomic包里的内容~">
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -270,9 +267,13 @@ if (!doNotTrack) {
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/">golang不要抛裸错误 使用errors包</a>
+            <a href="/p/go%E7%9A%84%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/">go的原子操作</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            学习一下sync/atomic包里的内容~
+        </h3>
         
     </div>
 
@@ -289,7 +290,7 @@ if (!doNotTrack) {
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Apr 11, 2019</time>
+                <time class="article-time--published">Sep 05, 2021</time>
             </div>
         
 
@@ -318,22 +319,51 @@ if (!doNotTrack) {
     <section class="article-content">
     
     
-    <p>Go目前对错误处理的支持太简单了，这导致排查错误不方便。应该使用errors包带上栈信息。</p>
-<hr>
-<p>go语言最常见错误处理是一层一层向上抛错误，但是直接<code>return err</code>这样是不好的，<br>
-因为最上层打印错误的时候只有一行错误字符串，中间的错误栈全部丢失了，这不方便定位错误在代码中的传递过程。<br>
-我发现身边不少写了3年以上的go开发并未注意到这一点, 感觉很多人都没养成好习惯。</p>
-<p>所以推荐日常工作中应该尽量使用errors包带上栈信息。
-包：<code>&quot;github.com/pkg/errors&quot;</code><br>
-这个包最大的作用就是用error加上stack记录</p>
-<p>注意：</p>
+    <p>想要实现一个无锁的并发程序编写，那么直接对变量进行原子操作就是很好的选择，趁这个机会把go提供的几个原子方法学习一下。</p>
+<p>go在<code>sync/atomic</code>包里对Int32，Int64等几个基本类型都定义了相同的一套方法，
+下面以Int64为例：</p>
+<p>几个方法的含义比较简单，从函数名就能看出含义。</p>
 <ul>
-<li>打印错误的时候需要%+v 才能打印出stack信息</li>
-<li>假如你的日志包用的<code>zerolog</code>，需要配置成这样<br>
-<code>zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack</code></li>
-<li>假如想判断底层错误就使用<code>Cause</code>方法</li>
+<li>StoreInt64 存</li>
+<li>LoadInt64 取</li>
+<li>AddInt64 加法</li>
+<li>SwapInt64 交换</li>
+<li>CompareAndSwapInt64 判断并交换</li>
 </ul>
-<p>示例代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Test_AtomicFunc</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">counter</span> <span class="kt">int64</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">atomic</span><span class="p">.</span><span class="nf">StoreInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">counter</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">counter</span><span class="p">)</span> <span class="c1">// output: 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">res</span> <span class="o">:=</span> <span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">counter</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="c1">// output: 10
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">atomic</span><span class="p">.</span><span class="nf">AddInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">counter</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">counter</span><span class="p">)</span> <span class="c1">// output: 12
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">atomic</span><span class="p">.</span><span class="nf">SwapInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">counter</span><span class="p">,</span> <span class="mi">22</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">counter</span><span class="p">)</span> <span class="c1">// output: 22
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">atomic</span><span class="p">.</span><span class="nf">CompareAndSwapInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">counter</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">counter</span><span class="p">)</span> <span class="c1">// output: 32
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们平时用地比较多的是<code>CompareAndSwap</code>（简称 CAS）方法，假如值不等于<code>old</code>，那就设置成一个新值<code>new</code>.<br>
+这可以在不加锁的前提下完成对变量值的判断和更新</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -350,84 +380,41 @@ if (!doNotTrack) {
 </span><span class="lnt">12
 </span><span class="lnt">13
 </span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Test_CompareAndSwap</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">first</span> <span class="kt">int64</span> <span class="p">=</span> <span class="mi">0</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;testing&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">1000</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">atomic</span><span class="p">.</span><span class="nf">CompareAndSwapInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">first</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">int64</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;第一个完成赋值的goroutine&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/pkg/errors&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Test_Errors</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nf">GetErrorLayer2</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%+v\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span> <span class="c1">// 必需是%+v 才能打印出stack信息
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">GetErrorLayer2</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nf">GetBaseError</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">WithStack</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">GetErrorLayer1</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nx">err</span> <span class="o">:=</span> <span class="nf">GetBaseError</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">WithStack</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">GetBaseError</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;base error&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;最后的值 num:&#34;</span><span class="p">,</span> <span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">first</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>输出结果：</p>
+</div><p>输出结果:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">=== RUN   Test_Errors
-</span></span><span class="line"><span class="cl">base error
-</span></span><span class="line"><span class="cl">github.com/Knowckx/Asuka/QuickTest.GetErrorLayer2
-</span></span><span class="line"><span class="cl">	/Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:18
-</span></span><span class="line"><span class="cl">github.com/Knowckx/Asuka/QuickTest.Test_Errors
-</span></span><span class="line"><span class="cl">	/Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:11
-</span></span><span class="line"><span class="cl">testing.tRunner
-</span></span><span class="line"><span class="cl">	/usr/local/go/src/testing/testing.go:1194
-</span></span><span class="line"><span class="cl">runtime.goexit
-</span></span><span class="line"><span class="cl">	/usr/local/go/src/runtime/asm_amd64.s:1371
-</span></span><span class="line"><span class="cl">--- PASS: Test_Errors (0.00s)
-</span></span><span class="line"><span class="cl">PASS
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">=== RUN   Test_CompareAndSwap
+</span></span><span class="line"><span class="cl">2022/05/07 00:11:18 第一个完成赋值的goroutine 13
+</span></span><span class="line"><span class="cl">2022/05/07 00:11:20 最后的值 num: 13
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>第11行，第18行正是通过WithStack包装错误的地方。</p>
+</div><p>我们可以看出虽然开了1000个goroutine,但是只有第13个抢到了赋值的机会，<br>
+在他赋值之后，其他的goroutine都会compare失败而退出，从而不需要加锁就完成了竞争条件的设定。</p>
+<p>简单好用~</p>
+
 </section>
 
 
@@ -435,7 +422,7 @@ if (!doNotTrack) {
     
     <section class="article-tags">
         
-            <a href="/tags/go/">go</a>
+            <a href="/tags/golang/">golang</a>
         
     </section>
 
@@ -493,24 +480,24 @@ if (!doNotTrack) {
             
                 
 <article class="">
-    <a href="/p/go%E7%9A%84%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">go的原子操作</h2>
-        </div>
-    </a>
-</article>
-            
-                
-<article class="">
     <a href="/p/go%E6%89%93%E5%8D%B0%E5%B5%8C%E5%A5%97%E7%9A%84%E5%A4%8D%E6%9D%82%E7%BB%93%E6%9E%84%E4%BD%93/">
         
         
 
         <div class="article-details">
             <h2 class="article-title">go打印嵌套的复杂结构体</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/p/golang%E4%B8%8D%E8%A6%81%E6%8A%9B%E8%A3%B8%E9%94%99%E8%AF%AF-%E4%BD%BF%E7%94%A8errors%E5%8C%85/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">golang不要抛裸错误 使用errors包</h2>
         </div>
     </a>
 </article>
