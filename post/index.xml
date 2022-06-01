@@ -6,7 +6,108 @@
         <description>Recent content in Posts on Cheng&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Tue, 26 Apr 2022 16:33:07 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 01 Jun 2022 18:40:06 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Git删除远程分支commit的方法</title>
+        <link>https://knowckx.github.io/p/git%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AFcommit%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+        <pubDate>Wed, 01 Jun 2022 18:40:06 +0800</pubDate>
+        
+        <guid>https://knowckx.github.io/p/git%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AFcommit%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+        <description>&lt;h2 id=&#34;太长不看版&#34;&gt;太长不看版&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;找到你需要去掉的commit的前一次commit&lt;/li&gt;
+&lt;li&gt;执行 &lt;code&gt;git rebase -i commit_id -X their&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;vi里drop掉不需要的commit&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git push -f&lt;/code&gt; 覆盖远程分支&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;原文&#34;&gt;原文&lt;/h2&gt;
+&lt;p&gt;最近遇到一个问题，我们的项目代码里把一些密码配置明文传到了github，&lt;br&gt;
+但是公司的安全策略不希望我们在代码里直接留有敏感的账号凭证信息，否则会被扫出来合规性问题。&lt;br&gt;
+按照我同事之前的经历：他们扫出来之后就会发邮件给你老板，让你连夜起来马上消掉。&lt;/p&gt;
+&lt;p&gt;因此产生了一个需求，怎么把github上的敏感信息抹掉呢？
+我调研了下，目前已知有几种方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;通过&lt;code&gt;git revert commit_id&lt;/code&gt;来实现&lt;br&gt;
+&lt;code&gt;git revert&lt;/code&gt; 可以撤销某次操作，他是通过提交一次新的commit来回滚之前的一次commit的内容，&lt;br&gt;
+大部分情况下这个功能是够用的。&lt;br&gt;
+我们的场景比较特别，因为旧的commit并不会消失，打开旧的commit还是可以看到密码信息，不合规。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通过&lt;code&gt;git reset --hard commit_id&lt;/code&gt;直接重置到密码提交前的那一次commit，然后&lt;code&gt;git push -f&lt;/code&gt;重置分支&lt;br&gt;
+这样做的问题是需要提交密码的那一次commit是最近发生的，&lt;br&gt;
+不然就需要手动把后面的历史commit都补回来，工作量太大&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通过&lt;code&gt;git rebase -i&lt;/code&gt;来实现丢弃一个commit&lt;br&gt;
+这是今天发现的解决方案，有点类似于以前git合并commit的操作，比较有趣。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面说下流程：&lt;/p&gt;
+&lt;h3 id=&#34;找到你需要丢弃的commit_id&#34;&gt;找到你需要丢弃的commit_id&lt;/h3&gt;
+&lt;p&gt;在我的例子里，我在&lt;code&gt;bdfb32a&lt;/code&gt;这次提交里放了密码
+&lt;img src=&#34;https://knowckx.github.io/img/2022/pwd1.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;target commitid&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这次commit的前一次是&lt;code&gt;0119c21&lt;/code&gt;
+&lt;img src=&#34;https://knowckx.github.io/img/2022/pwd2.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;前一次&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;所以执行 &lt;code&gt;git rebase -i 0119c21 -X their&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-i&lt;/code&gt; 进入交互模式&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-X their&lt;/code&gt; 方便后续的commit自动合并，不然你需要手动操作冲突。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;手动drop&#34;&gt;手动drop&lt;/h3&gt;
+&lt;p&gt;这时进入了vi的编辑界面，此时git会把&lt;code&gt;commit_id&lt;/code&gt;之后发生的commit列出来，&lt;br&gt;
+我们按&lt;code&gt;i&lt;/code&gt;进入编辑，手动把不需要的那个commit&lt;code&gt;bdfb32a&lt;/code&gt;前面的&lt;code&gt;pick&lt;/code&gt;改成&lt;code&gt;drop&lt;/code&gt;.&lt;br&gt;
+&lt;img src=&#34;https://knowckx.github.io/img/2022/pwd4.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;前一次&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后vi和rebase的基本操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;esc&lt;/code&gt;, &lt;code&gt;:wd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git add .&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git rebase --continue&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;手动push-覆盖远程分支&#34;&gt;手动push 覆盖远程分支&lt;/h3&gt;
+&lt;p&gt;此时你通过&lt;code&gt;git log -10&lt;/code&gt;应该可以看到commit的历史已经改变了，&lt;code&gt;bdfb32a&lt;/code&gt;已经消失了。&lt;/p&gt;
+&lt;p&gt;执行&lt;code&gt;git push -f&lt;/code&gt;  去github看一下
+&lt;img src=&#34;https://knowckx.github.io/img/2022/pwd5.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;前一次&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;0119c21&lt;/code&gt;之后的这次&lt;code&gt;bdfb32a&lt;/code&gt;已经抹除。&lt;/p&gt;
+&lt;p&gt;收工~！&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>一点想法，从sync.once说起</title>
         <link>https://knowckx.github.io/p/%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95%E4%BB%8Esync.once%E8%AF%B4%E8%B5%B7/</link>
         <pubDate>Tue, 26 Apr 2022 16:33:07 +0800</pubDate>
