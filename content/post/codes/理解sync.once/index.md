@@ -1,7 +1,7 @@
 ---
 title: 理解sync.once
 description: sync.once的源码理解和拓展
-date: 2025-03-29 10:00:00+0800
+date: 2025-01-05 10:00:00+0800
 categories: ["编程", "golang"]
 tags: ["golang"]
 weight: 2
