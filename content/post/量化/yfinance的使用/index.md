@@ -1,6 +1,6 @@
 ---
-title: yfinance的示例
-description: yfinance挂代理
+title: yfinance使用的示例
+description: yfinance记得挂代理
 date: 2025-04-07 08:00:00+0800
 categories: ["编程", "量化"]
 tags: ["量化"]
@@ -9,11 +9,14 @@ weight: 6
 
 ### 使用yfinance获取数据
 
-最近想拿一下美股的日K线，找到了`yfinance`这个包，结果第一次用这个包就报错了
+最近有需求，需要取一下美股的K线数据，搜了一圈最后选择了`yfinance`这个包，结果第一次使用就报错了
 
 > Too Many Requests. Rate limited. Try after a while.
 
-查了一圈发现在国内调这个包需要挂代理，把示例代码贴这里
+查了一圈最后发现，目前在国内调这个包需要挂代理了  
+我把示例代码贴这里，有需要的人可以直接粘贴过去调试。
+
+记得改成你本地的科学上网代理端口
 
 ```python
 import os
@@ -50,3 +53,5 @@ print(f"涨跌幅: {percent_change:.2f}%")
 
 
 ```
+
+除了`yfinance`之外，国内的`新浪财经`也是很好的数据来源。 后面我再贴一些。
