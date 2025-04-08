@@ -1,19 +1,19 @@
 ---
-title: yfinance的使用
-description: yfinance的使用
-date: 2025-04-07 10:00:00+0800
+title: yfinance的示例
+description: yfinance挂代理
+date: 2025-04-07 08:00:00+0800
 categories: ["编程", "量化"]
 tags: ["量化"]
-weight: 5
+weight: 6
 ---
 
 ### 使用yfinance获取数据
 
-今天第一次用这个包就报错了
+最近想拿一下美股的日K线，找到了`yfinance`这个包，结果第一次用这个包就报错了
 
 > Too Many Requests. Rate limited. Try after a while.
 
-查了一圈发现在国内需要挂代理，把示例代码贴这里
+查了一圈发现在国内调这个包需要挂代理，把示例代码贴这里
 
 ```python
 import os

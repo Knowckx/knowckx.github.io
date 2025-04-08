@@ -55,3 +55,15 @@ kubectl port-forward -n $NameSpace pod/$TEMP_POD_NAME $LOCAL_PORT:$REMOTE_PORT &
 while true ; do sleep 60 ; nc -vz 127.0.0.1 $LOCAL_PORT ; done # 保持连接
 
 ```
+
+
+两个注意点：
+
+- 这个脚本需要安装一个`kubecm`，这是一个常用的切`kubeconfig`的工具  
+- 脚本的最后写了一个循环，是因为kubectl port-forward这个命令在5min中没有操作的话会自动断开连接。  
+实际工作中你可能出去倒杯咖啡就断了。因此需要需要这个循环来保持连接。  
+(这个东西我翻了很多资料，这应该是client这边最好的保持连接的方式了)
+不要滥用这个脚本。  
+理论上这个脚本可以让你连上生产环境的一切地址~
+
+一定要小心呐。一定要小心呐。一定要小心呐。
