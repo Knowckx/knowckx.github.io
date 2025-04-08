@@ -2,6 +2,7 @@
 title: Markdown Syntax Guide
 date: 2023-09-07
 description: Sample article showcasing basic Markdown syntax and formatting for HTML elements.
+weight: 10
 tags: 
     - markdown
     - css
