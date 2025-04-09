@@ -4,7 +4,7 @@ description: 位运算表示int的范围
 date: 2023-07-29 08:00:00+0800
 categories: ["编程"]
 tags: []
-weight: 5
+weight: 3
 ---
 
 ### int32的取值范围

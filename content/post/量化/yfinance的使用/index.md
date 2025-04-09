@@ -4,7 +4,7 @@ description: yfinance记得挂代理
 date: 2025-04-07 08:00:00+0800
 categories: ["编程", "量化"]
 tags: ["量化"]
-weight: 6
+weight: 8
 ---
 
 ### 使用yfinance获取数据

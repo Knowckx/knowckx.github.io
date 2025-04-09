@@ -4,7 +4,7 @@ description: selenium设置Chrome忽略https证书
 date: 2024-05-05 08:00:00+0800
 categories: ["编程", "爬虫"]
 tags: ["爬虫"]
-weight: 5
+weight: 7
 ---
 
 最近在用`selenium`写一个内部站点的自动化工具，自动填资料注册账号然后激活啥的。
