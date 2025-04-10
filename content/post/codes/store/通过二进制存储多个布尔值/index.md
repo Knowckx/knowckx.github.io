@@ -3,7 +3,7 @@ title: 使用二进制来存储多个布尔值
 description: 使用一个Int值来存储多个布尔值的技巧
 date: 2024-04-27 08:00:00+0800
 categories: ["编程", "存储"]
-tags: ["数据库"]
+tags: ["存储"]
 weight: 3
 ---
 
