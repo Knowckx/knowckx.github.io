@@ -1,10 +1,10 @@
 ---
 title: 关于Golang切片的几个注意点
 description: Golang切片
-date: 2022-01-02 08:00:00+0800
+date: 2025-01-02 08:00:00+0800
 categories: ["编程", "golang"]
 tags: ["golang"]
-weight: 4
+weight: 3
 ---
 
 今天刷题`leetcode no.78`-子集问题，其中遇到一个Slice的语法坑，  

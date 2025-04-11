@@ -1,10 +1,10 @@
 ---
 title: go的原子操作
 description: go的原子操作
-date: 2022-11-09 08:00:00+0800
+date: 2025-03-09 08:00:00+0800
 categories: ["编程", "golang"]
 tags: ["golang"]
-weight: 7
+weight: 4
 ---
 
 想要实现一个无锁的并发程序编写，那么直接对变量进行原子操作就是很好的选择，趁这个机会把go提供的几个原子方法学习一下。
@@ -21,17 +21,17 @@ CompareAndSwapInt64 判断并交换
 
 ``` go
 func Test_AtomicFunc(t *testing.T) {
-	var counter int64 = 0
-	atomic.StoreInt64(&counter, 10)
-	fmt.Println(counter) // output: 10
-	res := atomic.LoadInt64(&counter)
-	fmt.Println(res) // output: 10
-	atomic.AddInt64(&counter, 2)
-	fmt.Println(counter) // output: 12
-	atomic.SwapInt64(&counter, 22)
-	fmt.Println(counter) // output: 22
-	atomic.CompareAndSwapInt64(&counter, 22, 32)
-	fmt.Println(counter) // output: 32
+    var counter int64 = 0
+    atomic.StoreInt64(&counter, 10)
+    fmt.Println(counter) // output: 10
+    res := atomic.LoadInt64(&counter)
+    fmt.Println(res) // output: 10
+    atomic.AddInt64(&counter, 2)
+    fmt.Println(counter) // output: 12
+    atomic.SwapInt64(&counter, 22)
+    fmt.Println(counter) // output: 22
+    atomic.CompareAndSwapInt64(&counter, 22, 32)
+    fmt.Println(counter) // output: 32
 }
 ```
 
@@ -42,18 +42,18 @@ func Test_AtomicFunc(t *testing.T) {
 ``` go
 
 func Test_CompareAndSwap(t *testing.T) {
-	var first int64 = 0
+    var first int64 = 0
 
-	for i := 1; i <= 1000; i++ {
-		go func(i int) {
-			if atomic.CompareAndSwapInt64(&first, 0, int64(i)) {
-				log.Println("第一个完成赋值的goroutine", i)
-			}
-		}(i)
-	}
+    for i := 1; i <= 1000; i++ {
+        go func(i int) {
+            if atomic.CompareAndSwapInt64(&first, 0, int64(i)) {
+                log.Println("第一个完成赋值的goroutine", i)
+            }
+        }(i)
+    }
 
-	time.Sleep(2 * time.Second)
-	log.Println("最后的值 num:", atomic.LoadInt64(&first))
+    time.Sleep(2 * time.Second)
+    log.Println("最后的值 num:", atomic.LoadInt64(&first))
 }
 
 
