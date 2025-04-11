@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on Knowckx's Blog</title><link>https://knowckx.github.io/tags/git/</link><description>Recent content in Git on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 18 Sep 2024 08:00:00 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/tags/git/index.xml" rel="self" type="application/rss+xml"/><item><title>Git删除远程分支某次commit的方法</title><link>https://knowckx.github.io/p/git%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E6%9F%90%E6%AC%A1commit%E7%9A%84%E6%96%B9%E6%B3%95/</link><pubDate>Wed, 18 Sep 2024 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/git%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E6%9F%90%E6%AC%A1commit%E7%9A%84%E6%96%B9%E6%B3%95/</guid><description>&lt;h2 id="懒人阅读版">懒人阅读版
+&lt;/h2>&lt;p>找到你需要去掉的commit的前一次的commitID&lt;/p>
+&lt;p>执行&lt;/p>
+&lt;blockquote>
+&lt;p>git rebase -i commit_id -X their&lt;/p>&lt;/blockquote>
+&lt;p>进入编辑后 在vi里 drop掉不需要的commit&lt;/p>
+&lt;blockquote>
+&lt;p>git push -f 覆盖远程分支&lt;/p>&lt;/blockquote>
+&lt;p>这样远程分支的那次commit就彻底消失了。&lt;/p>
+&lt;p>&lt;code>git push -f&lt;/code>是高危操作 不是特殊时刻不要用&lt;/p>
+&lt;hr>
+&lt;h2 id="原文">原文
+&lt;/h2>&lt;p>最近遇到一个问题，我们的项目代码里，之前把一些&lt;em>密码&lt;/em>配置明文传到了github，&lt;br>
+但是公司的安全策略不希望我们在代码里直接留有敏感的账号凭证信息，否则会被扫出来合规性问题。&lt;br>
+按照我同事之前的经历：安全部门扫出来之后就会发邮件给你老板，让你连夜起来马上消掉。&lt;/p>
+&lt;p>因此产生了一个需求，怎么把github上的敏感信息抹掉呢？ 我调研了下，目前已知有几种方式：&lt;/p>
+&lt;h3 id="通过git-revert-commit_id来实现">通过git revert commit_id来实现
+&lt;/h3>&lt;p>git revert 可以撤销某次操作，他是通过提交一次新的commit来回滚之前的一次commit的内容，
+大部分情况下这个功能是够用的。&lt;/p>
+&lt;p>不适用我们的场景，因为旧的commit实际上不会消失，在github直接打开旧的commit，还是可以看到对应密码信息，不合规。&lt;/p>
+&lt;h3 id="通过git-reset-hard-commit_id">通过git reset &amp;ndash;hard commit_id
+&lt;/h3>&lt;p>直接重置到密码提交前的那一次commit，然后&lt;code>git push -f&lt;/code>重置分支&lt;/p>
+&lt;p>这样做的前提条件是需要提交密码的那一次commit是最近发生的，&lt;br>
+不然就需要手动把后面的历史commit都补回来，工作量很大&lt;/p>
+&lt;h3 id="通过git-rebase--i-来实现丢弃一个commit">通过git rebase -i 来实现丢弃一个commit
+&lt;/h3>&lt;p>这是今天发现的解决方案，有点类似于以前git合并commit的操作，比较有趣。
+下面说下流程：&lt;/p>
+&lt;ol>
+&lt;li>找到你需要丢弃的commit_id
+在我的例子里，我在&lt;code>bdfb32a&lt;/code>这次提交里提交了密码&lt;br>
+这次commit的前一次是&lt;code>0119c21&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;p>所以执行&lt;/p>
+&lt;blockquote>
+&lt;p>git rebase -i 0119c21 -X their&lt;/p>&lt;/blockquote>
+&lt;p>解释:&lt;br>
+-i 进入交互模式&lt;br>
+-X their 方便后续的commit自动合并，不然你需要手动操作冲突。&lt;/p>
+&lt;ol start="2">
+&lt;li>这时进入了vi的编辑界面，此时git会把commit_id之后发生的commit列出来，&lt;/li>
+&lt;/ol>
+&lt;p>我们按i进入编辑，手动把不需要的那个commit &lt;code>bdfb32a&lt;/code>前面的&lt;code>pick&lt;/code>改成&lt;code>drop&lt;/code>.&lt;/p>
+&lt;ol start="3">
+&lt;li>然后vi和rebase的基本操作：&lt;/li>
+&lt;/ol>
+&lt;div class="goat svg-container ">
+&lt;svg
+xmlns="http://www.w3.org/2000/svg"
+font-family="Menlo,Lucida Console,monospace"
+viewBox="0 0 176 57"
+>
+&lt;g transform='translate(8,16)'>
+&lt;path d='M 88,32 L 96,32' fill='none' stroke='currentColor'>&lt;/path>
+&lt;text text-anchor='middle' x='0' y='4' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='0' y='20' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='0' y='36' fill='currentColor' style='font-size:1em'>g&lt;/text>
+&lt;text text-anchor='middle' x='8' y='4' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='8' y='20' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='8' y='36' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='16' y='4' fill='currentColor' style='font-size:1em'>c&lt;/text>
+&lt;text text-anchor='middle' x='16' y='20' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='16' y='36' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='24' y='4' fill='currentColor' style='font-size:1em'>,&lt;/text>
+&lt;text text-anchor='middle' x='32' y='20' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='32' y='36' fill='currentColor' style='font-size:1em'>r&lt;/text>
+&lt;text text-anchor='middle' x='40' y='4' fill='currentColor' style='font-size:1em'>:&lt;/text>
+&lt;text text-anchor='middle' x='40' y='20' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='40' y='36' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='48' y='4' fill='currentColor' style='font-size:1em'>w&lt;/text>
+&lt;text text-anchor='middle' x='48' y='20' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='48' y='36' fill='currentColor' style='font-size:1em'>b&lt;/text>
+&lt;text text-anchor='middle' x='56' y='4' fill='currentColor' style='font-size:1em'>d&lt;/text>
+&lt;text text-anchor='middle' x='56' y='36' fill='currentColor' style='font-size:1em'>a&lt;/text>
+&lt;text text-anchor='middle' x='64' y='20' fill='currentColor' style='font-size:1em'>.&lt;/text>
+&lt;text text-anchor='middle' x='64' y='36' fill='currentColor' style='font-size:1em'>s&lt;/text>
+&lt;text text-anchor='middle' x='72' y='36' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;text text-anchor='middle' x='96' y='36' fill='currentColor' style='font-size:1em'>-&lt;/text>
+&lt;text text-anchor='middle' x='104' y='36' fill='currentColor' style='font-size:1em'>c&lt;/text>
+&lt;text text-anchor='middle' x='112' y='36' fill='currentColor' style='font-size:1em'>o&lt;/text>
+&lt;text text-anchor='middle' x='120' y='36' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='128' y='36' fill='currentColor' style='font-size:1em'>t&lt;/text>
+&lt;text text-anchor='middle' x='136' y='36' fill='currentColor' style='font-size:1em'>i&lt;/text>
+&lt;text text-anchor='middle' x='144' y='36' fill='currentColor' style='font-size:1em'>n&lt;/text>
+&lt;text text-anchor='middle' x='152' y='36' fill='currentColor' style='font-size:1em'>u&lt;/text>
+&lt;text text-anchor='middle' x='160' y='36' fill='currentColor' style='font-size:1em'>e&lt;/text>
+&lt;/g>
+&lt;/svg>
+&lt;/div>
+&lt;ol start="4">
+&lt;li>手动push 覆盖远程分支&lt;/li>
+&lt;/ol>
+&lt;p>此时你通过&lt;code>git log -10&lt;/code>应该可以看到commit的历史已经改变了，&lt;code>bdfb32a&lt;/code>已经彻底消失了。&lt;/p>
+&lt;p>执行&lt;code>git push -f&lt;/code> 再去github看一下&lt;/p>
+&lt;p>&lt;code>0119c21&lt;/code>之后的这次&lt;code>bdfb32a&lt;/code>已经抹除。&lt;/p>
+&lt;p>收工~！&lt;/p></description></item></channel></rss>

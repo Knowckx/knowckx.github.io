@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Redash on Knowckx's Blog</title><link>https://knowckx.github.io/tags/redash/</link><description>Recent content in Redash on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 15 Jun 2022 08:00:00 +0800</lastBuildDate><atom:link href="https://knowckx.github.io/tags/redash/index.xml" rel="self" type="application/rss+xml"/><item><title>Redash可选的条件变量</title><link>https://knowckx.github.io/p/redash%E5%8F%AF%E9%80%89%E7%9A%84%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/</link><pubDate>Wed, 15 Jun 2022 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/redash%E5%8F%AF%E9%80%89%E7%9A%84%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/</guid><description>&lt;h1 id="metabase">metabase
+&lt;/h1>&lt;p>以前使用过Metabase作为可视化分析工具，其中有一个特性就是作为转入参数的变量是可以被定义为可选的。&lt;br>
+适应于有些写在where的条件但有时不需要被执行的子条件。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">select&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">from&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">where&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{{&lt;/span>&lt;span class="n">valName&lt;/span>&lt;span class="err">}}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[[&lt;/span>&lt;span class="k">and&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">age&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{{&lt;/span>&lt;span class="n">valAge&lt;/span>&lt;span class="err">}}&lt;/span>&lt;span class="p">]]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在上面这个例子里，valAge假如不填值时整个&lt;code>and age = {{valAge}}&lt;/code>语句就不会被执行。&lt;/p>
+&lt;h1 id="redash">redash
+&lt;/h1>&lt;p>我们项目目前选了redash作为数据分析工具，主要是看重他的开发语言是python，方便以后的二次开发。&lt;br>
+但是我今天发现Redash默认不支持类似metabase字段筛选option的功能。&lt;/p>
+&lt;p>这很麻烦，因为有很多图表刚打开时就是需要一个默认的空白值存在。&lt;br>
+而在redash里要实现这个功能，我今天想了一下需要一点SQL技巧，这里记录一下。&lt;/p>
+&lt;p>在DropList中加入一个自定义选项，比如月份除了1~12这12个数字外，需要加上一个&lt;code>AlL&lt;/code>值。
+每一个需要可选性的变量都按这下面的方式写&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">where&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">and&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;{{ valMonth }}&amp;#39;&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;ALL&amp;#39;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">or&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">month&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;{{ valMonth }}&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样，当用户的默认输入选项值配置为&lt;code>AlL&lt;/code>时，实际上这个筛选项就没有生效。&lt;br>
+即:通过SQL的语法短路间接实现可选筛选项的功能&lt;/p>
+&lt;p>虽然丑了点，但是确实是可以工作的。&lt;/p>
+&lt;p>其实这个特性在BI工具里非常常见，Redash至今没有支持也是一个遗憾。&lt;/p></description></item></channel></rss>
