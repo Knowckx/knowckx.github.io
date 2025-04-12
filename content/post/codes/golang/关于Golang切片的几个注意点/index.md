@@ -4,7 +4,7 @@ description: Golang切片
 date: 2025-01-02 08:00:00+0800
 categories: ["编程", "golang"]
 tags: ["golang"]
-weight: 3
+weight: 4
 ---
 
 今天刷题`leetcode no.78`-子集问题，其中遇到一个Slice的语法坑，  
