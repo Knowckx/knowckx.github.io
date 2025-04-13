@@ -17,9 +17,9 @@ weight: 4
 
 ``` go
 type slice struct {
-	array unsafe.Pointer
-	len   int
-	cap   int
+    array unsafe.Pointer
+    len   int
+    cap   int
 }
 ```
 
@@ -72,11 +72,11 @@ cap当达到一个阈值时，以1.25倍的方式扩容。
 示例代码：
 ``` go
 func Test_Slice(t *testing.T) {
-	s1 := []int{1, 2, 3, 4}
-	s2 := s1[:2]  // 切片操作 s2为[1 2]
+    s1 := []int{1, 2, 3, 4}
+    s2 := s1[:2]  // 切片操作 s2为[1 2]
 
-	s2 = append(s2, 5)  //  s2为[1 2 5]
-	fmt.Println(s1) // 现在s1是多少呢?
+    s2 = append(s2, 5)  //  s2为[1 2 5]
+    fmt.Println(s1) // 现在s1是多少呢?
 }
 ```
 
@@ -89,8 +89,8 @@ func Test_Slice(t *testing.T) {
 
 ``` go
 func CopySlice() {
-	nums := []int{1, 2, 3}
-	newNums := make([]int, len(nums))
-	copy(newNums, nums)
+    nums := []int{1, 2, 3}
+    newNums := make([]int, len(nums))
+    copy(newNums, nums)
 }
 ```

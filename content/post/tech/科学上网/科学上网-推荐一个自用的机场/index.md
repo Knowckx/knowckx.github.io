@@ -4,7 +4,7 @@ description: 科学上网-推荐一个自用的机场
 date: 2025-04-10 08:00:00+0800
 categories: ["科学上网"]
 tags: ["科学上网"]
-weight: 7
+weight: 4
 ---
 
 ## 更新

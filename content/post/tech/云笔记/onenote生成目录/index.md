@@ -4,7 +4,7 @@ description: onenote生成目录
 date: 2022-09-17 08:00:00+0800
 categories: ["云笔记"]
 tags: ["云笔记"]
-weight: 7
+weight: 5
 ---
 
 

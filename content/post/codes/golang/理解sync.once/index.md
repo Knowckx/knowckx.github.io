@@ -4,7 +4,7 @@ description: sync.once的源码理解和拓展
 date: 2025-01-05 08:00:00+0800
 categories: ["编程", "golang"]
 tags: ["golang"]
-weight: 4
+weight: 3
 ---
 
 ### sync.once的使用

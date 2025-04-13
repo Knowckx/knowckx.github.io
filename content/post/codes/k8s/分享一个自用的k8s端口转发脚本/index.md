@@ -4,7 +4,7 @@ description: k8s端口转发脚本
 date: 2022-07-22 08:00:00+0800
 categories: ["编程", "k8s"]
 tags: ["k8s"]
-weight: 4
+weight: 5
 ---
 
 ## k8s端口转发原理

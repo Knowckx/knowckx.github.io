@@ -4,7 +4,7 @@ description: mysql使用子查询来模拟开窗函数
 date: 2024-01-26 08:00:00+0800
 categories: ["编程", "存储"]
 tags: ["存储"]
-weight: 7
+weight: 5
 ---
 
 今天写一个SQL时需要使用*开窗函数*，结果发现Mysql在8.0后才开始支持CTE和开窗函数.

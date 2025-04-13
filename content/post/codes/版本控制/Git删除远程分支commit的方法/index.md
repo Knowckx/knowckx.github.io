@@ -4,7 +4,7 @@ description: Git删除远程分支某次commit的方法
 date: 2024-09-18 08:00:00+0800
 categories: ["编程"]
 tags: ["git"]
-weight: 4
+weight: 2
 ---
 
 

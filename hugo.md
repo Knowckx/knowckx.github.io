@@ -10,10 +10,19 @@
 hugo mod get -u github.com/CaiJimmy/hugo-theme-stack/v3
 hugo mod tidy
 
-
 ## 本地启动
 
 hugo server
+
+
+### 优先级
+
+橙色 = 2 = 置顶
+紫色 = 3 = 很有价值的文章
+蓝色 = 4 = 比较优质的文章
+绿色 = 5 = 一般技术相关文章
+白色 = 6 = 日常记录
+灰色 = 7 = 低价值文章
 
 
 # 文章前部的元数据

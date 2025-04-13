@@ -4,7 +4,7 @@ description: golang错误处理 使用errors包
 date: 2024-10-29 08:00:00+0800
 categories: ["编程", "golang"]
 tags: ["golang"]
-weight: 7
+weight: 4
 ---
 
 我发现身边不少写了3年以上的go开发并未注意到这一点, 感觉很多人都没养成好习惯。

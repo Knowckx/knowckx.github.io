@@ -4,7 +4,7 @@ description: selenium设置Chrome忽略https证书
 date: 2024-05-05 08:00:00+0800
 categories: ["编程"]
 tags: ["爬虫"]
-weight: 7
+weight: 5
 ---
 
 最近在用`selenium`写一个内部站点的自动化工具，自动填资料注册账号然后激活啥的。
@@ -20,20 +20,20 @@ weight: 7
 ```go
 // 忽略TLS检查
 func SetClientIgnoreTls() (selenium.WebDriver, error) {
-	caps := selenium.Capabilities{
-		"browserName": "chrome",
-	}
-	prefs := map[string]interface{}{
-		"acceptInsecureCerts": true,
-	}
-	chromeCaps := chrome.Capabilities{
-		Prefs: prefs,
-		Path:  "",
-		Args:  []string{"--ignore-certificate-errors"},
-	}
-	caps.AddChrome(chromeCaps)
-	remoteAddr := "127.0.0.1:9515"
-	return selenium.NewRemote(caps, remoteAddr)
+    caps := selenium.Capabilities{
+        "browserName": "chrome",
+    }
+    prefs := map[string]interface{}{
+        "acceptInsecureCerts": true,
+    }
+    chromeCaps := chrome.Capabilities{
+        Prefs: prefs,
+        Path:  "",
+        Args:  []string{"--ignore-certificate-errors"},
+    }
+    caps.AddChrome(chromeCaps)
+    remoteAddr := "127.0.0.1:9515"
+    return selenium.NewRemote(caps, remoteAddr)
 }
 
 ```

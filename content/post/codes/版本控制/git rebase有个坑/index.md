@@ -4,7 +4,7 @@ description: git rebase有个坑
 date: 2023-04-28 08:00:00+0800
 categories: ["编程"]
 tags: ["git"]
-weight: 2
+weight: 3
 ---
 
 ### 场景:

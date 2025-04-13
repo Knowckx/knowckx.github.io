@@ -4,7 +4,7 @@ description: 为Terminal设置代理
 date: 2024-12-05 08:00:00+0800
 categories: ["编程"]
 tags: ["shell"]
-weight: 7
+weight: 5
 ---
 
 Mac在终端下通过设置环境变量来配置代理，Linux的终端也是一样，这里记录一下。

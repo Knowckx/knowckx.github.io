@@ -4,7 +4,7 @@ description: go的原子操作
 date: 2025-03-09 08:00:00+0800
 categories: ["编程", "golang"]
 tags: ["golang"]
-weight: 5
+weight: 4
 ---
 
 想要实现一个无锁的并发程序编写，那么直接对变量进行原子操作就是很好的选择，趁这个机会把go提供的几个原子方法学习一下。
