@@ -4,7 +4,7 @@ description: 先保髓 再根管
 date: 2024-03-10 08:00:00+0800
 categories: ["编程之外", "健康"]
 tags: ["健康"]
-weight: 4
+weight: 3
 ---
 
 > 注: 这是之前在其他平台发的帖子，现在整合到自己的Blog来。
