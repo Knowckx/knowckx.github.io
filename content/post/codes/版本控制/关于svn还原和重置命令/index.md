@@ -2,8 +2,8 @@
 title: 关于svn还原和重置命令
 description: 关于svn还原和重置命令
 date: 2022-08-18 08:00:00+0800
-categories: ["编程", "版本控制"]
-tags: ["版本控制"]
+categories: ["编程"]
+tags: ["svn"]
 weight: 7
 ---
 

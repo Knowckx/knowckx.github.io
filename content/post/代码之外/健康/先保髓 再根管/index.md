@@ -3,7 +3,7 @@ title: 先保髓 再根管
 description: 先保髓 再根管
 date: 2024-03-10 08:00:00+0800
 categories: ["编程之外", "健康"]
-tags: ["健康"]
+tags: ["根管治疗"]
 weight: 3
 ---
 
