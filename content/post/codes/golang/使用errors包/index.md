@@ -25,45 +25,46 @@ Go的默认写法，对错误处理的支持太简单了，这会导致排查错
 package main
 
 import (
-	"fmt"
-	"testing"
+    "fmt"
+    "testing"
 
-	"github.com/pkg/errors"
+    "github.com/pkg/errors"
 )
 
 func Test_Errors(t *testing.T) {
-	err := CallFunc1()  // 第1层调用
-	fmt.Printf("%+v\n", err) // 必需是%+v 才能打印出stack信息
+    err := CallFunc1()  // 第1层调用
+    fmt.Printf("%+v\n", err) // 必需是%+v 才能打印出stack信息
 
 }
 
 func CallFunc1() error {
-	err := CallFunc2() // 第2层调用
-	return errors.WithStack(err)
+    err := CallFunc2() // 第2层调用
+    return errors.WithStack(err)
 }
 
 func CallFunc2() error {
-	err := GetBaseError() // 第3层调用
-	return errors.WithStack(err)
+    err := GetBaseError() // 第3层调用
+    return errors.WithStack(err)
 }
 
 func GetBaseError() error {
-	return fmt.Errorf("base error")
+    return fmt.Errorf("base error")
 }
 ```
+
 输出结果(调用栈)：
 
-```
+```shell
 === RUN   Test_Errors
 base error  
 github.com/Knowckx/Asuka/QuickTest.CallFunc1
-	/Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:18
+    /Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:18
 github.com/Knowckx/Asuka/QuickTest.Test_Errors
-	/Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:11
+    /Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:11
 testing.tRunner
-	/usr/local/go/src/testing/testing.go:1194
+    /usr/local/go/src/testing/testing.go:1194
 runtime.goexit
-	/usr/local/go/src/runtime/asm_amd64.s:1371
+    /usr/local/go/src/runtime/asm_amd64.s:1371
 --- PASS: Test_Errors (0.00s)
 PASS
 ```
