@@ -3,6 +3,8 @@
 
 使用的模板 [text](https://github.com/CaiJimmy/hugo-theme-stack)
 
+Q 怎么配置这个主题
+https://stack.jimmycai.com/config/menu
 
 
 ### 手动更新主题
