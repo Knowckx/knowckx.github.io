@@ -1,0 +1,57 @@
+
+# 评论功能
+
+## Giscus +3 选用
+
+按照官方教程(https://giscus.app/zh-CN)安装，然后将配置导入到config.yaml里。
+该评论系统全程托管在github discussions里，非常省心省力。
+
+是由 GitHub Discussions 驱动的评论系统，
+特性有：
+开源。
+无跟踪，无广告，永久免费。
+无需数据库。全部数据均储存在 GitHub Discussions 中。
+支持自定义主题！
+支持多种语言。
+高度可配置。
+自动从 GitHub 拉取新评论与编辑。
+可自建服务！
+
+[text](https://www.lixueduan.com/posts/blog/02-add-giscus-comment/)
+
+### utterances +3  基于 GitHub issues 的评论工具
+类型: 基于 GitHub Issues 的开源方案
+优点: 完全免费、无广告、尊重隐私，利用 GitHub Issues 存储评论，数据在自己的仓库里，轻量，设置相对简单（需要创建一个公开的 GitHub repo 并安装 App），开发者群体非常熟悉 GitHub 登录。
+缺点: 评论者必须拥有 GitHub 账号并授权，功能相对基础（依赖 GitHub Issues 的功能，如 Markdown、反应），不支持匿名评论，评论样式自定义有限。
+适合: 技术类博客，读者群体主要是开发者或熟悉 GitHub 的用户，高度重视隐私和免费。
+
+
+### disqus 排除
+这个工具配置也比较简单，也是免费的。
+但是，广告多，而且加载也比较慢。
+hugo本身已经内置了Disqus
+优点: 功能非常全面（嵌套评论、点赞、社交登录、强大的管理后台、垃圾评论过滤），设置相对简单，用户群体庞大，很多人已有账号。
+缺点: 隐私问题严重！ 免费版会展示广告并追踪用户，可能拖慢网站加载速度，界面有时与博客风格不搭，数据不在自己手中。
+
+
+Remark42 (如果愿意自托管):
+原因: 如果你需要比 Giscus 更丰富的功能（如匿名评论、社交登录、图片上传），同时又想保持隐私和数据控制，并且不介意投入一些精力进行自托管，Remark42 是目前功能最强大、最完善的开源自托管方案之一。
+优点: 功能极其丰富，隐私保护到位，性能出色，完全免费（除服务器成本），数据完全由你掌控。
+缺点: 需要技术能力来部署和维护。
+结论: 对于有技术能力、追求功能与隐私完美结合的用户，这是接近“最佳”的选择。
+
+
+
+# google收录
+
+攻略 [text](https://blog.sugarin.net/p/google%E6%94%B6%E5%BD%95/)
+
+有效的配置
+
+## GA Tracking ID
+
+googleAnalytics = "G-4DX39HKR9W"
+
+明天过来看看 
+
+[text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
