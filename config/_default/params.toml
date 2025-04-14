@@ -139,7 +139,7 @@ darkTheme = "dark"
 reactionsEnabled = 1
 emitMetadata = 0
 lang="zh-CN" # 中文内容
-# inputPosition = "top" # 默认配置就是输入框在最上面 这个不用改
+# inputPosition = "top" # 默认配置输入框就是在最上面 不用改
 
 
 [comments.gitalk]
