@@ -138,7 +138,7 @@ lightTheme = "light"
 darkTheme = ""
 reactionsEnabled = 1
 emitMetadata = 0
-data-lang="zh-CN" # 中文内容
+lang="zh-CN" # 中文内容
 # inputPosition = "top" # 默认配置就是输入框在最上面 这个不用改
 
 
