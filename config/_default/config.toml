@@ -18,7 +18,7 @@ hasCJKLanguage = true
 disqusShortname = "hugo-theme-stack"
 
 [pagination]
-pagerSize = 6
+pagerSize = 7
 
 
 

@@ -44,14 +44,20 @@ Remark42 (如果愿意自托管):
 
 # google收录
 
-攻略 [text](https://blog.sugarin.net/p/google%E6%94%B6%E5%BD%95/)
+- 攻略 [text](https://blog.sugarin.net/p/google%E6%94%B6%E5%BD%95/)
 
-有效的配置
-
-## GA Tracking ID
+- 配置  GA Tracking ID
 
 googleAnalytics = "G-4DX39HKR9W"
 
-明天过来看看 
+
+- 操作台
 
 [text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
+
+Q 怎么判断你已经被收录了？
+- 搜索时使用 site:https://knowckx.zone.id/   site:https://knowckx.github.io/
+- 单篇文章搜: 分享一个自用的k8s端口转发脚本  site:https://knowckx.zone.id/
+
+
+

@@ -9,8 +9,8 @@ since = 2022
 customText = ""
 
 [dateFormat]
-published = "2006-01-02 03:04:05" # 日期格式
-lastUpdated = "2006-01-02 03:04:05"
+published = "2006-01-02 15:04:05" # 日期格式 小时需要使用15 而不是03
+lastUpdated = "2006-01-02 15:04:05"
 
 
 [sidebar]
