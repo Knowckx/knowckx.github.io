@@ -55,11 +55,7 @@ googleAnalytics = "G-4DX39HKR9W"
 
 [text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
 
-Q 怎么判断你已经被收录了？
-- 搜索时使用 site:https://knowckx.zone.id/   site:https://knowckx.github.io/
-- 单篇文章搜: 分享一个自用的k8s端口转发脚本  site:https://knowckx.zone.id/
 
-缺少的站点你可以手动进行提交。
 
 
 ### 增加 robots
@@ -83,3 +79,36 @@ Disallow: /assets/
 Sitemap: https://knowckx.zone.id/sitemap.xml
 ```
 
+### Sitemap的问题
+
+Sitemap下的lastmod时间 使用的是最后一篇文章的时间。
+不确定他能不能知道你更新了之前的文章。
+
+<lastmod>2025-04-10T08:00:00+08:00</lastmod>
+
+搜索结果显示这个事情好像不是很重要。没人提Sitemap+lastmod的问题
+
+
+### 目前存在收录不全的问题
+
+
+Q 怎么获取中文转码后的地址？
+复制地址后 粘贴到google网址检查里
+
+Q 标题有一个空格需要去除吗？
+不需要 他自动会加一个'-'
+
+Q 怎么判断你已经被收录了？
+- 搜索时使用 site:https://knowckx.zone.id/   site:https://knowckx.github.io/
+- 单篇文章搜: 分享一个自用的k8s端口转发脚本  site:https://knowckx.zone.id/
+
+缺少的站点你可以手动进行提交。
+
+
+文章
+https://knowckx.zone.id/p/先保髓-再根管/
+Sitemap里确定是有的。
+%E5%85%88%E4%BF%9D%E9%AB%93-%E5%86%8D%E6%A0%B9%E7%AE%A1
+但是google收录里没有。
+
+可能是sitemap的问题。
