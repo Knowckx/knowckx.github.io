@@ -21,4 +21,11 @@ disqusShortname = "hugo-theme-stack"
 pagerSize = 7
 
 
+[sitemap]
+changeFreq = 'daily'
+disable = false
+filename = 'sitemap.xml'
+priority = -1 # -1表示默认值也就是0.5 不需要改 
+
+
 

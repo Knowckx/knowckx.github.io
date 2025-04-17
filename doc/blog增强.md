@@ -59,5 +59,27 @@ Q 怎么判断你已经被收录了？
 - 搜索时使用 site:https://knowckx.zone.id/   site:https://knowckx.github.io/
 - 单篇文章搜: 分享一个自用的k8s端口转发脚本  site:https://knowckx.zone.id/
 
+缺少的站点你可以手动进行提交。
 
+
+### 增加 robots
+
+Robots协议（也称为robots.txt）是一个网站根目录下的文本文件，用于指示搜索引擎爬虫哪些页面可以被抓取或不应该被抓取。
+robots.txt文件的基本语法相对简单，它通常包含一些基本的指令，例如：
+
+User-agent：指定要针对的爬虫，如“*”表示对所有爬虫生效。
+Disallow：指定禁止访问的路径或文件。
+Allow：指定允许访问的路径或文件。
+Crawl-delay：指定爬取延迟时间（并非所有搜索引擎都支持）
+
+`stack`主题是不自带robots的，需要新建`robots.txt`放置`static`目录下, 
+hugo是静态主题，所以没什么需要屏蔽的内容，协议写法可以参考如下
+
+```typescript
+User-agent: *
+Allow: /
+Disallow: /assets/
+
+Sitemap: https://knowckx.zone.id/sitemap.xml
+```
 
