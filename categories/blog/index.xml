@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on Knowckx's Blog</title><link>https://knowckx.github.io/categories/blog/</link><description>Recent content in Blog on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 11 Apr 2025 12:00:00 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>knckx未来147</title><link>https://knowckx.github.io/p/example-seo-test/</link><pubDate>Fri, 11 Apr 2025 12:00:00 +0000</pubDate><guid>https://knowckx.github.io/p/example-seo-test/</guid><description>&lt;p>注: 这篇文章只是为了测试google/bing之类的搜索引擎有没有正常收录站点文章&lt;/p>
+&lt;h2 id="knowckxseo测试">knowckxSEO测试
+&lt;/h2>&lt;p>内容 knckx未来369&lt;/p>
+&lt;p>检索测试&lt;/p>
+&lt;p>knckx未来147 site:https://knowckx.zone.id/
+knckx未来258 site:https://knowckx.zone.id/
+未来5159 site:https://knowckx.zone.id/&lt;/p></description></item><item><title>Markdown文章模版</title><link>https://knowckx.github.io/p/example-file/</link><pubDate>Wed, 01 Jan 2025 12:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/example-file/</guid><description>&lt;p>注: 此文件只是为了测试Markdown在hugo中网页的显示效果&lt;/p>
+&lt;h1 id="级别1">级别1
+&lt;/h1>&lt;p>级别1内容&lt;/p>
+&lt;h2 id="级别2">级别2
+&lt;/h2>&lt;p>级别2内容&lt;/p>
+&lt;h3 id="级别3">级别3
+&lt;/h3>&lt;p>级别3内容&lt;/p></description></item><item><title>slug的使用</title><link>https://knowckx.github.io/p/slug%E7%9A%84%E4%BD%BF%E7%94%A8-%E4%B8%AD%E6%96%87url/</link><pubDate>Sat, 17 Sep 2022 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/slug%E7%9A%84%E4%BD%BF%E7%94%A8-%E4%B8%AD%E6%96%87url/</guid><description>&lt;p>Tips: 此文章只是为了测试使用slug的效果&lt;/p></description></item><item><title>评论系统测试页</title><link>https://knowckx.github.io/p/%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E6%B5%8B%E8%AF%95%E9%A1%B5/</link><pubDate>Sat, 17 Sep 2022 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E6%B5%8B%E8%AF%95%E9%A1%B5/</guid><description>&lt;p>Tips: 此文章只是为了测试评论系统的效果。&lt;/p></description></item></channel></rss>
