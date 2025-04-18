@@ -6,7 +6,7 @@ keywords = ["keywords1"]
 categories = ["blog"]
 tags = ["blog"]
 weight = 8
-date = "2025-01-01 12:00:00"
+date = "2025-01-01 12:00:00+0800"
 +++
 
 注: 此文件只是为了测试Markdown在hugo中网页的显示效果

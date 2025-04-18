@@ -91,7 +91,6 @@ Sitemap下的lastmod时间 使用的是最后一篇文章的时间。
 
 ### 目前存在收录不全的问题
 
-
 Q 怎么获取中文转码后的地址？
 复制地址后 粘贴到google网址检查里
 
@@ -101,8 +100,6 @@ Q 标题有一个空格需要去除吗？
 Q 怎么判断你已经被收录了？
 - 搜索时使用 site:https://knowckx.zone.id/   site:https://knowckx.github.io/
 - 单篇文章搜: 分享一个自用的k8s端口转发脚本  site:https://knowckx.zone.id/
-
-缺少的站点你可以手动进行提交。
 
 
 文章
