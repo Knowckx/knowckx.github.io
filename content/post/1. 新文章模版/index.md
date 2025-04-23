@@ -1,15 +1,14 @@
 +++
-title = "Markdown文章模版"
-slug = "example-file"
+title = "Markdown新文章模版"
+slug = "new-md-file"
 description = "Markdown测试文章"
 keywords = ["keywords1"]
 categories = ["blog"]
 tags = ["blog"]
-weight = 8
+weight = 7
 date = "2025-01-01 12:00:00+0800"
 +++
 
-注: 此文件只是为了测试Markdown在hugo中网页的显示效果
 
 # 级别1
 级别1内容
