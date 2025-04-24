@@ -75,12 +75,12 @@ google报告
 [text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
 
 - **搜索时验证**
-先保髓-再根管  site:https://knowckx.zone.id/
-需要能直接定位到这篇文章
+
+google搜索时:  
+`二进制来存储 site:https://knowckx.zone.id/`
 
 - **网址检查**
 `使用二进制来存储多个布尔值` 这文章在网址检查里是OK的
-然后对应的使用google搜索时也是OK的  `二进制来存储 site:https://knowckx.zone.id/`
 
 - **抓取统计信息**
 在 Google Search Console (GSC) 的“设置” > “抓取统计信息”中查看大致的抓取频率。
@@ -91,7 +91,7 @@ https://knowckx.zone.id/zh-cn/sitemap.xml
 他04.22读取了我新的站点地图，但是今天04.24 他还没有更新里面的URL新文章
 过几天看看这个65篇的sitemap生效没
 
-### 新4篇
+- 新4篇
 
 knckx未来147 site:https://knowckx.zone.id/ 这个到可以
 
@@ -99,3 +99,6 @@ knckx未来147 site:https://knowckx.zone.id/ 这个到可以
 ForSeoTest111 site:https://knowckx.zone.id/
 
 ![alt text](https://knowckx.zone.id/favicon.ico)
+
+先保髓-再根管  site:https://knowckx.zone.id/
+需要能直接定位到这篇文章
