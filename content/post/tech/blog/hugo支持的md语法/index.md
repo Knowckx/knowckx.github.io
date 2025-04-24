@@ -1,12 +1,13 @@
----
-title: Hugo的MarkDown语法示例
-description: MarkDown语法收集
-date: 2025-01-01
-image: cover.jpg
-weight: 5
-categories: ["blog"]
-tags: ["blog", "MarkDown"]
----
++++
+title = "Hugo的Markdown语法示例"
+slug = "Hugo-Markdown"
+description = "Hugo的Markdown语法示例"
+categories = ["blog"]
+tags = ["blog", "Markdown"]
+keywords = ["blog", "Markdown"]
+weight = 4
+date = "2023-08-21 12:00:00+0800"
++++
 
 # 各级标题
 
