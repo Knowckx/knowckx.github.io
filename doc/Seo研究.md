@@ -66,32 +66,31 @@ google报告
 
 这篇文章是没有设置对应的Slug的
 
-
-
-
-## 有没有收录
-
-**操作台**
-[text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
-
-- **搜索时验证**
-
-google搜索时:  
-`二进制来存储 site:https://knowckx.zone.id/`
-
 - **网址检查**
 `使用二进制来存储多个布尔值` 这文章在网址检查里是OK的
 
 - **抓取统计信息**
 在 Google Search Console (GSC) 的“设置” > “抓取统计信息”中查看大致的抓取频率。
 
+## 有没有收录
+
+**操作台**
+[text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
+
+
+- **搜索时验证**
+google搜索时:  
+二进制来存储 site:https://knowckx.zone.id/
+
+
 ## TODO
 
 https://knowckx.zone.id/zh-cn/sitemap.xml
 他04.22读取了我新的站点地图，但是今天04.24 他还没有更新里面的URL新文章
-过几天看看这个65篇的sitemap生效没
 
-- 新4篇
+过1周/1月 再看看这个65篇的sitemap生效没
+
+- 测试新4篇
 
 knckx未来147 site:https://knowckx.zone.id/ 这个到可以
 
