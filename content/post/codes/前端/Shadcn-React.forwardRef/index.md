@@ -5,7 +5,7 @@ description = "Shadcn组件找不到React.forwardRef的原因"
 categories = ["前端"]
 tags = ["前端", "Shadcn", "React19"]
 keywords = ["Shadcn", "React.forwardRef", "React19"]
-weight = 3
+weight = 2
 date = "2025-04-27 01:04:49+0800"
 +++
 

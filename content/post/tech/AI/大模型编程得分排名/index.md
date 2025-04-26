@@ -5,7 +5,7 @@ description = "常用大模型编程得分排行榜"
 keywords = ["大模型","编程","AI","排行榜"]
 categories = ["AI", "大模型"]
 tags = ["AI编程排行榜"]
-weight = 4
+weight = 5
 date = "2025-04-19 00:00:00+0800"
 +++
 
