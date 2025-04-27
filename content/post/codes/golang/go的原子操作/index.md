@@ -1,7 +1,7 @@
 ---
 title: go的原子操作
 description: go的原子操作
-date: 2025-03-09 08:00:00+0800
+date: 2023-03-09 08:00:00+0800
 categories: ["编程", "golang"]
 tags: ["golang"]
 weight: 4

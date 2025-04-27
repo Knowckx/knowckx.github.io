@@ -1,7 +1,7 @@
 ---
 title: yfinance使用的示例
-description: yfinance记得挂代理
-date: 2025-04-07 08:00:00+0800
+description: yfinance使用代理访问数据
+date: 2025-03-07 08:00:00+0800
 categories: ["编程", "量化"]
 tags: ["量化"]
 weight: 6

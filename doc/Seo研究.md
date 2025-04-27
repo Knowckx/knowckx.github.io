@@ -101,3 +101,12 @@ ForSeoTest111 site:https://knowckx.zone.id/
 
 先保髓-再根管  site:https://knowckx.zone.id/
 需要能直接定位到这篇文章
+
+
+你自己写程序调 google API 让它收录, 这样比爬虫收录快很多。不会的话, 去我站点搜有 Python 示例。
+
+
+在sitemap里，你需要把loc改成你实际的域名。
+我改完之后，GSC里重复提交站点地图，他会立马刷新读取时间
+此时你的新博文变成了: 
+网页未编入索引：已发现 - 尚未编入索引
