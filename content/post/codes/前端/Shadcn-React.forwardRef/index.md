@@ -2,7 +2,7 @@
 title = "Shadcn的一个坑 forwardRef问题"
 slug = "Shadcn-React.forwardRef"
 description = "Shadcn组件找不到React.forwardRef的原因"
-categories = ["前端"]
+categories = ["编程", "前端"]
 tags = ["前端", "Shadcn", "React19"]
 keywords = ["Shadcn", "React.forwardRef", "React19"]
 weight = 2
