@@ -78,30 +78,8 @@ google报告
 [text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
 
 
-- **搜索时验证**
-google搜索时:  
-二进制来存储 site:https://knowckx.zone.id/
 
-
-## TODO
-
-https://knowckx.zone.id/zh-cn/sitemap.xml
-他04.22读取了我新的站点地图，但是今天04.24 他还没有更新里面的URL新文章
-
-过1周/1月 再看看这个65篇的sitemap生效没
-
-- 测试新4篇
-
-knckx未来147 site:https://knowckx.zone.id/ 这个到可以
-
-测试的4篇目前在google搜不到
-ForSeoTest111 site:https://knowckx.zone.id/
-
-![alt text](https://knowckx.zone.id/favicon.ico)
-
-先保髓-再根管  site:https://knowckx.zone.id/
-需要能直接定位到这篇文章
-
+### 其他方式
 
 你自己写程序调 google API 让它收录, 这样比爬虫收录快很多。不会的话, 去我站点搜有 Python 示例。
 
@@ -110,3 +88,12 @@ ForSeoTest111 site:https://knowckx.zone.id/
 我改完之后，GSC里重复提交站点地图，他会立马刷新读取时间
 此时你的新博文变成了: 
 网页未编入索引：已发现 - 尚未编入索引
+
+
+## 文章更新时间
+
+先保髓-再根管  site:https://knowckx.zone.id/
+实现了，是我更新siteMap后的第三天。
+
+04.30写的文章: 多久可以收录？
+联想笔记本Fn+Ctrl键会唤醒cortana的问题  site:https://knowckx.zone.id/
