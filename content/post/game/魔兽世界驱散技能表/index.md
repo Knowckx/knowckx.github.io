@@ -2,7 +2,7 @@
 title = "魔兽世界WLK 驱散技能与异常效果"
 slug = "wow-wlk-dispel-skills"
 description = "魔兽世界WLK 巫妖王之怒 各职业驱散技能表"
-categories = ["game"]
+categories = ["game", "魔兽世界"]
 tags = ["game", "魔兽世界"]
 keywords = ["魔兽世界", "WLK", "驱散"]
 weight = 5

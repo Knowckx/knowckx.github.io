@@ -2,7 +2,7 @@
 title = "魔兽世界WLK 常见的抗性与法术穿透"
 slug = "wow-wlk-Spell-Resistance-Spell-Penetration"
 description = "魔兽世界WLK 巫妖王之怒 抗性与法术穿透"
-categories = ["game"]
+categories = ["game", "魔兽世界"]
 tags = ["game", "魔兽世界"]
 keywords = ["魔兽世界", "WLK", "抗性", "法术穿透"]
 weight = 5
