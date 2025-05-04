@@ -2,7 +2,7 @@
 # baseurl = "https://knowckx.github.io"
 baseurl = "https://knowckx.zone.id/"
 
-languageCode = "en-us"
+languageCode = "zh-cn"
 title = "Knowckx's Blog"
 
 # GA Tracking ID
