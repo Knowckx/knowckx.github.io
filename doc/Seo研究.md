@@ -92,8 +92,14 @@ google报告
 
 ## 文章更新时间
 
+- 验证一次
 先保髓-再根管  site:https://knowckx.zone.id/
 实现了，是我更新siteMap后的第三天。
 
+### 追踪
 04.30写的文章: 多久可以收录？
 联想笔记本Fn+Ctrl键会唤醒cortana的问题  site:https://knowckx.zone.id/
+[实际地址](https://knowckx.zone.id/p/disabling-fn-ctrl-lenovo-laptops/)
+05.04 网址检查显示: 未检测到任何引荐站点地图
+所以只要网址检查里显示不对的，肯定不会在goolge里搜索成功。
+
