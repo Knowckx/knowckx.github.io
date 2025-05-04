@@ -1,6 +1,5 @@
-# Change baseurl before deploy
-# baseurl = "https://knowckx.github.io"
 baseurl = "https://knowckx.zone.id/"
+# baseurl = "https://knowckx.github.io"
 
 languageCode = "zh-cn"
 title = "Knowckx's Blog"
