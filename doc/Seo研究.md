@@ -58,21 +58,18 @@ URL 只能包含有限的 ASCII 字符集
 
 ## sitemap的几个研究
 
-### 用好`网址检查`功能
-网址检查不仅可以知道收录了没有，还能知道是不是来自sitemap的收录
-
-页面已被成功编入的状态:
-`已发现 - 尚未编入索引`
-
 ### 操作台
 [text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
 
 
-
-### 重复提交站点地图
+### 主动重复提交sitemap 可以立马实现刷新
 在GSC里重复提交站点地图，他会立马刷新读取时间
-此时你的新博文变成了: 
-已发现 - 尚未编入索引
+此时你的新博文变成了: `已发现 - 尚未编入索引`
+过2~3天后就进入了索引。
+
+### 用好`网址检查`功能
+网址检查不仅可以知道收录了没有，还能知道是不是来自sitemap的收录
+
 
 ### 多语言的sitemap问题
 2025-05-04 我把languages.toml里的EN注掉了。
@@ -85,14 +82,24 @@ URL 只能包含有限的 ASCII 字符集
 
 
 ## 追踪
-04.30写的文章: 多久可以收录？
-联想笔记本Fn+Ctrl键会唤醒cortana的问题  site:https://knowckx.zone.id/
-[实际地址](https://knowckx.zone.id/p/disabling-fn-ctrl-lenovo-laptops/)
-
 
 ### 目标:
-现在的目标:
-网址检查里，一个URL需要是由`站点地图`引荐的
 
+- 测试0
 先保髓-再根管  site:https://knowckx.zone.id/ 
 比如这个文章 可以有索引了 但是这个索引不是来自sitemap
+
+- 测试1
+联想笔记本Fn+Ctrl键会唤醒cortana的问题  site:https://knowckx.zone.id/
+https://knowckx.zone.id/p/disabling-fn-ctrl-lenovo-laptops/
+我在05.05刷新了sitemap 他的状态变成了`已发现 - 尚未编入索引`
+多久完成?
+
+- 测试2
+假如我不重新提交sitemap，让他慢慢被动刷新。看一下多久会被收录
+05.05写的文章 
+https://knowckx.zone.id/p/seo-test-148/
+
+
+
+
