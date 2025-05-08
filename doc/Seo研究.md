@@ -77,6 +77,9 @@ URL 只能包含有限的 ASCII 字符集
 - en的sitemap会返回error
 - 二级的sitemap格式非常奇怪，不是一个xml的样式。而是一个用`空格`分隔的URL结构。
 
+
+
+
 ### debug
 - 在sitemap里，你需要把loc改成你实际的域名。
 
@@ -85,21 +88,22 @@ URL 只能包含有限的 ASCII 字符集
 
 ### 目标:
 
-- 测试0
-先保髓-再根管  site:https://knowckx.zone.id/ 
-比如这个文章 可以有索引了 但是这个索引不是来自sitemap
-
 - 测试1
+先保髓-再根管  site:https://knowckx.zone.id/ 
+这个文章 有索引了 但是这个索引不是来自sitemap
+
+- 测试2
 联想笔记本Fn+Ctrl键会唤醒cortana的问题  site:https://knowckx.zone.id/
+
 https://knowckx.zone.id/p/disabling-fn-ctrl-lenovo-laptops/
 我在05.05刷新了sitemap 他的状态变成了`已发现 - 尚未编入索引`
 多久完成?
 
-- 测试2
+
+- 测试3
 假如我不重新提交sitemap，让他慢慢被动刷新。看一下多久会被收录
 05.05写的文章 
 https://knowckx.zone.id/p/seo-test-148/
 
-
-
+knckx未来148  site:https://knowckx.zone.id/
 
