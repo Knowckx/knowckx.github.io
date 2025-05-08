@@ -1,7 +1,7 @@
 +++
 title = "hugo的lastmod更新问题"
 slug = "hugo-lastmod-update"
-description = "sitemap.xml里的lastmod什么意思"
+description = "sitemap.xml里的lastmod配置"
 categories = ["blog"]
 tags = ["blog"]
 keywords = ["hugo", "sitemap", "lastmod"]
@@ -9,7 +9,7 @@ weight = 4
 date = "2023-11-29 17:12:34+0800"
 +++
 
-# 场景
+# 背景
 
 最近我改了几篇旧文章之后，发现google没有对我的`更新内容`进行及时收录  
 我查了一下原因，发现hugo自动生成的`sitemap.xml`里，  
@@ -47,12 +47,14 @@ Hugo会尝试使用最后一次影响该文件的Git提交的作者日期 (autho
 如果以上都不可用，它可能会尝试使用文件的实际修改时间，但这个显然在跨系统或CI/CD环境中不可靠。
 
 
-## 最后解决方案
+# 最后解决方案
 
-方式1 每次改文章 手动维护 lastmod 中的时间日期
+方式1 每次改文章 手动维护 lastmod 中的时间日期（麻烦）
 
-方式2 在配置中指定 使用git记录的文件修改时间 or 系统的文件修改时间
+方式2 在配置中指定使用 系统的文件修改时间 `:fileModTime`   
+我测试了下，在CI模式下，这个值会把所有文章的`lastmod`改成最近这次CI执行时间
 
+方式3 使用git记录的文件修改时间 -> **推荐！**
 
 ``` toml
 # config.toml
@@ -64,9 +66,8 @@ enableGitInfo = true  # 启用GitInfo支持
 
 [具体的配置解释参考](https://gohugo.io/configuration/front-matter/)
 
-:git 从文件的 git 提交记录获取
+`:git` 从文件的 git 提交记录获取
 
-:fileModTime' 从文件修改时间获取   
-我测试了下，在CI模式下，这个值会把所有文章的`lastmod`改成CI执行时间
+
 
 
