@@ -66,6 +66,7 @@ enableGitInfo = true  # 启用GitInfo支持
 
 :git 从文件的 git 提交记录获取
 
-:fileModTime' 从文件修改时间获取
+:fileModTime' 从文件修改时间获取   
+我测试了下，在CI模式下，这个值会把所有文章的`lastmod`改成CI执行时间
 
 

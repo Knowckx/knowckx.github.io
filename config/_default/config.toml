@@ -21,7 +21,6 @@ disqusShortname = "hugo-theme-stack"
 [pagination]
 pagerSize = 7
 
+enableGitInfo = true
 [frontmatter]
-  lastmod = ['lastmod', ':fileModTime', 'date'] # 按顺序依次获取
-
-
+  lastmod = ['lastmod', ':git', ':fileModTime', 'date'] # 按顺序依次获取
