@@ -77,9 +77,6 @@ URL 只能包含有限的 ASCII 字符集
 - en的sitemap会返回error
 - 二级的sitemap格式非常奇怪，不是一个xml的样式。而是一个用`空格`分隔的URL结构。
 
-
-
-
 ### debug
 - 在sitemap里，你需要把loc改成你实际的域名。
 
@@ -89,6 +86,7 @@ URL 只能包含有限的 ASCII 字符集
 ### 目标:
 
 - 测试1
+[text](https://knowckx.zone.id/p/%E5%85%88%E4%BF%9D%E9%AB%93-%E5%86%8D%E6%A0%B9%E7%AE%A1/)
 先保髓-再根管  site:https://knowckx.zone.id/ 
 这个文章 有索引了 但是这个索引不是来自sitemap
 
@@ -107,3 +105,4 @@ https://knowckx.zone.id/p/seo-test-148/
 
 knckx未来148  site:https://knowckx.zone.id/
 
+2025-05-08 晚上。 设置了sitemap里的lastmod
