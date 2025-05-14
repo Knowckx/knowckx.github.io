@@ -24,3 +24,9 @@ pagerSize = 7
 enableGitInfo = true
 [frontmatter]
   lastmod = ['lastmod', ':git', ':fileModTime', 'date'] # 按顺序依次获取
+
+
+[sitemap]
+  changefreq = 'weekly'
+  filename = 'sitemap.xml'
+  priority = 0.5
