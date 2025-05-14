@@ -6,10 +6,10 @@ languagedirection = "ltr"
 title = "Knowckx's Blog"
 weight = 1
 
-# [en]
-# languageName = "English"
-# languagedirection = "ltr"
-# title = "Knowckx's Blog"
-# weight = 1
+[en]
+languageName = "English"
+languagedirection = "ltr"
+title = "Knowckx's Blog"
+weight = 2
 
 

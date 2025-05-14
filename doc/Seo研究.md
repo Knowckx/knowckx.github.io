@@ -96,6 +96,7 @@ URL 只能包含有限的 ASCII 字符集
 https://knowckx.zone.id/p/disabling-fn-ctrl-lenovo-laptops/
 我在05.05刷新了sitemap 他的状态变成了`已发现 - 尚未编入索引`
 多久完成?
+05.14 变成了 "未检测到任何引荐站点地图"
 
 
 - 测试3
