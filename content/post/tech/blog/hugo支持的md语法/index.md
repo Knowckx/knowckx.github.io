@@ -45,6 +45,16 @@ date = "2023-08-21 12:00:00+0800"
 这是一段<u> 下划线示例文本 </u>内容
 ```
 
+### 高亮
+
+Most <mark>salamanders</mark> are nocturnal
+
+```
+Most <mark>salamanders</mark> are nocturnal
+```
+
+- 别的编辑器可以用"`==高亮文本==`"来实现高亮，hugo好像不行
+
 ### 超链接
 
 [百度一下，你就知道](http://www.baidu.com)
@@ -63,18 +73,7 @@ date = "2023-08-21 12:00:00+0800"
 <kbd>Ctrl</kbd> + <kbd>X</kbd>
 ```
 
-### 高亮
 
-
-Most <mark>salamanders</mark> are nocturnal
-
-
-
-```
-Most <mark>salamanders</mark> are nocturnal
-```
-
-- 别的编辑器可以用"`==高亮文本==`"来实现高亮，hugo好像不行
 
 ###  上下标
 

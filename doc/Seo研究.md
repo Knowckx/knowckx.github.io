@@ -107,3 +107,17 @@ https://knowckx.zone.id/p/seo-test-148/
 knckx未来148  site:https://knowckx.zone.id/
 
 2025-05-08 晚上。 设置了sitemap里的lastmod
+
+
+
+2025-05-14
+感觉成功了，因为URL的状态变成了: 
+网页未编入索引：已发现 - 尚未编入索引
+
+方式:
+1. 不能用多语言，因为中文的那个url变成了纯文本而不是xml格式！
+2. 配置里加上sitemap配置！
+[sitemap]
+  filename = 'sitemap.xml'
+  changefreq = 'weekly'
+  priority = 0.5
