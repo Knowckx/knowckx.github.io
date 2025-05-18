@@ -26,7 +26,7 @@ User-agent：指定要针对的爬虫，如“*”表示对所有爬虫生效。
 Disallow：指定禁止访问的路径或文件。
 Allow：指定允许访问的路径或文件。
 
-
+2025-05-18: 暂时去掉。缩小排查范围
 
 ### 几个细节
 
@@ -62,62 +62,42 @@ URL 只能包含有限的 ASCII 字符集
 [text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
 
 
-### 主动重复提交sitemap 可以立马实现刷新
-在GSC里重复提交站点地图，他会立马刷新读取时间
-此时你的新博文变成了: `已发现 - 尚未编入索引`
-过2~3天后就进入了索引。
+
 
 ### 用好`网址检查`功能
 网址检查不仅可以知道收录了没有，还能知道是不是来自sitemap的收录
 
-
-### 多语言的sitemap问题
-2025-05-04 我把languages.toml里的EN注掉了。
-双语言时，他的sitemap.xml是一个地图索引。我怀疑有两个问题:
-- en的sitemap会返回error
-- 二级的sitemap格式非常奇怪，不是一个xml的样式。而是一个用`空格`分隔的URL结构。
-
-### debug
-- 在sitemap里，你需要把loc改成你实际的域名。
-
-
-## 追踪
-
-### 目标:
-
-- 测试1
-[text](https://knowckx.zone.id/p/%E5%85%88%E4%BF%9D%E9%AB%93-%E5%86%8D%E6%A0%B9%E7%AE%A1/)
-先保髓-再根管  site:https://knowckx.zone.id/ 
-这个文章 有索引了 但是这个索引不是来自sitemap
-
-- 测试2
-联想笔记本Fn+Ctrl键会唤醒cortana的问题  site:https://knowckx.zone.id/
-
-https://knowckx.zone.id/p/disabling-fn-ctrl-lenovo-laptops/
-我在05.05刷新了sitemap 他的状态变成了`已发现 - 尚未编入索引`
-多久完成?
-05.14 变成了 "未检测到任何引荐站点地图"
-
-
-- 测试3
-假如我不重新提交sitemap，让他慢慢被动刷新。看一下多久会被收录
-05.05写的文章 
-https://knowckx.zone.id/p/seo-test-148/
-
-knckx未来148  site:https://knowckx.zone.id/
-
-2025-05-08 晚上。 设置了sitemap里的lastmod
-
-
-
-2025-05-14
-感觉成功了，因为URL的状态变成了: 
-网页未编入索引：已发现 - 尚未编入索引
-
-方式:
-1. 不能用多语言，因为中文的那个url变成了纯文本而不是xml格式！
-2. 配置里加上sitemap配置！
+## 我的改动
+1. 不能启用多语言博客，因为会导致中文的那个二级的sitemap.xml变成了纯文本而不是xml格式！
+2. 设置sitemap里的lastmod
+3. 配置里加上sitemap配置！
 [sitemap]
   filename = 'sitemap.xml'
   changefreq = 'weekly'
   priority = 0.5
+
+## 追踪
+
+### 目前问题:
+- 主动重复提交sitemap 可以立马实现刷新
+在GSC里重复提交站点地图，他会立马刷新读取时间
+此时你的新博文变成了: `已发现 - 尚未编入索引`
+但是过2~3天后没有进入索引  变成了 "未检测到任何引荐站点地图"
+
+### 核心: sitemap还是没有起效
+[text](https://knowckx.zone.id/p/disabling-fn-ctrl-lenovo-laptops/)  显示未检测到任何引荐站点地图
+
+[](https://knowckx.zone.id/p/seo-test-148/) 没有收录
+
+### 测试
+[把直接加入到网址检查里](https://knowckx.zone.id/sitemap.xml)
+移除robots.txt 站点地图可以被robots.txt文件的规则屏蔽
+
+如果站点地图位于 http://www.example.com/mysite/sitemap.xml，则该站点地图的以下网址将无效：
+http://www.example.com/ - 级别高于站点地图
+http://www.example.com/yoursite/ - 与站点地图处于同级目录中（必须前往上层目录，然后再向下返回此网址所在的目录，才能获取此网址）。
+
+
+日期必须使用 W3C 日期时间编码。日期时间格式：
+2005-02-21  或者   
+2005-02-21T18:00:15+00:00
