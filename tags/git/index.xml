@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on Knowckx's Blog</title><link>https://knowckx.zone.id/tags/git/</link><description>Recent content in Git on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 22 May 2025 19:08:29 +0000</lastBuildDate><atom:link href="https://knowckx.zone.id/tags/git/index.xml" rel="self" type="application/rss+xml"/><item><title>Git删除远程分支某次commit的方法</title><link>https://knowckx.zone.id/p/git%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E6%9F%90%E6%AC%A1commit%E7%9A%84%E6%96%B9%E6%B3%95/</link><pubDate>Wed, 18 Sep 2024 08:00:00 +0800</pubDate><guid>https://knowckx.zone.id/p/git%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E6%9F%90%E6%AC%A1commit%E7%9A%84%E6%96%B9%E6%B3%95/</guid><description>&lt;h2 id="懒人阅读版">懒人阅读版
+&lt;/h2>&lt;p>找到你需要去掉的commit的前一次的commitID&lt;/p>
+&lt;p>执行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git rebase -i commit_id -X their
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>进入编辑后 在vi里 drop掉不需要的commit&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git push -f &lt;span class="c1"># 覆盖远程分支&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样远程分支的那次commit就彻底消失了。&lt;/p>
+&lt;p>&lt;code>git push -f&lt;/code>是高危操作 不是特殊时刻不要用&lt;/p>
+&lt;hr>
+&lt;h2 id="原文">原文
+&lt;/h2>&lt;p>最近遇到一个问题，我们的项目代码里，之前把一些&lt;em>密码&lt;/em>配置明文传到了github，&lt;br>
+但是公司的安全策略不希望我们在代码里直接留有敏感的账号凭证信息，否则会被扫出来合规性问题。&lt;/p>
+&lt;p>按照我同事之前的经历：安全部门扫出来之后就会发邮件给你老板，让你半夜起来马上消掉。&lt;br>
+因此产生了一个需求，怎么把github上已提交的敏感信息抹掉呢？&lt;/p>
+&lt;p>我调研了下，目前已知有几种方式：&lt;/p>
+&lt;h3 id="通过git-revert-commit_id来实现">通过git revert commit_id来实现
+&lt;/h3>&lt;p>git revert 可以撤销某次操作，他是通过提交一次新的commit来回滚之前的一次commit的内容，
+大部分情况下这个功能是够用的。&lt;/p>
+&lt;p>不适用我们的场景，因为旧的commit实际上不会消失，在github直接打开旧的commit，还是可以看到对应密码信息，不合规。&lt;/p>
+&lt;h3 id="通过git-reset-hard-commit_id">通过git reset &amp;ndash;hard commit_id
+&lt;/h3>&lt;p>直接重置到密码提交前的那一次commit，然后&lt;code>git push -f&lt;/code>重置分支&lt;/p>
+&lt;p>这样做的前提条件是需要提交密码的那一次commit是最近发生的，&lt;br>
+不然就需要手动把后面的历史commit都补回来，工作量很大&lt;/p>
+&lt;h3 id="通过git-rebase--i-来实现丢弃一个commit">通过git rebase -i 来实现丢弃一个commit
+&lt;/h3>&lt;p>这是今天发现的解决方案，有点类似于以前git合并多个commit的操作。&lt;br>
+下面说下流程：&lt;/p>
+&lt;ol>
+&lt;li>找到你需要丢弃的commit_id
+在我的例子里，我在&lt;code>bdfb32a&lt;/code>这次提交里提交了密码&lt;br>
+这次commit的前一次是&lt;code>0119c21&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;p>所以执行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git rebase -i 0119c21 -X their
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>解释:&lt;br>
+-i 进入交互模式&lt;br>
+-X their 方便后续的commit自动合并，不然你需要手动操作冲突。&lt;/p>
+&lt;ol start="2">
+&lt;li>这时进入了vi的编辑界面，此时git会把commit_id之后发生的commit列出来，&lt;/li>
+&lt;/ol>
+&lt;p>我们按i进入编辑，手动把不需要的那个commit &lt;code>bdfb32a&lt;/code>前面的&lt;code>pick&lt;/code>改成&lt;code>drop&lt;/code>.&lt;/p>
+&lt;ol start="3">
+&lt;li>然后vi和rebase的基本操作：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">esc, :wd
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git add .
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git rebase --continue
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="4">
+&lt;li>手动push 覆盖远程分支&lt;/li>
+&lt;/ol>
+&lt;p>此时你通过查看历史，比如&lt;code>git log -10&lt;/code>&lt;br>
+应该可以看到commit的历史已经改变了，&lt;code>bdfb32a&lt;/code>已经彻底消失了(被丢弃)。&lt;/p>
+&lt;p>执行&lt;code>git push -f&lt;/code>&lt;/p>
+&lt;p>再去github看一下&lt;/p>
+&lt;p>&lt;code>0119c21&lt;/code>之后的这次&lt;code>bdfb32a&lt;/code>已经抹除。&lt;/p>
+&lt;p>收工~！&lt;/p></description></item><item><title>git rebase有个坑</title><link>https://knowckx.zone.id/p/git-rebase%E6%9C%89%E4%B8%AA%E5%9D%91/</link><pubDate>Fri, 28 Apr 2023 08:00:00 +0800</pubDate><guid>https://knowckx.zone.id/p/git-rebase%E6%9C%89%E4%B8%AA%E5%9D%91/</guid><description>&lt;h3 id="场景">场景:
+&lt;/h3>&lt;p>这是个老问题，以前没注意，今天手动做了几次实验，基本搞清楚了。&lt;/p>
+&lt;p>常见场景，自己fork了一个分支进行开发，然后发起了PR&lt;br>
+结果发现fork的分支已经落后于主分支几个更新。(在你的开发期间，主分支有新合入的改动)&lt;/p>
+&lt;p>这时候你想把主分支的改动更新进来。&lt;br>
+为了更&lt;strong>优雅&lt;/strong>, 此时执行&lt;code>git reabase upstream main&lt;/code>&lt;br>
+你把远程分支的更新内容拉取到了你本地&lt;/p>
+&lt;p>问题来了，你会发现你的这个分支push不上去&lt;/p>
+&lt;h3 id="原因">原因:
+&lt;/h3>&lt;p>此时你在本地分支执行git rebase之后，rebase操作修改了你的本地分支历史&lt;/p>
+&lt;blockquote>
+&lt;p>rebase节点后, Commit ID是会变的&lt;/p>&lt;/blockquote>
+&lt;p>导致本地分支与 rebase 前的远程分支历史产生分歧（即使你们的最终代码是一致的）&lt;/p>
+&lt;p>这时候执行push远程，git认为你的远程分支和本地分支状态不一致了, 所以rejected.&lt;/p>
+&lt;h3 id="解决">解决:
+&lt;/h3>&lt;p>推荐在使用fork的分支开发时，使用merge策略来抓取远程改动会方便一点。&lt;br>
+缺点: commit的历史线会比较混乱，不好看&lt;/p>
+&lt;p>或者在使用reabse时，搭配&lt;code>-f&lt;/code>来强行更新&lt;strong>远程自己的分支&lt;/strong>，&lt;br>
+这时候可以实现，你的改动完全是在别人的改动之后新加的改动，Commit ID的历史是一条直线，很会&lt;strong>优雅&lt;/strong>&lt;/p>
+&lt;h3 id="备注-rebase原理">备注 rebase原理:
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>同步状态: 开始时，本地分支 my-feature 和远程分支 origin/my-feature 指向同一个 commit，历史完全一致。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>执行 &lt;code>git rebase upstream/main&lt;/code>: 这个操作做了几件事：&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>找到 my-feature 和 upstream/main 的共同祖先 commit。&lt;/li>
+&lt;li>把 my-feature 分支上 相对于共同祖先 的所有 commits &amp;ldquo;暂存&amp;rdquo; 起来。&lt;/li>
+&lt;li>把 my-feature 分支的起点移动（&amp;ldquo;变基&amp;rdquo;）到 upstream/main 的最新 commit 上。&lt;/li>
+&lt;li>把之前 &amp;ldquo;暂存&amp;rdquo; 的那些 commits 依次重新应用 到新的起点上。&lt;/li>
+&lt;/ul>
+&lt;ol start="3">
+&lt;li>
+&lt;p>重点: Commit ID 的变化&lt;br>
+即使代码改动内容完全一样，但由于这些 commit 的父 commit 变了（它们现在是基于 upstream/main 的最新 commit，而不是之前的某个 commit），&lt;br>
+Git 会为它们生成 全新的 Commit ID (SHA-1 hash)。&lt;br>
+所以，你本地 my-feature 分支上的 commit 历史被&lt;em>重写&lt;/em>了。都变了。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Push 被拒绝了:&lt;br>
+当你执行 git push origin my-feature 时：&lt;br>
+Git 对比你本地的 my-feature 和远程的 origin/my-feature。&lt;br>
+它发现远程分支 origin/my-feature 的历史 不是 你本地 my-feature 历史的一个 祖先 (fast-forward 关系)。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>他们分叉了——远程是旧的历史，本地是 rebase 后的新历史。&lt;br>
+他们是两条实际上有相同的改动，但是Commit ID 不同的历史线。(rebase的坑)&lt;/p></description></item></channel></rss>
