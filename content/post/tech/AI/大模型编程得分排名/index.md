@@ -7,6 +7,7 @@ categories = ["AI", "大模型"]
 tags = ["AI编程排行榜"]
 weight = 5
 date = "2025-04-19 00:00:00+0800"
+draft = true
 +++
 
 # 常用大模型编程项目榜单

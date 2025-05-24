@@ -2,8 +2,8 @@
 title = "魔兽世界WLK 各职业驱散能力表"
 slug = "wow-wlk-dispel-skills"
 description = "魔兽世界WLK 巫妖王之怒 各职业驱散技能表"
-categories = ["game", "魔兽世界"]
-tags = ["game", "魔兽世界"]
+categories = ["GameBoy"]
+tags = ["GameBoy", "魔兽世界"]
 keywords = ["魔兽世界", "WLK", "驱散"]
 weight = 5
 date = "2024-10-16 12:00:00+0800"

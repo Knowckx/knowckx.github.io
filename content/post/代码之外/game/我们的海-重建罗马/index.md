@@ -2,8 +2,8 @@
 title = "第四罗马帝国 我们的海 (Mare Nostrum)"
 slug = "Rebuild-Mare-Nostrum"
 description = "钢铁雄心4风格历史幻想故事: 重建罗马"
-categories = ["Game"]
-tags = ["Game", "钢铁雄心4"]
+categories = ["GameBoy"]
+tags = ["GameBoy", "钢铁雄心4"]
 keywords = ["钢铁雄心4", "重建罗马"]
 weight = 5
 date = "2025-05-02 11:12:34+0800"
