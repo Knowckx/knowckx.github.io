@@ -1,7 +1,7 @@
 +++
 title = "Shadcn的一个坑 forwardRef问题"
 slug = "Shadcn-React.forwardRef"
-description = "Shadcn组件找不到React.forwardRef的原因"
+description = "遇到一个在使用Shadcn时报错组件找不到React.forwardRef的问题"
 categories = ["编程", "前端"]
 tags = ["前端", "Shadcn", "React19"]
 keywords = ["Shadcn", "React.forwardRef", "React19"]
@@ -13,7 +13,7 @@ date = "2025-04-27 01:04:49+0800"
 # 场景
 现在是晚上1点，今天被一个`shadcn-ui`的问题坑了3个小时……
 
-啊， 我人生宝贵的三小时，够我打~10把红警小块地~或者~魔兽世界一个完整的团队本~。 
+啊， 我人生宝贵的三小时，够我打~10把红警小块地~或者~魔兽世界打完一个完整的团队本~。 
 
 这里记录一下，假如你们遇到了，希望能节约一点你们的时间！
 
@@ -120,7 +120,7 @@ pnpm config set registry https://registry.npmmirror.com/ --global
 按照官网的说明，重新安装的过程中，我发现了一个细节， Shadcn官网提到了 `Tailwind v4`和`React19`的升级问题。
 
 我的本地版本是`Tailwind v4`和`React 18.3`  
-因为`React19`是前几个月刚出的，我没更新，怕不稳定。(我习惯于用上一个大版本的最后一个小版本)
+因为`React19`是前几个月刚出的，我没更新，怕不稳定。(我习惯于用**上一个大版本的最后一个小版本**)
 
 
 然后我开始检查`React19`和`React.forwardRef`的关系，然后发现了一个重要信息:
@@ -167,7 +167,7 @@ pnpm install --save-exact @types/react@^19.0.0 @types/react-dom@^19.0.0
 pnpm update
 ```
 
-新版本获取组件ref很简单
+新版本`React19`获取组件的ref很简单
 
 ```typescript
 const inputRef = useRef<HTMLInputElement>(null);
@@ -185,14 +185,16 @@ return (
 
 ## 感想:
 
-程序员的经验真的是贬值很快。  
-在react之前的版本，一个前端程序员经过工作学习，获得了如下的经验:
-> 在 React 中，如果你想获取一个函数组件内部渲染的 DOM 元素的 ref，这个函数组件必须使用 React.forwardRef 来包装。否则，直接传递 ref prop 给这个函数组件是无效的（React 会发出警告），因为函数组件本身没有实例，ref 的目的是指向底层的 DOM 节点或类组件实例。
+程序员的很多知识和技能，特别是对`生产工具/框架`相关的，贬值真的很快。
 
-而在2025年的4月的今天，这个经验已经贬值为0。
+假设我们有一位前端程序员，学习使用React工作了一段时间，他获得了如下的开发经验:
+> 在 React 中，如果你想获取一个函数组件内部渲染的 DOM 元素的 ref，这个函数组件必须使用 `React.forwardRef` 来包装。  
+> 否则，直接传递 ref prop 给这个函数组件是无效的（React 会发出警告），因为函数组件本身没有实例，ref 的目的是指向底层的 DOM 节点或类组件实例。
 
-这也是很多程序员永远疲于奔命的原因，他们的很多和生产相关的技术知识更新速度很快。  
-不学就会被淘汰。
+而在2025年的4月的今天，这个经验已经**贬值为0**。
+
+这也是很多程序员永远会**疲于奔命**的原因，主流的开发技能，这部分的知识更新速度是很快的。   
+不仅自身需要时时学习，更何况现在还有**AI编程**的入场。 真的是脚步停下来就会被淘汰。
 
 收工！
 
