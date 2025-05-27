@@ -41,32 +41,34 @@ lastmod: 2024-03-15T14:30:00+08:00 # Hugo会用这个
 
 4. Git 提交信息 (如果 配置项里`enableGitInfo` 为 true)：   
 如果你的项目是一个Git仓库，并且你在Hugo的配置文件 (hugo.toml 或 config.toml) 中设置了 enableGitInfo = true，  
-Hugo会尝试使用最后一次影响该文件的Git提交的作者日期 (author date) 作为 lastmod。这通常是最准确的自动方式。  
+Hugo会尝试使用最后一次影响该文件的Git提交的作者日期 (author date) 作为 lastmod。这通常是最准确的自动方式。
+`:git` 从文件的 git 提交记录获取  
+好像和CI有联系
 
 5. 文件系统修改时间 (Fallback)：  
 如果以上都不可用，它可能会尝试使用文件的实际修改时间，但这个显然在跨系统或CI/CD环境中不可靠。
+':fileModTime'
+我测试了下，在`CI模式`下，这个值会把**所有文章**的`lastmod`改成最近这次CI执行时间
 
 
 # 最后解决方案
 
-方式1 每次改文章 手动维护 lastmod 中的时间日期（麻烦）
-
-方式2 在配置中指定使用 系统的文件修改时间 `:fileModTime`   
-我测试了下，在`CI模式`下，这个值会把**所有文章**的`lastmod`改成最近这次CI执行时间
-
-方式3 使用git记录的文件修改时间 -> **推荐！**
+方式1 使用git记录的文件修改时间 -> **推荐！**
 
 ``` toml
 # config.toml
 enableGitInfo = true  # 启用GitInfo支持
 
 [frontmatter]
-  lastmod = ['lastmod', ':git', 'date'] # 按顺序依次获取
+  lastmod = ['lastmod', 'modified', ':git', ':fileModTime', 'date'] # 按顺序依次获取
 ``` 
+
+
+
 
 [具体的配置解释参考](https://gohugo.io/configuration/front-matter/)
 
-`:git` 从文件的 git 提交记录获取
+
 
 
 
