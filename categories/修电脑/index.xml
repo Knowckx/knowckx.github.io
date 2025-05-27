@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>修电脑 on Knowckx's Blog</title><link>https://knowckx.zone.id/categories/%E4%BF%AE%E7%94%B5%E8%84%91/</link><description>Recent content in 修电脑 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 27 May 2025 01:51:43 +0000</lastBuildDate><atom:link href="https://knowckx.zone.id/categories/%E4%BF%AE%E7%94%B5%E8%84%91/index.xml" rel="self" type="application/rss+xml"/><item><title>联想笔记本Fn+Ctrl键会唤醒cortana的问题</title><link>https://knowckx.zone.id/p/disabling-fn-ctrl-lenovo-laptops/</link><pubDate>Wed, 30 Apr 2025 12:00:00 +0800</pubDate><guid>https://knowckx.zone.id/p/disabling-fn-ctrl-lenovo-laptops/</guid><description>&lt;h1 id="场景-ctrlfn唤醒小娜的问题">场景: Ctrl+Fn唤醒小娜的问题
+&lt;/h1>&lt;p>联想的笔记本，按住键盘上的&lt;code>Ctrl+Fn&lt;/code>后，会尝试唤醒&lt;code>微软小娜&lt;/code>。&lt;br>
+假如你的电脑已经卸载了小娜，那么就会出现一个弹窗，提示:&lt;/p>
+&lt;blockquote>
+&lt;p>需要使用新应用以打开此ms cortana2&lt;/p>&lt;/blockquote>
+&lt;p>这是因为小娜卸载后，他找不到这个应用，引导你去windows的应用商店下载。&lt;/p>
+&lt;h1 id="解决方案">解决方案
+&lt;/h1>&lt;p>这个问题很烦人，所以我花了1小时多搜了一圈资料，找到了解决方案。&lt;/p>
+&lt;p>有两个方式可以解决，可以试一下:&lt;/p>
+&lt;p>&lt;strong>方案1 直接卸载&lt;code>Lenovo Hotkeys&lt;/code>&lt;/strong>&lt;/p>
+&lt;p>&lt;code>Lenovo Hotkeys&lt;/code>是联想的一个应用，可以从win10商店里下载。 &lt;br>
+这个应用管理了Fn键的效果，还有开启大小写键的面板提示，开启&lt;code>NumLock&lt;/code>键的面板提示。&lt;/p>
+&lt;p>卸载:&lt;br>
+进入Windows设置（快捷键: Win+I）&amp;gt; 应用 &amp;gt; 搜索:&lt;code>联想快捷键&lt;/code> 或者 &lt;code>Lenovo Hotkeys&lt;/code> &amp;gt; 卸载&lt;/p>
+&lt;p>&lt;strong>方案2 关闭对应联想的服务&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>快捷键&lt;code>Win+S&lt;/code>, 输入&lt;code>服务&lt;/code>, 打开Win的&lt;code>服务&lt;/code>窗口&lt;/li>
+&lt;li>在服务里找&lt;code>Lenovo Function and Fn Key Service&lt;/code>。&lt;/li>
+&lt;li>右键属性 -&amp;gt; 点击&lt;code>停用&lt;/code> 然后启动类型改成&lt;code>禁止&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>此时应该 &lt;code>Ctrl+Fn&lt;/code> 不会触发了。测试后重启电脑再次确定一下。&lt;/p>
+&lt;h1 id="禁用后的好处">禁用后的好处:
+&lt;/h1>&lt;p>解放了Home键和End键。 在编辑长文件时，可以试下这两个快捷键:&lt;/p>
+&lt;p>快捷键&lt;kbd>Ctrl&lt;/kbd> + &lt;kbd>Fn&lt;/kbd> + &lt;kbd>左箭头&lt;/kbd> -&amp;gt; 实现跳转到文件顶部（Home键功能）&lt;/p>
+&lt;p>快捷键&lt;kbd>Ctrl&lt;/kbd> + &lt;kbd>Fn&lt;/kbd> + &lt;kbd>右箭头&lt;/kbd> -&amp;gt; 实现跳转到文件末尾（End键功能）&lt;/p>
+&lt;hr>
+&lt;h1 id="备注联想的fn键的其他效果">备注:联想的Fn键的其他效果
+&lt;/h1>&lt;p>Fn+空格  控制键盘背光&lt;/p>
+&lt;p>Fn+M 启用/禁用触摸板&lt;/p>
+&lt;p>Fn+Q 不同操作模式间切换（节能、性能、智能）&lt;/p>
+&lt;p>Fn+Esc 开启和关闭Fn&lt;/p></description></item></channel></rss>
