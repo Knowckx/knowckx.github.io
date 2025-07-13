@@ -6,7 +6,7 @@ description = "科学上网-机场推荐"
 categories = ["科学上网"]
 tags = ["科学上网"]
 keywords = ["科学上网", "翻墙"]
-weight = 4
+weight = 6
 date = "2025-04-10 08:00:00+0800"
 +++
 

@@ -2,7 +2,7 @@
 title: 先保髓 再根管
 description: 能救一个是一个，记得先保髓，再根管
 date: 2024-03-10 08:00:00+0800
-categories: ["编程之外"]
+categories: ["代码之外"]
 tags: ["健康"]
 weight: 3
 ---
