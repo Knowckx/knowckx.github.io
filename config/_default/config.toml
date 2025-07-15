@@ -1,5 +1,6 @@
-baseurl = "https://knowckx.zone.id/"
+baseurl = "https://knowckx.dpdns.org"
 # baseurl = "https://knowckx.github.io"
+
 
 languageCode = "zh-cn"
 title = "Knowckx's Blog"
