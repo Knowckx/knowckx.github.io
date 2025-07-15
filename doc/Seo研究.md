@@ -18,7 +18,6 @@ User-agent: *
 Allow: /
 Disallow: /assets/
 
-Sitemap: https://knowckx.dpdns.orgsitemap.xml
 ```
 
 意思:
@@ -59,8 +58,6 @@ URL 只能包含有限的 ASCII 字符集
 ## sitemap的几个研究
 
 ### 操作台
-[text](https://search.google.com/search-console?resource_id=https%3A%2F%2Fknowckx.zone.id%2F&hl=zh-CN)
-
 
 
 
@@ -85,12 +82,12 @@ URL 只能包含有限的 ASCII 字符集
 但是过2~3天后没有进入索引  变成了 "未检测到任何引荐站点地图"
 
 ### 核心: sitemap还是没有起效
-[text](https://knowckx.dpdns.orgp/disabling-fn-ctrl-lenovo-laptops/)  显示未检测到任何引荐站点地图
+[text](https://knowckx.github.io/disabling-fn-ctrl-lenovo-laptops/)  显示未检测到任何引荐站点地图
 
-[](https://knowckx.dpdns.orgp/seo-test-148/) 没有收录
+[](https://knowckx.github.io/seo-test-148/) 没有收录
 
 ### 测试
-[把直接加入到网址检查里](https://knowckx.dpdns.orgsitemap.xml)
+[把直接加入到网址检查里](knowckx.github.io/sitemap.xml)
 移除robots.txt 站点地图可以被robots.txt文件的规则屏蔽
 
 如果站点地图位于 http://www.example.com/mysite/sitemap.xml，则该站点地图的以下网址将无效：

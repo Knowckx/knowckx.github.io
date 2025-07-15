@@ -19,9 +19,9 @@ weight = 8
 
 ### 检索测试
 
-knckx未来147 site:https://knowckx.dpdns.org
-knckx未来258 site:https://knowckx.dpdns.org
-未来5159 site:https://knowckx.dpdns.org
+knckx未来147 site:knowckx.github.io
+knckx未来258 site:knowckx.github.io
+未来5159 site:knowckx.github.io
 
 
 
