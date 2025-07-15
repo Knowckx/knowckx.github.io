@@ -8,7 +8,7 @@ weight: 5
 ---
 
 
-# metabase
+## metabase
 以前使用过Metabase作为可视化分析工具，其中有一个特性就是作为转入参数的变量是可以被定义为可选的。   
 适应于有些写在where的条件但有时不需要被执行的子条件。
 
@@ -18,7 +18,7 @@ select * from table where name = {{valName}} [[and age = {{valAge}}]]
 
 在上面这个例子里，valAge假如不填值时整个`and age = {{valAge}}`语句就不会被执行。
 
-# redash
+## redash
 我们项目目前选了redash作为数据分析工具，主要是看重他的开发语言是python，方便以后的二次开发。   
 但是我今天发现Redash默认不支持类似metabase字段筛选option的功能。
 

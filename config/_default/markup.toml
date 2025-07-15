@@ -12,7 +12,7 @@ block = [['\[', '\]'], ['$$', '$$']]
 inline = [['\(', '\)']]
 
 [tableOfContents]
-startLevel = 1 # 从1级标题开始 默认是从2级开始的
+startLevel = 2 # 默认是从2级开始的
 endLevel = 4 
 ordered = true # 开启序号
 

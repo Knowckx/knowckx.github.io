@@ -10,7 +10,7 @@ date = "2025-04-27 01:04:49+0800"
 +++
 
 
-# 场景
+## 场景
 现在是晚上1点，今天被一个`shadcn-ui`的问题坑了3个小时……
 
 啊， 我人生宝贵的三小时，够我打~10把红警小块地~或者~魔兽世界打完一个完整的团队本~。 
@@ -58,7 +58,7 @@ export { Input }
 发现没，里面压根没有`React.forwardRef`  
 要知道`React.forwardRef`这条命令是在 React v16.3.0 版本中正式推出的，所以`shadcn`早就应该带这个引用了
 
-# 排查
+## 排查
 
 ## 代码对比
 
@@ -131,7 +131,7 @@ pnpm config set registry https://registry.npmmirror.com/ --global
 
 后面接着查，我发现了这个[shadcn-ui的issue](https://github.com/shadcn-ui/ui/issues/6739)，事情大体清楚了。
 
-# 真相大白
+## 真相大白
 
 到了新的`React19`这个版本后，想获取组件的ref不需要再使用`React.forwardRef`  
 而shadcn为了支持`Tailwind v4`和`React 19`，已经完成了代码更新。  

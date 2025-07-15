@@ -7,7 +7,7 @@ tags: ["k8s"]
 weight: 4
 ---
 
-# k8s secret
+## k8s secret
 
 作为一个后端来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式，因为这个需求日常经常会用到
 
