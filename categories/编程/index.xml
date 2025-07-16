@@ -1,0 +1,1581 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程 on Knowckx's Blog</title><link>https://knowckx.github.io/categories/%E7%BC%96%E7%A8%8B/</link><description>Recent content in 编程 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 16 Jul 2025 02:31:36 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>Shadcn的一个坑 forwardRef问题</title><link>https://knowckx.github.io/p/shadcn-react.forwardref/</link><pubDate>Sun, 27 Apr 2025 01:04:49 +0800</pubDate><guid>https://knowckx.github.io/p/shadcn-react.forwardref/</guid><description>&lt;h2 id="场景">场景
+&lt;/h2>&lt;p>现在是晚上1点，今天被一个&lt;code>shadcn-ui&lt;/code>的问题坑了3个小时……&lt;/p>
+&lt;p>啊， 我人生宝贵的三小时，够我打&lt;del>10把红警小块地&lt;/del>或者&lt;del>魔兽世界打完一个完整的团队本&lt;/del>。&lt;/p>
+&lt;p>这里记录一下，假如你们遇到了，希望能节约一点你们的时间！&lt;/p>
+&lt;h2 id="shadcn获取组件ref">Shadcn获取组件ref
+&lt;/h2>&lt;p>&lt;code>Shadcn&lt;/code>增加UI组件的命令我想大家都知道&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">pnpm dlx shadcn@latest init
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm dlx shadcn@latest add input
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>今天我遇到一个需求，在input组件加载后实现输入框自动聚焦，因此需要拿到input组件的&lt;code>ref&lt;/code>&lt;/p>
+&lt;p>然后神奇的事件来了，我发现我没办法拿到&lt;code>shadcn&lt;/code>组件的ref&lt;br>
+因为使用了&lt;code>pnpm dlx shadcn@latest add input&lt;/code>后&lt;br>
+他生成的input代码长这样:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-typescript" data-lang="typescript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">React&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s2">&amp;#34;react&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">cn&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s2">&amp;#34;@/lib/utils&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span> &lt;span class="nx">Input&lt;/span>&lt;span class="p">({&lt;/span> &lt;span class="nx">className&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kr">type&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">...&lt;/span>&lt;span class="nx">props&lt;/span> &lt;span class="p">}&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nx">React&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ComponentProps&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="s2">&amp;#34;input&amp;#34;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">input&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="kr">type&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">data-slot&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;input&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">className&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">cn&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;file:text-foreground placeholder:text-muted-foreground ...&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">className&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="na">...props&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">Input&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>发现没，里面压根没有&lt;code>React.forwardRef&lt;/code>&lt;br>
+要知道&lt;code>React.forwardRef&lt;/code>这条命令是在 React v16.3.0 版本中正式推出的，所以&lt;code>shadcn&lt;/code>早就应该带这个引用了&lt;/p>
+&lt;h2 id="排查">排查
+&lt;/h2>&lt;h2 id="代码对比">代码对比
+&lt;/h2>&lt;p>然后我去官网比对了下代码版本:&lt;a class="link" href="https://ui.shadcn.com/docs/components/input" target="_blank" rel="noopener"
+>官网的Input组件&lt;/a>&lt;br>
+点开&lt;code>Installation - Manual&lt;/code>，这里是他手动安装的版本:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-typescript" data-lang="typescript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">React&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s2">&amp;#34;react&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">cn&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s2">&amp;#34;@/lib/utils&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">Input&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">React&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">forwardRef&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">HTMLInputElement&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="na">React.ComponentProps&lt;/span>&lt;span class="err">&amp;lt;&lt;/span>&lt;span class="s2">&amp;#34;input&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">({&lt;/span> &lt;span class="nx">className&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kr">type&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">...&lt;/span>&lt;span class="nx">props&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="nx">ref&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以发现他的版本是有&lt;code>React.forwardRef&lt;/code>的。&lt;/p>
+&lt;p>这说明，我的代码版本不对。&lt;/p>
+&lt;h2 id="排查缓存问题">排查缓存问题：
+&lt;/h2>&lt;p>代码文件是&lt;code>pnpm dlx shadcn@latest add input&lt;/code>这条命令生成的。&lt;br>
+首先想到可能是 &lt;code>pnpm dlx&lt;/code> 拉代码时自身可能有缓存。&lt;/p>
+&lt;p>执行&lt;code>pnpm store prune&lt;/code>，删除整个&lt;code>node_modules&lt;/code>，重新安装，没解决问题。&lt;/p>
+&lt;h2 id="排查-registry">排查 Registry
+&lt;/h2>&lt;p>我很奇怪，难道是pnpm dlx 因为某种原因没有拉取到最新的 CLI 版本？&lt;br>
+pnpm对应的&lt;code>Registry&lt;/code>给了我旧版本的代码？&lt;/p>
+&lt;p>找了下查和改Registry的方式&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-typescript" data-lang="typescript">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">pnpm&lt;/span> &lt;span class="nx">config&lt;/span> &lt;span class="kr">get&lt;/span> &lt;span class="nx">registry&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">pnpm&lt;/span> &lt;span class="nx">config&lt;/span> &lt;span class="kr">set&lt;/span> &lt;span class="nx">registry&lt;/span> &lt;span class="nx">https&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="c1">//registry.npmmirror.com/ --global
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我原来用的腾讯源，换到了淘宝源&lt;/p>
+&lt;p>拉下来的组件代码还是没有带&lt;code>React.forwardRef&lt;/code>！&lt;/p>
+&lt;p>又换了次官方源。还是一样。&lt;/p>
+&lt;p>问了下Gemini, 他让我直接改源码，在源码里加上&lt;code>React.forwardRef&lt;/code>实现传递ref&lt;br>
+因为这样的话相当于改了自动工具生成的文件，显然这个方案不好。&lt;/p>
+&lt;h2 id="tailwind-v4--react19">Tailwind v4 + React19
+&lt;/h2>&lt;p>这时候脑子就抓狂了，感觉这事也太奇怪了。 耐着性子继续查(&lt;del>反正老子今天不上班&lt;/del>)。&lt;/p>
+&lt;p>为了缩小可能的范围，我准备创建一个新的最小包含Shadcn的mini项目来实验:&lt;/p>
+&lt;p>&lt;a class="link" href="https://ui.shadcn.com/docs/installation/vite" target="_blank" rel="noopener"
+>shadcn官网的安装流程&lt;/a>&lt;/p>
+&lt;p>按照官网的说明，重新安装的过程中，我发现了一个细节， Shadcn官网提到了 &lt;code>Tailwind v4&lt;/code>和&lt;code>React19&lt;/code>的升级问题。&lt;/p>
+&lt;p>我的本地版本是&lt;code>Tailwind v4&lt;/code>和&lt;code>React 18.3&lt;/code>&lt;br>
+因为&lt;code>React19&lt;/code>是前几个月刚出的，我没更新，怕不稳定。(我习惯于用&lt;strong>上一个大版本的最后一个小版本&lt;/strong>)&lt;/p>
+&lt;p>然后我开始检查&lt;code>React19&lt;/code>和&lt;code>React.forwardRef&lt;/code>的关系，然后发现了一个重要信息:&lt;/p>
+&lt;p>&lt;a class="link" href="https://react.dev/reference/react/forwardRef" target="_blank" rel="noopener"
+>react官方的React.forwardRef&lt;/a>&lt;/p>
+&lt;p>这个API竟然已经被&lt;code>React19&lt;/code>打上了Deprecated！终于有了线索。&lt;/p>
+&lt;p>后面接着查，我发现了这个&lt;a class="link" href="https://github.com/shadcn-ui/ui/issues/6739" target="_blank" rel="noopener"
+>shadcn-ui的issue&lt;/a>，事情大体清楚了。&lt;/p>
+&lt;h2 id="真相大白">真相大白
+&lt;/h2>&lt;p>到了新的&lt;code>React19&lt;/code>这个版本后，想获取组件的ref不需要再使用&lt;code>React.forwardRef&lt;/code>&lt;br>
+而shadcn为了支持&lt;code>Tailwind v4&lt;/code>和&lt;code>React 19&lt;/code>，已经完成了代码更新。&lt;br>
+包括shadcn官网目前提供的&lt;code>Installation&lt;/code>说明, 实际上是支持了&lt;code>React 19&lt;/code>的版本&lt;/p>
+&lt;p>而在用户这一边，当用户增加新的UI组件时，使用的默认命令行是&lt;/p>
+&lt;blockquote>
+&lt;p>pnpm dlx shadcn@latest add input&lt;/p>&lt;/blockquote>
+&lt;p>因为用户本身输入的要求是&lt;code>shadcn@latest&lt;/code>。&lt;br>
+既然是&lt;code>latest&lt;/code>，也就把最新的支持&lt;code>React19&lt;/code>的版本，没有使用&lt;code>React.forwardRef&lt;/code>的代码给用户了。&lt;/p>
+&lt;p>坑点就是&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>dlx shadcn@latest&lt;/code>这个命令行不会识别你用的react具体版本，自动把最新的组件代码给你了&lt;/li>
+&lt;li>官网的&lt;code>Installation - Manual&lt;/code>没同步更新也没说明，使用的反而不是react19版本, 和CLI代码不同。&lt;/li>
+&lt;/ul>
+&lt;h2 id="解决方案">解决方案
+&lt;/h2>&lt;p>解决方式有两种&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>别用&lt;code>shadcn@latest&lt;/code>，而是指定一个旧版本的组件。一切依然岁月静好。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>激进。升级&lt;code>react19&lt;/code>。 我是本地小项目，所以直接就升级了。我把升级的命令行贴一下:&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">// 升级react19 只推荐有把握的小项目直接升级
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm install --save-exact react@^19.0.0 react-dom@^19.0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm install --save-exact @types/react@^19.0.0 @types/react-dom@^19.0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm update
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>新版本&lt;code>React19&lt;/code>获取组件的ref很简单&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-typescript" data-lang="typescript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">inputRef&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useRef&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">HTMLInputElement&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="kc">null&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 组件的Props
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">const&lt;/span> &lt;span class="nx">InputProps&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ref&lt;/span>: &lt;span class="kt">inputRef&lt;/span> &lt;span class="c1">// rect19 Props里可以直接传ref
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">Input&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="na">...InputProps&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="感想">感想:
+&lt;/h2>&lt;p>程序员的很多知识和技能，特别是对&lt;code>生产工具/框架&lt;/code>相关的，贬值真的很快。&lt;/p>
+&lt;p>假设我们有一位前端程序员，学习使用React工作了一段时间，他获得了如下的开发经验:&lt;/p>
+&lt;blockquote>
+&lt;p>在 React 中，如果你想获取一个函数组件内部渲染的 DOM 元素的 ref，这个函数组件必须使用 &lt;code>React.forwardRef&lt;/code> 来包装。&lt;br>
+否则，直接传递 ref prop 给这个函数组件是无效的（React 会发出警告），因为函数组件本身没有实例，ref 的目的是指向底层的 DOM 节点或类组件实例。&lt;/p>&lt;/blockquote>
+&lt;p>而在2025年的4月的今天，这个经验已经&lt;strong>贬值为0&lt;/strong>。&lt;/p>
+&lt;p>这也是很多程序员永远会&lt;strong>疲于奔命&lt;/strong>的原因，主流的开发技能，这部分的知识更新速度是很快的。&lt;br>
+不仅自身需要时时学习，更何况现在还有&lt;strong>AI编程&lt;/strong>的入场。 真的是脚步停下来就会被淘汰。&lt;/p>
+&lt;p>收工！&lt;/p></description></item><item><title>理解sync.once</title><link>https://knowckx.github.io/p/%E7%90%86%E8%A7%A3sync.once/</link><pubDate>Sun, 05 Jan 2025 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/%E7%90%86%E8%A7%A3sync.once/</guid><description>&lt;h3 id="synconce的使用">sync.once的使用
+&lt;/h3>&lt;p>&lt;code>sync.Once&lt;/code>是go标准库的一个类型，用于在并发环境中保证某一段代码只被执行一次。&lt;/p>
+&lt;p>通常，我们会用它来进行一些初始化的工作。比如:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">Test_Once&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">testing&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">once&lt;/span> &lt;span class="nx">sync&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Once&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">done&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nb">make&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">chan&lt;/span> &lt;span class="kt">bool&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="p">&amp;lt;&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span>&lt;span class="o">++&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">go&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">once&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Do&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">onceFunc&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 执行十次&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">done&lt;/span> &lt;span class="o">&amp;lt;-&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="p">&amp;lt;&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span>&lt;span class="o">++&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">&amp;lt;-&lt;/span>&lt;span class="nx">done&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">KeyCount&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// output: 1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">KeyCount&lt;/span> &lt;span class="kt">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">onceFunc&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">KeyCount&lt;/span>&lt;span class="o">++&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>上面的例子中，onceFunc会被执行10次，但是因为我们用了&lt;code>sync.Once&lt;/code>，所以最终KeyCount只会被加一次。&lt;/p>
+&lt;h3 id="synconce的源码">sync.once的源码
+&lt;/h3>&lt;p>所以，他是怎么实现的呢？ 我们在IDE中点开&lt;code>sync.Once&lt;/code>的实现。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">Once&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">done&lt;/span> &lt;span class="kt">uint32&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">m&lt;/span> &lt;span class="nx">Mutex&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>结构很简单，done用来标记执行过的状态，m就是锁。说白了还是靠锁。
+继续看：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">o&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Once&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Do&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">f&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">())&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">LoadUint32&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">done&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">doSlow&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">f&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">o&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Once&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">doSlow&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">f&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">())&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">m&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Lock&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">defer&lt;/span> &lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">m&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Unlock&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">done&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">defer&lt;/span> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">StoreUint32&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">done&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">f&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这里就是比较有趣的地方了，&lt;/p>
+&lt;p>首先他通过&lt;code>atomic.LoadUint32&lt;/code>这个原子操作来判断done这个Int是否已经被改过了。&lt;br>
+并发操作有个原则，能用&lt;code>原子操作&lt;/code>的地方别用锁。原子操作效率更高。&lt;br>
+在&lt;code>doSlow&lt;/code>中，可以看到加锁操作，临界区里再进行一次状态判断，随后改掉状态值。&lt;/p>
+&lt;ul>
+&lt;li>问题：明明已经拿到锁了，为什么还要再执行一次&lt;code>if o.done == 0&lt;/code>的判断呢?&lt;/li>
+&lt;/ul>
+&lt;p>仔细考虑了下，猜测在并发环境下，两个协程有机会同时通过了&lt;code>atomic.LoadUint32(&amp;amp;o.done) == 0&lt;/code>的检查，他们先后调用doSlow&lt;br>
+比如协程A先拿到锁进入临界区，然后释放锁。 此时协程B会把临界区代码再执行一次！&lt;br>
+因此临界区里也需要加入&lt;code>if o.done == 0&lt;/code>来让协程B早点返回。&lt;/p>
+&lt;p>sync.once的代码写得真好啊，又短又精，很适合让我们学习。&lt;/p>
+&lt;h3 id="synconce的扩展">sync.once的扩展
+&lt;/h3>&lt;p>sync.Once可以保证代码只被执行一次，看完源码我的脑洞就来了。&lt;br>
+工作中有一些执行比较重的后端接口（比如计划任务）需要有调用频率保护，&lt;br>
+前端不小心连续点击了5次，而后端只希望5次中的1次可以成功调用，在这个接口执行完毕并返回以前，其他点击都要废弃。&lt;/p>
+&lt;p>相当于保证同时只有一个实例在跑。是不是可以借用这个Once的实现呢？&lt;/p>
+&lt;p>然后我就写一版。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-golang" data-lang="golang">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">LimitOne&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">done&lt;/span> &lt;span class="kt">uint32&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">m&lt;/span> &lt;span class="nx">sync&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Mutex&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">LimitError&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Errorf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;We are working on the task! please try again later&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">o&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">LimitOne&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Do&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">f&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="kt">error&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">LoadUint32&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">done&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">LimitError&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">m&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Lock&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">defer&lt;/span> &lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">m&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Unlock&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">done&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">StoreUint32&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">done&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">defer&lt;/span> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">StoreUint32&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">done&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nf">f&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">err&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">LimitError&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>大体按照sync.once的结构抄一遍， 唯一不同的是当传入的函数执行完之后，需要把done再设置为0。&lt;br>
+此时又处于就绪状态，又可以接新的请求了。&lt;br>
+以此来保证不论有多少请求，&lt;code>保证每次只有一个task在跑&lt;/code>。&lt;/p>
+&lt;p>下班~&lt;/p></description></item><item><title>Git删除远程分支某次commit的方法</title><link>https://knowckx.github.io/p/git%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E6%9F%90%E6%AC%A1commit%E7%9A%84%E6%96%B9%E6%B3%95/</link><pubDate>Wed, 18 Sep 2024 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/git%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E6%9F%90%E6%AC%A1commit%E7%9A%84%E6%96%B9%E6%B3%95/</guid><description>&lt;h2 id="懒人阅读版">懒人阅读版
+&lt;/h2>&lt;p>找到你需要去掉的commit的前一次的commitID&lt;/p>
+&lt;p>执行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git rebase -i commit_id -X their
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>进入编辑后 在vi里 drop掉不需要的commit&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git push -f &lt;span class="c1"># 覆盖远程分支&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样远程分支的那次commit就彻底消失了。&lt;/p>
+&lt;p>&lt;code>git push -f&lt;/code>是高危操作 不是特殊时刻不要用&lt;/p>
+&lt;hr>
+&lt;h2 id="原文">原文
+&lt;/h2>&lt;p>最近遇到一个问题，我们的项目代码里，之前把一些&lt;em>密码&lt;/em>配置明文传到了github，&lt;br>
+但是公司的安全策略不希望我们在代码里直接留有敏感的账号凭证信息，否则会被扫出来合规性问题。&lt;/p>
+&lt;p>按照我同事之前的经历：安全部门扫出来之后就会发邮件给你老板，让你半夜起来马上消掉。&lt;br>
+因此产生了一个需求，怎么把github上已提交的敏感信息抹掉呢？&lt;/p>
+&lt;p>我调研了下，目前已知有几种方式：&lt;/p>
+&lt;h3 id="通过git-revert-commit_id来实现">通过git revert commit_id来实现
+&lt;/h3>&lt;p>git revert 可以撤销某次操作，他是通过提交一次新的commit来回滚之前的一次commit的内容，
+大部分情况下这个功能是够用的。&lt;/p>
+&lt;p>不适用我们的场景，因为旧的commit实际上不会消失，在github直接打开旧的commit，还是可以看到对应密码信息，不合规。&lt;/p>
+&lt;h3 id="通过git-reset-hard-commit_id">通过git reset &amp;ndash;hard commit_id
+&lt;/h3>&lt;p>直接重置到密码提交前的那一次commit，然后&lt;code>git push -f&lt;/code>重置分支&lt;/p>
+&lt;p>这样做的前提条件是需要提交密码的那一次commit是最近发生的，&lt;br>
+不然就需要手动把后面的历史commit都补回来，工作量很大&lt;/p>
+&lt;h3 id="通过git-rebase--i-来实现丢弃一个commit">通过git rebase -i 来实现丢弃一个commit
+&lt;/h3>&lt;p>这是今天发现的解决方案，有点类似于以前git合并多个commit的操作。&lt;br>
+下面说下流程：&lt;/p>
+&lt;ol>
+&lt;li>找到你需要丢弃的commit_id
+在我的例子里，我在&lt;code>bdfb32a&lt;/code>这次提交里提交了密码&lt;br>
+这次commit的前一次是&lt;code>0119c21&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;p>所以执行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">git rebase -i 0119c21 -X their
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>解释:&lt;br>
+-i 进入交互模式&lt;br>
+-X their 方便后续的commit自动合并，不然你需要手动操作冲突。&lt;/p>
+&lt;ol start="2">
+&lt;li>这时进入了vi的编辑界面，此时git会把commit_id之后发生的commit列出来，&lt;/li>
+&lt;/ol>
+&lt;p>我们按i进入编辑，手动把不需要的那个commit &lt;code>bdfb32a&lt;/code>前面的&lt;code>pick&lt;/code>改成&lt;code>drop&lt;/code>.&lt;/p>
+&lt;ol start="3">
+&lt;li>然后vi和rebase的基本操作：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">esc, :wd
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git add .
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git rebase --continue
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="4">
+&lt;li>手动push 覆盖远程分支&lt;/li>
+&lt;/ol>
+&lt;p>此时你通过查看历史，比如&lt;code>git log -10&lt;/code>&lt;br>
+应该可以看到commit的历史已经改变了，&lt;code>bdfb32a&lt;/code>已经彻底消失了(被丢弃)。&lt;/p>
+&lt;p>执行&lt;code>git push -f&lt;/code>&lt;/p>
+&lt;p>再去github看一下&lt;/p>
+&lt;p>&lt;code>0119c21&lt;/code>之后的这次&lt;code>bdfb32a&lt;/code>已经抹除。&lt;/p>
+&lt;p>收工~！&lt;/p></description></item><item><title>git rebase有个坑</title><link>https://knowckx.github.io/p/git-rebase%E6%9C%89%E4%B8%AA%E5%9D%91/</link><pubDate>Fri, 28 Apr 2023 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/git-rebase%E6%9C%89%E4%B8%AA%E5%9D%91/</guid><description>&lt;h3 id="场景">场景:
+&lt;/h3>&lt;p>这是个老问题，以前没注意，今天手动做了几次实验，基本搞清楚了。&lt;/p>
+&lt;p>常见场景，自己fork了一个分支进行开发，然后发起了PR&lt;br>
+结果发现fork的分支已经落后于主分支几个更新。(在你的开发期间，主分支有新合入的改动)&lt;/p>
+&lt;p>这时候你想把主分支的改动更新进来。&lt;br>
+为了更&lt;strong>优雅&lt;/strong>, 此时执行&lt;code>git reabase upstream main&lt;/code>&lt;br>
+你把远程分支的更新内容拉取到了你本地&lt;/p>
+&lt;p>问题来了，你会发现你的这个分支push不上去&lt;/p>
+&lt;h3 id="原因">原因:
+&lt;/h3>&lt;p>此时你在本地分支执行git rebase之后，rebase操作修改了你的本地分支历史&lt;/p>
+&lt;blockquote>
+&lt;p>rebase节点后, Commit ID是会变的&lt;/p>&lt;/blockquote>
+&lt;p>导致本地分支与 rebase 前的远程分支历史产生分歧（即使你们的最终代码是一致的）&lt;/p>
+&lt;p>这时候执行push远程，git认为你的远程分支和本地分支状态不一致了, 所以rejected.&lt;/p>
+&lt;h3 id="解决">解决:
+&lt;/h3>&lt;p>推荐在使用fork的分支开发时，使用merge策略来抓取远程改动会方便一点。&lt;br>
+缺点: commit的历史线会比较混乱，不好看&lt;/p>
+&lt;p>或者在使用reabse时，搭配&lt;code>-f&lt;/code>来强行更新&lt;strong>远程自己的分支&lt;/strong>，&lt;br>
+这时候可以实现，你的改动完全是在别人的改动之后新加的改动，Commit ID的历史是一条直线，很会&lt;strong>优雅&lt;/strong>&lt;/p>
+&lt;h3 id="备注-rebase原理">备注 rebase原理:
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>同步状态: 开始时，本地分支 my-feature 和远程分支 origin/my-feature 指向同一个 commit，历史完全一致。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>执行 &lt;code>git rebase upstream/main&lt;/code>: 这个操作做了几件事：&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>找到 my-feature 和 upstream/main 的共同祖先 commit。&lt;/li>
+&lt;li>把 my-feature 分支上 相对于共同祖先 的所有 commits &amp;ldquo;暂存&amp;rdquo; 起来。&lt;/li>
+&lt;li>把 my-feature 分支的起点移动（&amp;ldquo;变基&amp;rdquo;）到 upstream/main 的最新 commit 上。&lt;/li>
+&lt;li>把之前 &amp;ldquo;暂存&amp;rdquo; 的那些 commits 依次重新应用 到新的起点上。&lt;/li>
+&lt;/ul>
+&lt;ol start="3">
+&lt;li>
+&lt;p>重点: Commit ID 的变化&lt;br>
+即使代码改动内容完全一样，但由于这些 commit 的父 commit 变了（它们现在是基于 upstream/main 的最新 commit，而不是之前的某个 commit），&lt;br>
+Git 会为它们生成 全新的 Commit ID (SHA-1 hash)。&lt;br>
+所以，你本地 my-feature 分支上的 commit 历史被&lt;em>重写&lt;/em>了。都变了。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Push 被拒绝了:&lt;br>
+当你执行 git push origin my-feature 时：&lt;br>
+Git 对比你本地的 my-feature 和远程的 origin/my-feature。&lt;br>
+它发现远程分支 origin/my-feature 的历史 不是 你本地 my-feature 历史的一个 祖先 (fast-forward 关系)。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>他们分叉了——远程是旧的历史，本地是 rebase 后的新历史。&lt;br>
+他们是两条实际上有相同的改动，但是Commit ID 不同的历史线。(rebase的坑)&lt;/p></description></item><item><title>golang错误处理 使用errors包</title><link>https://knowckx.github.io/p/golang%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86-%E4%BD%BF%E7%94%A8errors%E5%8C%85/</link><pubDate>Tue, 29 Oct 2024 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/golang%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86-%E4%BD%BF%E7%94%A8errors%E5%8C%85/</guid><description>&lt;p>我发现身边不少写了3年以上的go开发并未注意到这一点, 感觉很多人都没养成好习惯。&lt;/p>
+&lt;p>Go的默认写法，对错误处理的支持太简单了，这会导致排查错误不方便。&lt;/p>
+&lt;p>最常见错误处理方式是在调用链一层一层向上抛错误，但是每层调用处直接&lt;code>return err&lt;/code>这样是不好的， &lt;br>
+因为最上层打印错误的时候只有一行错误字符串，中间的&lt;strong>错误栈&lt;/strong>全部丢失了，这不方便定位错误在代码中的传递过程。&lt;/p>
+&lt;p>推荐日常工作中应该尽量使用&lt;strong>errors&lt;/strong>包带上栈信息。 包：&lt;code>&amp;quot;github.com/pkg/errors&amp;quot;&lt;/code>&lt;br>
+这个包最大的作用就是用error加上stack记录&lt;/p>
+&lt;p>示例代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;testing&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;github.com/pkg/errors&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">Test_Errors&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">testing&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nf">CallFunc1&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 第1层调用&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;%+v\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 必需是%+v 才能打印出stack信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">CallFunc1&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kt">error&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nf">CallFunc2&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 第2层调用&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">errors&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithStack&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">CallFunc2&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kt">error&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nf">GetBaseError&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 第3层调用&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">errors&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">WithStack&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">GetBaseError&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kt">error&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Errorf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;base error&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>输出结果(调用栈)：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="o">===&lt;/span> RUN Test_Errors
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">base error
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">github.com/Knowckx/Asuka/QuickTest.CallFunc1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:18
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">github.com/Knowckx/Asuka/QuickTest.Test_Errors
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /Users/i51111/dev/AsukaProj/Asuka/QuickTest/main_test.go:11
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">testing.tRunner
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /usr/local/go/src/testing/testing.go:1194
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">runtime.goexit
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /usr/local/go/src/runtime/asm_amd64.s:1371
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--- PASS: Test_Errors &lt;span class="o">(&lt;/span>0.00s&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PASS
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意：&lt;/p>
+&lt;p>打印错误的时候需要%+v 才能打印出stack信息&lt;/p>
+&lt;p>假如你的日志包用的&lt;code>zerolog&lt;/code>，需要配置成这样:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">zerolog&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ErrorStackMarshaler&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">pkgerrors&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">MarshalStack&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>假如想判断具体的错误就使用&lt;strong>Cause&lt;/strong>方法&lt;/p></description></item><item><title>使用二进制来存储多个布尔值</title><link>https://knowckx.github.io/p/%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%9D%A5%E5%AD%98%E5%82%A8%E5%A4%9A%E4%B8%AA%E5%B8%83%E5%B0%94%E5%80%BC/</link><pubDate>Sat, 27 Apr 2024 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%9D%A5%E5%AD%98%E5%82%A8%E5%A4%9A%E4%B8%AA%E5%B8%83%E5%B0%94%E5%80%BC/</guid><description>&lt;p>最近遇到一个需求，需要在数据库保存一组配置，每个配置都是一个bool值，表示表的那一列是否开启了&lt;/p>
+&lt;p>按照最常见的做法，需要每有一个bool值就加一个表字段， 这样做有两个问题:&lt;/p>
+&lt;ol>
+&lt;li>bool值比较多的时候，需要在数据库里对应创建的字段就比较多，打开表一看全是bool值，信息密度低。&lt;/li>
+&lt;li>不方便动态调整，比如上线后业务说想要加一个bool配置，数据库表加字段并不方便，特别是生产环境&lt;/li>
+&lt;/ol>
+&lt;p>这时候我想起&lt;code>linux&lt;/code>那个用来改文件权限的命令， &lt;code>chmod 777&lt;/code>.&lt;br>
+这里的777是有含意的.
+简单来说，&lt;/p>
+&lt;blockquote>
+&lt;p>1 = 001 执行权限&lt;br>
+2 = 010 写权限&lt;br>
+4 = 100 读权限&lt;br>
+7 = 111 全部权限&lt;/p>&lt;/blockquote>
+&lt;p>3个7，&lt;code>777&lt;/code>表示三种用户，都有全部权限。&lt;br>
+&lt;code>chmod 777&lt;/code>意思就是把这个文件的所有权限都开放出来&lt;/p>
+&lt;p>按照这个思路，我们日常遇到多个bool配置的时候，也可以使用这个方式通过一个int字段来存储大量的bool值，&lt;br>
+唯一需要注意的是需要在代码里固定好bool字段对应的顺序。&lt;/p>
+&lt;p>Talk is cheap, show the code below:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;span class="lnt">53
+&lt;/span>&lt;span class="lnt">54
+&lt;/span>&lt;span class="lnt">55
+&lt;/span>&lt;span class="lnt">56
+&lt;/span>&lt;span class="lnt">57
+&lt;/span>&lt;span class="lnt">58
+&lt;/span>&lt;span class="lnt">59
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-Golang" data-lang="Golang">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// golang code&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// a lot of bool fields&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">BoolConfig&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">IsAddName&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="c1">//1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">IsAddAddress&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="c1">//2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">IsAddEamil&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="c1">//3&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">IsAddAge&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="c1">//4&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">IsAddPwd&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="c1">//5&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// ToBin return binary like: FTFFF -&amp;gt; &amp;#34;01000&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">c&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">BoolConfig&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">ToBin&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">v&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">reflect&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">ValueOf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="nx">c&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rst&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">switch&lt;/span> &lt;span class="nx">v&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Kind&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">case&lt;/span> &lt;span class="nx">reflect&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Struct&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="p">&amp;lt;&lt;/span> &lt;span class="nx">v&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NumField&lt;/span>&lt;span class="p">();&lt;/span> &lt;span class="nx">i&lt;/span>&lt;span class="o">++&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">val&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">v&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Field&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">i&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nf">Interface&lt;/span>&lt;span class="p">().(&lt;/span>&lt;span class="kt">bool&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">val&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">false&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rst&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">rst&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s">&amp;#34;0&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">continue&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rst&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">rst&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s">&amp;#34;1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">rst&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// binary to Decimal 1010 -&amp;gt; 10 | 111 -&amp;gt; 7&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">BinDec&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">b&lt;/span> &lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ss&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">strings&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Split&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">b&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">l&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ss&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">d&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nb">float64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="p">&amp;lt;&lt;/span> &lt;span class="nx">l&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span>&lt;span class="o">++&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">f&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">strconv&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">ParseFloat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ss&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nx">i&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">d&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="nx">f&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="nx">math&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Pow&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">float64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">l&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="nx">i&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nb">int&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">d&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="kc">nil&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">Test_ToBin&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">testing&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">cf&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nb">new&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">BoolConfig&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">cf&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">IsAddAddress&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kc">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Config: %+v\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">cf&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">resBin&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">cf&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">ToBin&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Bin: %+v\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">resBin&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 01000&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">dec&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nf">BinDec&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">resBin&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">panic&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;dec: %+v\n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">dec&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 8&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>位运算表示int的范围</title><link>https://knowckx.github.io/p/%E4%BD%8D%E8%BF%90%E7%AE%97%E8%A1%A8%E7%A4%BAint%E7%9A%84%E8%8C%83%E5%9B%B4/</link><pubDate>Sat, 29 Jul 2023 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/%E4%BD%8D%E8%BF%90%E7%AE%97%E8%A1%A8%E7%A4%BAint%E7%9A%84%E8%8C%83%E5%9B%B4/</guid><description>&lt;h3 id="int32的取值范围">int32的取值范围
+&lt;/h3>&lt;p>今天刷题时需要用到int32的取值范围，查了下是“-2147483648”到“2147483647”，有没有办法快速表示这个数呢？&lt;/p>
+&lt;p>在我翻了其他人的leetcode提交后发现一个有趣的代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">int32min&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="mi">31&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">int32max&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="o">&amp;lt;&amp;lt;&lt;/span>&lt;span class="mi">31&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span> &lt;span class="err">写个&lt;/span>&lt;span class="n">UT打印一下&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="err">也是正确的。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">func&lt;/span> &lt;span class="n">Test_PrintConstInt32&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">testing&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">fmt&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">int32min&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">int32max&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">//&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">2147483648&lt;/span> &lt;span class="mi">2147483647&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>关于位运算很多东西都扔回给老师了，今天再补一下知识&lt;/p>
+&lt;h3 id="位运算左移和右移">位运算，左移和右移
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&amp;laquo; 表示左移
+对于一个正数 左移N位 = 乘2n次方&lt;br>
+比如：&lt;br>
+1100（12） 左移1位 –&amp;gt; 11000(24)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&amp;gt;&amp;gt; 表示右移
+对于一个正数 右移N位 = 除2n次方&lt;br>
+比如：&lt;br>
+1100（12） 右移1位 –&amp;gt; 110(6)&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>int32的范围大小: &lt;code>[-1 &amp;lt;&amp;lt; 31，1&amp;lt;&amp;lt;31 - 1]&lt;/code>&lt;/p>
+&lt;p>精准，高逼格，High Level!&lt;/p></description></item><item><title>go的原子操作</title><link>https://knowckx.github.io/p/go%E7%9A%84%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</link><pubDate>Thu, 09 Mar 2023 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/go%E7%9A%84%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</guid><description>&lt;p>想要实现一个无锁的并发程序编写，那么直接对变量进行原子操作就是很好的选择，趁这个机会把go提供的几个原子方法学习一下。&lt;/p>
+&lt;p>go在&lt;code>sync/atomic&lt;/code>包里对Int32，Int64等几个基本类型都定义了相同的一套方法， 下面以Int64为例：&lt;/p>
+&lt;p>几个方法的含义比较简单，从函数名就能看出含义。&lt;/p>
+&lt;blockquote>
+&lt;p>StoreInt64 存&lt;br>
+LoadInt64 取&lt;br>
+AddInt64 加法&lt;br>
+SwapInt64 交换&lt;br>
+CompareAndSwapInt64 判断并交换&lt;/p>&lt;/blockquote>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">Test_AtomicFunc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">testing&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">counter&lt;/span> &lt;span class="kt">int64&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">StoreInt64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">counter&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">counter&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// output: 10&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">res&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">LoadInt64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">counter&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">res&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// output: 10&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AddInt64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">counter&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">counter&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// output: 12&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SwapInt64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">counter&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">22&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">counter&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// output: 22&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">CompareAndSwapInt64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">counter&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">22&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">32&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">counter&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// output: 32&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们平时用地比较多的是&lt;code>CompareAndSwap&lt;/code>（简称 CAS）方法，假如值不等于old，那就设置成一个新值new.
+这可以在不加锁的前提下完成对变量值的判断和更新&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">Test_CompareAndSwap&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">testing&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">var&lt;/span> &lt;span class="nx">first&lt;/span> &lt;span class="kt">int64&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="mi">1000&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">i&lt;/span>&lt;span class="o">++&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">go&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">i&lt;/span> &lt;span class="kt">int&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">CompareAndSwapInt64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">first&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">int64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">i&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;第一个完成赋值的goroutine&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">i&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}(&lt;/span>&lt;span class="nx">i&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Sleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Second&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;最后的值 num:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">atomic&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">LoadInt64&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">first&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 输出结果:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">==&lt;/span>&lt;span class="p">=&lt;/span> &lt;span class="nx">RUN&lt;/span> &lt;span class="nx">Test_CompareAndSwap&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="mi">2022&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mo">05&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mo">07&lt;/span> &lt;span class="mo">00&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">11&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">18&lt;/span> &lt;span class="nx">第一个完成赋值的goroutine&lt;/span> &lt;span class="mi">13&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="mi">2022&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mo">05&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mo">07&lt;/span> &lt;span class="mo">00&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">11&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">20&lt;/span> &lt;span class="nx">最后的值&lt;/span> &lt;span class="nx">num&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">13&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们可以看出虽然开了1000个goroutine,但是只有第13个抢到了赋值的机会.&lt;/p>
+&lt;p>在他赋值之后，其他的goroutine都会compare失败而退出，从而不需要加锁就完成了竞争条件的设定。&lt;/p>
+&lt;p>简单好用~&lt;/p></description></item><item><title>关于Golang切片的几个注意点</title><link>https://knowckx.github.io/p/%E5%85%B3%E4%BA%8Egolang%E5%88%87%E7%89%87%E7%9A%84%E5%87%A0%E4%B8%AA%E6%B3%A8%E6%84%8F%E7%82%B9/</link><pubDate>Mon, 02 Jan 2023 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/%E5%85%B3%E4%BA%8Egolang%E5%88%87%E7%89%87%E7%9A%84%E5%87%A0%E4%B8%AA%E6%B3%A8%E6%84%8F%E7%82%B9/</guid><description>&lt;p>今天刷题&lt;code>leetcode no.78&lt;/code>-子集问题，其中遇到一个Slice的语法坑，&lt;br>
+查了半小时最后才定位是切片的使用问题。&lt;br>
+搞定之后顺便翻阅了一下slice的实现原理，把以前总结的点也放一起做个小记录。&lt;/p>
+&lt;h3 id="slice的实现">slice的实现
+&lt;/h3>&lt;p>先看一下slice的结构体(&lt;a class="link" href="https://go.dev/src/runtime/slice.go" target="_blank" rel="noopener"
+>https://go.dev/src/runtime/slice.go&lt;/a>)定义：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">slice&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">array&lt;/span> &lt;span class="nx">unsafe&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Pointer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">len&lt;/span> &lt;span class="kt">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">cap&lt;/span> &lt;span class="kt">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>一个切片本身指向了一个底层数组，&lt;br>
+len表示目前的元素数量，cap表示这个slice最大的元素容量&lt;/p>
+&lt;h3 id="注意区分len和cap">注意区分len和cap
+&lt;/h3>&lt;p>len和cap是第一个要理清的概念，特别是当我们使用make去创建新切片时&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">s1&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nb">make&lt;/span>&lt;span class="p">([]&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">s2&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nb">make&lt;/span>&lt;span class="p">([]&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">s1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">s2&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在上面的代码中，s1的输出结果是[0 0 0]，
+cap=len=3,有3个元素，最大容量是3，3个元素都是这个类型的初始值，也就是0&lt;/p>
+&lt;p>而s2的结果是[]，cap=3 len=0, 目前是0个元素，是个空切片。&lt;/p>
+&lt;h3 id="扩容的性能问题">扩容的性能问题
+&lt;/h3>&lt;p>容量 = cap, 是目前切片已经预分配的内存能够容纳的最大元素个数&lt;/p>
+&lt;p>我们通过append操作向切片加元素，一但超过了切片的容量，就需要分配新的内存，并将当前切片所有的元素拷贝到新的内存块上。&lt;/p>
+&lt;p>这里就有一道喜闻乐见的面试题了，&lt;/p>
+&lt;blockquote>
+&lt;p>go的切片扩容机制是什么样的&lt;/p>&lt;/blockquote>
+&lt;p>而这个答案直接看源码就能找到，注释是这么写的：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Transition from growing 2x for small slices&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// to growing 1.25x for large slices. This formula&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>切片在容量在比较小的时候，容量是通过x2的倍数扩大的，
+cap当达到一个阈值时，以1.25倍的方式扩容。&lt;/p>
+&lt;p>所以我们写代码的时候要注意两点：&lt;/p>
+&lt;ul>
+&lt;li>尽量在声明时就确定切片的大小，免得反复扩容。&lt;/li>
+&lt;li>大容量的切片应该复用，减少频繁申请内存。&lt;/li>
+&lt;/ul>
+&lt;h3 id="slice的切片操作不会生成新的数组">Slice的切片操作不会生成新的数组
+&lt;/h3>&lt;p>这个问题就是我今天遇到的，当我们对一个切片执行切片操作时，新的切片指向的是原来切片的底层数组。&lt;br>
+所以当我们向新的切片append的时候，也改变了老切片的值&lt;/p>
+&lt;p>示例代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">Test_Slice&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">testing&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">s1&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">s2&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">s1&lt;/span>&lt;span class="p">[:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="c1">// 切片操作 s2为[1 2]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">s2&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">s2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// s2为[1 2 5]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">s1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 现在s1是多少呢?&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>最后s1的值是 [1 2 5 4]!! 很难理解吧。&lt;br>
+因为上面的代码里，s2是从s1切片出来的，向s2添加元素后，实际上也在修改s1的值&lt;/p>
+&lt;p>想要生成一个完全不同的底层数组怎么办？&lt;/p>
+&lt;p>引申：拷贝一个切片的最佳实践&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">CopySlice&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">nums&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">newNums&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nb">make&lt;/span>&lt;span class="p">([]&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">nums&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">copy&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">newNums&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">nums&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>k8s端口转发脚本</title><link>https://knowckx.github.io/p/k8s%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%84%9A%E6%9C%AC/</link><pubDate>Fri, 22 Jul 2022 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/k8s%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%84%9A%E6%9C%AC/</guid><description>&lt;h2 id="k8s端口转发原理">k8s端口转发原理
+&lt;/h2>&lt;p>我们知道有一些数据库或者服务的API设有白名单机制, 只有在特定的生产集群内部才能访问。&lt;br>
+因为不对公网暴露，我们本地肯定是访问不了的。&lt;/p>
+&lt;p>而在日常工作嘛，总会有一些紧急需求需要连上这些服务，在本地进行一些调试、触发、执行SQL什么的临时性操作，
+那这时候就需要把对应的端口转发出来。&lt;/p>
+&lt;p>我们知道&lt;code>kubectl port-forward&lt;/code>可以把k8s的&lt;code>service&lt;/code>转发到你的本地，&lt;br>
+因此一个常见的做法就是在k8s上创建一个pod专门作为转接，由这个Pod去访问目标端口，&lt;br>
+同时通过&lt;code>port-forward&lt;/code>把对应的pod和端口转到你本地，这样就可以在本地进行连接调试了。&lt;/p>
+&lt;p>下面发一下我日常使用的脚本：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">set&lt;/span> -e
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># args&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">KubeCfg&lt;/span>&lt;span class="o">=&lt;/span>test--prod &lt;span class="c1"># 目标集群的kubeconfig -- kubecm的列表项&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">NameSpace&lt;/span>&lt;span class="o">=&lt;/span>test-ns &lt;span class="c1"># 目标ns&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">REMOTE_HOST&lt;/span>&lt;span class="o">=&lt;/span>test.remotehost.com &lt;span class="c1"># 需要转发的目标host&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">REMOTE_PORT&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">5432&lt;/span> &lt;span class="c1"># 需要转发的目标port&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">LOCAL_PORT&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">5439&lt;/span> &lt;span class="c1"># 本地port&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">TEMP_POD_NAME&lt;/span>&lt;span class="o">=&lt;/span>test-portjump &lt;span class="c1"># 用于转发的pod名称&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubecm switch &lt;span class="nv">$KubeCfg&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 脚本退出时自动清理掉pod&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> cleanup &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;cleanup...&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> kubectl delete -n &lt;span class="nv">$NameSpace&lt;/span> pod/&lt;span class="nv">$TEMP_POD_NAME&lt;/span> --grace-period &lt;span class="m">1&lt;/span> --wait&lt;span class="o">=&lt;/span>&lt;span class="nb">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">trap&lt;/span> cleanup EXIT
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl run -n &lt;span class="nv">$NameSpace&lt;/span> --image marcnuri/port-forward &lt;span class="nv">$TEMP_POD_NAME&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --env &lt;span class="nv">REMOTE_HOST&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$REMOTE_HOST&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --env &lt;span class="nv">REMOTE_PORT&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$REMOTE_PORT&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --env &lt;span class="nv">LOCAL_PORT&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$REMOTE_PORT&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --port &lt;span class="nv">$REMOTE_PORT&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --restart&lt;span class="o">=&lt;/span>Never
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl &lt;span class="nb">wait&lt;/span> -n &lt;span class="nv">$NameSpace&lt;/span> --for&lt;span class="o">=&lt;/span>&lt;span class="nv">condition&lt;/span>&lt;span class="o">=&lt;/span>Ready pod/&lt;span class="nv">$TEMP_POD_NAME&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl port-forward -n &lt;span class="nv">$NameSpace&lt;/span> pod/&lt;span class="nv">$TEMP_POD_NAME&lt;/span> &lt;span class="nv">$LOCAL_PORT&lt;/span>:&lt;span class="nv">$REMOTE_PORT&lt;/span> &lt;span class="p">&amp;amp;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">while&lt;/span> &lt;span class="nb">true&lt;/span> &lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span> sleep &lt;span class="m">60&lt;/span> &lt;span class="p">;&lt;/span> nc -vz 127.0.0.1 &lt;span class="nv">$LOCAL_PORT&lt;/span> &lt;span class="p">;&lt;/span> &lt;span class="k">done&lt;/span> &lt;span class="c1"># 保持连接&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>两个注意点：&lt;/p>
+&lt;ul>
+&lt;li>这个脚本需要安装一个&lt;code>kubecm&lt;/code>，这是一个常用的切&lt;code>kubeconfig&lt;/code>的工具&lt;/li>
+&lt;li>脚本的最后写了一个循环，是因为kubectl port-forward这个命令在5min中没有操作的话会自动断开连接。&lt;br>
+实际工作中你可能出去倒杯咖啡就断了。因此需要需要这个循环来保持连接。&lt;br>
+(这个东西我翻了很多资料，这应该是client这边最好的保持连接的方式了)
+不要滥用这个脚本。&lt;br>
+理论上这个脚本可以让你连上生产环境的一切地址~&lt;/li>
+&lt;/ul>
+&lt;p>一定要小心呐。一定要小心呐。一定要小心呐。&lt;/p></description></item><item><title>总结一下k8s查询secret几种方式</title><link>https://knowckx.github.io/p/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8Bk8s%E6%9F%A5%E8%AF%A2secret%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</link><pubDate>Wed, 02 Mar 2022 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8Bk8s%E6%9F%A5%E8%AF%A2secret%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</guid><description>&lt;h2 id="k8s-secret">k8s secret
+&lt;/h2>&lt;p>作为一个后端来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式，因为这个需求日常经常会用到&lt;/p>
+&lt;h3 id="1-手动decode">1. 手动Decode
+&lt;/h3>&lt;p>这最常见的方式，使用命令&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">kubectl get secret testsecret -o yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后手动把base64编码后的字符串复制出来&lt;br>
+再去执行&lt;code>echo xx | base64 -D&lt;/code>&lt;br>
+这种应该是大部分使用k8s的开发人员最常用的方式。&lt;br>
+缺点是中间有一段手动复制的操作，用上了鼠标，效率比较低，不够high level~&lt;/p>
+&lt;h3 id="2-使用jsonpath">2. 使用jsonpath
+&lt;/h3>&lt;p>这个其实是今天发现的，用&lt;code>jsonpath&lt;/code>可以一条命令里完成取secret的操作&lt;/p>
+&lt;p>比如有下面的secret&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">kind: Secret
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">apiVersion: v1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">data:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> properties: ClJFRElTX0hPU1Q9ZGFhcy1yZWRpcy1iZD
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> user.password: hcy1yZWy1yZWRpcyRpcy1iZDClJFRElTX0hPU1Q9ZGF
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这个secret有两个值， 假如我们想取properties的信息,可以使用&lt;/p>
+&lt;p>&lt;code>kubectl get secrets/testsecret -o jsonpath=&amp;quot;{.data.properties}&amp;quot; | base64 -D&lt;/code>&lt;/p>
+&lt;p>jsonpath可以把对应需要的文本筛选出来，就很舒服&lt;/p>
+&lt;p>另外, 假如key里面已经有了一个字符.应该怎么办？
+可以使用:&lt;br>
+&lt;code>kubectl get secrets/testsecret -o jsonpath=&amp;quot;{.data\.properties}&amp;quot; | base64 -D&lt;/code>&lt;/p>
+&lt;h3 id="3-使用插件kubectl-view-secret">3. 使用插件kubectl view-secret
+&lt;/h3>&lt;p>&lt;code>kubectl view-secret&lt;/code>是一个kubectl的插件，
+安装之后可以直接通过kubectl view-secret命令看secret的内容，
+github可以搜到，不多说了&lt;/p>
+&lt;p>我身边很多同事在用这个插件，肯定是好用的&lt;/p>
+&lt;h3 id="4安装lens">4.安装Lens
+&lt;/h3>&lt;p>Lens是一个k8s可视化工具，可视化工具嘛，鼠标点点就出来了。&lt;br>
+Lens对应查pod，查pod里的log什么的都挺方便的，懒人必备~&lt;/p>
+&lt;p>综述，以上几种方式，我的推荐顺序是 &lt;code>3 &amp;gt; 4 = 2 &amp;gt; 1&lt;/code>&lt;/p>
+&lt;p>kubectl view-secret装好后方便一些&lt;/p>
+&lt;p>下班~！&lt;/p></description></item><item><title>为Terminal设置代理</title><link>https://knowckx.github.io/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</link><pubDate>Thu, 05 Dec 2024 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</guid><description>&lt;p>Mac在终端下通过设置环境变量来配置代理，Linux的终端也是一样，这里记录一下。&lt;/p>
+&lt;p>打开你的代理软件，我用的是ClashX.&lt;br>
+找到软件的代理端口，我这边http和socks5都是7890&lt;/p>
+&lt;p>终端里输入:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">https_proxy&lt;/span>&lt;span class="o">=&lt;/span>http://127.0.0.1:7890 &lt;span class="nv">http_proxy&lt;/span>&lt;span class="o">=&lt;/span>http://127.0.0.1:7890 &lt;span class="nv">all_proxy&lt;/span>&lt;span class="o">=&lt;/span>socks5://127.0.0.1:7890
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>设置好代理后，对该终端下执行的二进制都会生效，比如golang开发中的go get&lt;/p>
+&lt;p>设置好之后可以用&lt;strong>curl&lt;/strong>测试一下&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">curl google.com
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 输出HTML&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;HTML&amp;gt;&amp;lt;HEAD&amp;gt;&amp;lt;meta http-equiv&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;content-type&amp;#34;&lt;/span> &lt;span class="nv">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;text/html;charset=utf-8&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;TITLE&amp;gt;301 Moved&amp;lt;/TITLE&amp;gt;&amp;lt;/HEAD&amp;gt;&amp;lt;BODY&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;H1&amp;gt;301 Moved&amp;lt;/H1&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">The document has moved
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;A &lt;span class="nv">HREF&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;http://www.google.com/&amp;#34;&lt;/span>&amp;gt;here&amp;lt;/A&amp;gt;.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;/BODY&amp;gt;&amp;lt;/HTML&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>selenium设置Chrome忽略https证书</title><link>https://knowckx.github.io/p/selenium%E8%AE%BE%E7%BD%AEchrome%E5%BF%BD%E7%95%A5https%E8%AF%81%E4%B9%A6/</link><pubDate>Sun, 05 May 2024 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/selenium%E8%AE%BE%E7%BD%AEchrome%E5%BF%BD%E7%95%A5https%E8%AF%81%E4%B9%A6/</guid><description>&lt;p>最近在用&lt;code>selenium&lt;/code>写一个内部站点的自动化工具，自动填资料注册账号然后激活啥的。&lt;/p>
+&lt;p>可我们这个站点有时候证书会签不出来，这会导致Chrome连接时出现TLS安全检查的Warning。&lt;/p>
+&lt;p>虽然证书是有问题的，但是我们还想要继续访问，因此要设置忽略https的TLS检查。&lt;br>
+然后我在网上搜这部分的配置，网上的示例全是JAVA的，&lt;br>
+我这边用的golang的API，各种文档找了&lt;code>1个小时&lt;/code>，最终跑起来了。&lt;/p>
+&lt;p>代码很简单，但是想把代码片段留一下，希望可以帮助需要的人节约一点小小的时间，不要重复浪费我这一小时&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 忽略TLS检查&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">SetClientIgnoreTls&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">selenium&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">WebDriver&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">caps&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">selenium&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Capabilities&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;browserName&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;chrome&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">prefs&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="kd">interface&lt;/span>&lt;span class="p">{}{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;acceptInsecureCerts&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">chromeCaps&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">chrome&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Capabilities&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Prefs&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">prefs&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Path&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Args&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="s">&amp;#34;--ignore-certificate-errors&amp;#34;&lt;/span>&lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">caps&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AddChrome&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">chromeCaps&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">remoteAddr&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="s">&amp;#34;127.0.0.1:9515&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">selenium&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewRemote&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">caps&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">remoteAddr&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>mysql模拟开窗函数</title><link>https://knowckx.github.io/p/mysql%E6%A8%A1%E6%8B%9F%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/</link><pubDate>Fri, 26 Jan 2024 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/mysql%E6%A8%A1%E6%8B%9F%E5%BC%80%E7%AA%97%E5%87%BD%E6%95%B0/</guid><description>&lt;p>今天写一个SQL时需要使用&lt;em>开窗函数&lt;/em>，结果发现Mysql在8.0后才开始支持CTE和开窗函数.&lt;/p>
+&lt;p>我们目前所使用的Mysql版本比较低，所以想了一种通过子查询来模拟的方法， 记录一下。&lt;/p>
+&lt;p>举个例子：&lt;/p>
+&lt;p>现在有一张普通的表 table_age，只有三列：ID, name, age.&lt;/p>
+&lt;p>现在想让查询结果的每一行都带上年龄的总和，也就是实现类似开窗函数的效果&lt;/p>
+&lt;p>在Mysql 8.0之后 直接用开窗函数就行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">SELECT&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="k">SUM&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">age&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">OVER&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;总年龄&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">table_age&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">table_age&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在Mysql 8.0之前， 可以像下面这样写：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">select&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">tempT&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">totalAge&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">as&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;总年龄&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">table_age&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">from&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="n">table_age&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">select&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">age&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">as&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;totalAge&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">from&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">table_age&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">tempT&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其他开窗函数也可以用这样子查询的方法，去模拟实现。&lt;/p></description></item><item><title>golang获取一个周期的时间范围</title><link>https://knowckx.github.io/p/golang%E8%8E%B7%E5%8F%96%E4%B8%80%E4%B8%AA%E5%91%A8%E6%9C%9F%E7%9A%84%E6%97%B6%E9%97%B4%E8%8C%83%E5%9B%B4/</link><pubDate>Sat, 02 Jul 2022 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/golang%E8%8E%B7%E5%8F%96%E4%B8%80%E4%B8%AA%E5%91%A8%E6%9C%9F%E7%9A%84%E6%97%B6%E9%97%B4%E8%8C%83%E5%9B%B4/</guid><description>&lt;p>最近因为工作的原因在对接Azure的API，其中常常遇到一些接口，需要传入的参数是某一周或者某一月这段时间的起点和终点。&lt;/p>
+&lt;p>写多了以后我想把这个事抽出来单独写个包，用来产生当天，当周，当月的时间范围，或者输入一个时间点输出那天所在的天，周，月的时间范围。&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/Knowckx/asukatime" target="_blank" rel="noopener"
+>github地址&lt;/a>&lt;/p>
+&lt;p>作用: 输入一个时间点，求该时间点所在的一天，一周，一月的起止时间范围，&lt;/p>
+&lt;p>用法示例:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 获取某天的时间范围&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">input&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Now&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 2022-07-20 17:37:21&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">tr&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">asukatime&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GetDayRange&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">input&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">tr&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Start&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 2022-07-20 00:00:00&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">tr&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">End&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// 2022-07-20 23:59:59&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 获取某周的时间范围（默认周一是第一天）&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">input&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Now&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 2022-07-20 17:37:21&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">tr&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">asukatime&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GetWeekRange&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">input&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">tr&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// [2022-07-18 00:00:00, 2022-07-24 23:59:59.999]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 获取某月的时间范围&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">input&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Now&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1">// 2022-07-20 17:37:21&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">tr&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">asukatime&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">GetMonthRange&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">input&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">tr&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// [2022-07-01 00:00:00, 2022-07-31 23:59:59.999]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>欢迎大家直接调（懒惰是程序员进步的源泉233）&lt;/p></description></item><item><title>go打印嵌套的复杂结构体</title><link>https://knowckx.github.io/p/go%E6%89%93%E5%8D%B0%E5%B5%8C%E5%A5%97%E7%9A%84%E5%A4%8D%E6%9D%82%E7%BB%93%E6%9E%84%E4%BD%93/</link><pubDate>Sat, 02 Jul 2022 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/go%E6%89%93%E5%8D%B0%E5%B5%8C%E5%A5%97%E7%9A%84%E5%A4%8D%E6%9D%82%E7%BB%93%E6%9E%84%E4%BD%93/</guid><description>&lt;p>这个需求其实在日常写代码中比较常见，比如调一个接口返回来一个结果，&lt;br>
+这时想看一下这个变量有什么内容&lt;br>
+假如使用fmt的&lt;code>%v&lt;/code> 或者 &lt;code>%+v&lt;/code>, 那只能打印简单类型的结构体，对于嵌套的复杂结构体就不行了。&lt;/p>
+&lt;p>而使用反射去一层一层解析又太麻烦，我想找一种简单方便的方式。&lt;br>
+昨天中午正在吃饭时，突然想到可以通过json的Marshal方式输出变量的内容。&lt;/p>
+&lt;p>写一下示例代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">User&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Name&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Age&lt;/span> &lt;span class="kt">int&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Home&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">Home&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">Home&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Address&lt;/span> &lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">PeopleLives&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">PeopleInfo&lt;/span> &lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="kt">string&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 输出一个结构体嵌套的变量&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">GenTestUser&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">User&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ho&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">Home&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ho&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Address&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;beijing&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ho&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">PeopleLives&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Raman Kalita&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Abhishek Garg&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ho&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">PeopleInfo&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Raman Kalita&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;civil servant&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Abhishek Garg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;teacher&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">us&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">User&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">us&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Name&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;Alise&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">us&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Age&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">31&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">us&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Home&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">ho&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">us&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">Test_PrintJson&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">testing&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">T&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">us&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nf">GenTestUser&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">PrintJson&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">us&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// PrintJson 通过json序列化打印数据内容&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">PrintJson&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">in&lt;/span> &lt;span class="kd">interface&lt;/span>&lt;span class="p">{})&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">res&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">json&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">MarshalIndent&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">in&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;\t&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">// beautiful json&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Error&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">Stack&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="nf">Err&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="nf">Send&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">string&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">res&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>输出的结果:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;Alise&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Age&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">31&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Home&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Address&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;beijing&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;PeopleLives&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Raman Kalita&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Abhishek Garg&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;PeopleInfo&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Abhishek Garg&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;teacher&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;Raman Kalita&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;civil servant&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到Home这个结构体也打印出来了，无论是map还是slice输出都是OK的，
+PrintJson这个函数才几行？ 简单好用~&lt;/p></description></item><item><title>Redash可选的条件变量</title><link>https://knowckx.github.io/p/redash%E5%8F%AF%E9%80%89%E7%9A%84%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/</link><pubDate>Wed, 15 Jun 2022 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/redash%E5%8F%AF%E9%80%89%E7%9A%84%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/</guid><description>&lt;h2 id="metabase">metabase
+&lt;/h2>&lt;p>以前使用过Metabase作为可视化分析工具，其中有一个特性就是作为转入参数的变量是可以被定义为可选的。&lt;br>
+适应于有些写在where的条件但有时不需要被执行的子条件。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">select&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">from&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">where&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{{&lt;/span>&lt;span class="n">valName&lt;/span>&lt;span class="err">}}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[[&lt;/span>&lt;span class="k">and&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">age&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{{&lt;/span>&lt;span class="n">valAge&lt;/span>&lt;span class="err">}}&lt;/span>&lt;span class="p">]]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在上面这个例子里，valAge假如不填值时整个&lt;code>and age = {{valAge}}&lt;/code>语句就不会被执行。&lt;/p>
+&lt;h2 id="redash">redash
+&lt;/h2>&lt;p>我们项目目前选了redash作为数据分析工具，主要是看重他的开发语言是python，方便以后的二次开发。&lt;br>
+但是我今天发现Redash默认不支持类似metabase字段筛选option的功能。&lt;/p>
+&lt;p>这很麻烦，因为有很多图表刚打开时就是需要一个默认的空白值存在。&lt;br>
+而在redash里要实现这个功能，我今天想了一下需要一点SQL技巧，这里记录一下。&lt;/p>
+&lt;p>在DropList中加入一个自定义选项，比如月份除了1~12这12个数字外，需要加上一个&lt;code>AlL&lt;/code>值。
+每一个需要可选性的变量都按这下面的方式写&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">where&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">and&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;{{ valMonth }}&amp;#39;&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;ALL&amp;#39;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">or&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">month&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;{{ valMonth }}&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样，当用户的默认输入选项值配置为&lt;code>AlL&lt;/code>时，实际上这个筛选项就没有生效。&lt;br>
+即:通过SQL的语法短路间接实现可选筛选项的功能&lt;/p>
+&lt;p>虽然丑了点，但是确实是可以工作的。&lt;/p>
+&lt;p>其实这个特性在BI工具里非常常见，Redash至今没有支持也是一个遗憾。&lt;/p></description></item><item><title>yfinance使用的示例</title><link>https://knowckx.github.io/p/yfinance%E4%BD%BF%E7%94%A8%E7%9A%84%E7%A4%BA%E4%BE%8B/</link><pubDate>Fri, 07 Mar 2025 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/yfinance%E4%BD%BF%E7%94%A8%E7%9A%84%E7%A4%BA%E4%BE%8B/</guid><description>&lt;h3 id="使用yfinance获取数据">使用yfinance获取数据
+&lt;/h3>&lt;p>最近有需求，需要取一下美股的K线数据，搜了一圈最后选择了&lt;code>yfinance&lt;/code>这个包，结果第一次使用就报错了&lt;/p>
+&lt;blockquote>
+&lt;p>Too Many Requests. Rate limited. Try after a while.&lt;/p>&lt;/blockquote>
+&lt;p>查了一圈最后发现，目前在国内调这个包需要挂代理了&lt;br>
+我把示例代码贴这里，有需要的人可以直接粘贴过去调试。&lt;/p>
+&lt;p>记得改成你本地的科学上网代理端口&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">yfinance&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">yf&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 定义纳斯达克100指数期货的代码&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ticker_symbol&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;NQ=F&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置代理，指定HTTP 请求的代理服务器 | 使用你自己的代理端口&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">proxy&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;http://127.0.0.1:7890&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">environ&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;HTTP_PROXY&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">proxy&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">environ&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;HTTPS_PROXY&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">proxy&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 创建 Ticker 对象&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ticker&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">yf&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Ticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ticker_symbol&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 获取最新的市场数据&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ticker_info&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ticker&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 获取当前价格和前收盘价&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">current_price&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ticker_info&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;regularMarketPrice&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">previous_close&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ticker_info&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;regularMarketPreviousClose&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 计算涨幅&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">price_change&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">current_price&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">previous_close&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">percent_change&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">price_change&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">previous_close&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="mi">100&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 输出结果&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;当前价格: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">current_price&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;前收盘价: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">previous_close&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;涨跌额: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">price_change&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;涨跌幅: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">percent_change&lt;/span>&lt;span class="si">:&lt;/span>&lt;span class="s2">.2f&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">%&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>除了&lt;code>yfinance&lt;/code>之外，国内的&lt;code>新浪财经&lt;/code>也是很好的数据来源。 后面我再贴一些。&lt;/p></description></item><item><title>关于svn还原和重置命令</title><link>https://knowckx.github.io/p/%E5%85%B3%E4%BA%8Esvn%E8%BF%98%E5%8E%9F%E5%92%8C%E9%87%8D%E7%BD%AE%E5%91%BD%E4%BB%A4/</link><pubDate>Thu, 18 Aug 2022 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/%E5%85%B3%E4%BA%8Esvn%E8%BF%98%E5%8E%9F%E5%92%8C%E9%87%8D%E7%BD%AE%E5%91%BD%E4%BB%A4/</guid><description>&lt;p>git重置本地修改很方便，可以&lt;strong>git reset &amp;ndash;hard&lt;/strong>&lt;/p>
+&lt;p>查了下svn对应的操作:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">svn revert . -R &lt;span class="c1"># 还原所有更改&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">svn cleanup . --remove-unversioned &lt;span class="c1"># 清理未被版本控制的文件&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

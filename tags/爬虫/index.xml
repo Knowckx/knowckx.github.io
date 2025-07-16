@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>爬虫 on Knowckx's Blog</title><link>https://knowckx.github.io/tags/%E7%88%AC%E8%99%AB/</link><description>Recent content in 爬虫 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 16 Jul 2025 02:31:36 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/tags/%E7%88%AC%E8%99%AB/index.xml" rel="self" type="application/rss+xml"/><item><title>selenium设置Chrome忽略https证书</title><link>https://knowckx.github.io/p/selenium%E8%AE%BE%E7%BD%AEchrome%E5%BF%BD%E7%95%A5https%E8%AF%81%E4%B9%A6/</link><pubDate>Sun, 05 May 2024 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/selenium%E8%AE%BE%E7%BD%AEchrome%E5%BF%BD%E7%95%A5https%E8%AF%81%E4%B9%A6/</guid><description>&lt;p>最近在用&lt;code>selenium&lt;/code>写一个内部站点的自动化工具，自动填资料注册账号然后激活啥的。&lt;/p>
+&lt;p>可我们这个站点有时候证书会签不出来，这会导致Chrome连接时出现TLS安全检查的Warning。&lt;/p>
+&lt;p>虽然证书是有问题的，但是我们还想要继续访问，因此要设置忽略https的TLS检查。&lt;br>
+然后我在网上搜这部分的配置，网上的示例全是JAVA的，&lt;br>
+我这边用的golang的API，各种文档找了&lt;code>1个小时&lt;/code>，最终跑起来了。&lt;/p>
+&lt;p>代码很简单，但是想把代码片段留一下，希望可以帮助需要的人节约一点小小的时间，不要重复浪费我这一小时&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 忽略TLS检查&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">func&lt;/span> &lt;span class="nf">SetClientIgnoreTls&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">selenium&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">WebDriver&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">caps&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">selenium&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Capabilities&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;browserName&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;chrome&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">prefs&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="kd">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="kd">interface&lt;/span>&lt;span class="p">{}{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;acceptInsecureCerts&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">chromeCaps&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">chrome&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Capabilities&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Prefs&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nx">prefs&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Path&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Args&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="s">&amp;#34;--ignore-certificate-errors&amp;#34;&lt;/span>&lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">caps&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">AddChrome&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">chromeCaps&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">remoteAddr&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="s">&amp;#34;127.0.0.1:9515&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">selenium&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewRemote&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">caps&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">remoteAddr&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
