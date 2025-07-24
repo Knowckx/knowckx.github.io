@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Website on Knowckx's Blog</title><link>https://knowckx.github.io/tags/website/</link><description>Recent content in Website on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 24 Jul 2025 08:09:36 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/tags/website/index.xml" rel="self" type="application/rss+xml"/><item><title>发现一个有意思的天气网站</title><link>https://knowckx.github.io/p/website-app-share/</link><pubDate>Sun, 06 Jul 2025 11:12:34 +0800</pubDate><guid>https://knowckx.github.io/p/website-app-share/</guid><description>&lt;h2 id="天气地图">天气地图
+&lt;/h2>&lt;ul>
+&lt;li>可以直观地看到不同地区的&lt;strong>气温&lt;/strong>，&lt;strong>降水&lt;/strong>，&lt;strong>台风&lt;/strong>等&lt;/li>
+&lt;li>支持国外地区&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://knowckx.github.io/p/website-app-share/zoom.earth-pic1.png"
+width="1041"
+height="731"
+srcset="https://knowckx.github.io/p/website-app-share/zoom.earth-pic1_hu_de26a2788bed18b6.png 480w, https://knowckx.github.io/p/website-app-share/zoom.earth-pic1_hu_581ef46abfae09be.png 1024w"
+loading="lazy"
+alt="效果"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="341px"
+>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zoom.earth/maps/temperature/#view=31.28,108.63,5z/model=icon" target="_blank" rel="noopener"
+>ZoomEarth传送门&lt;/a>&lt;/p>
+&lt;p>Tips: 需要科学上网&lt;/p></description></item></channel></rss>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AI on Knowckx's Blog</title><link>https://knowckx.github.io/tags/ai/</link><description>Recent content in AI on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 24 Jul 2025 08:09:36 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/tags/ai/index.xml" rel="self" type="application/rss+xml"/><item><title>一行命令解决gemini-cli在国内卡认证的问题</title><link>https://knowckx.github.io/p/gemini-cli-auth-proxy-solution/</link><pubDate>Tue, 15 Jul 2025 11:12:34 +0800</pubDate><guid>https://knowckx.github.io/p/gemini-cli-auth-proxy-solution/</guid><description>&lt;p>&lt;code>gemini-cli&lt;/code> 是 Google Gemini 官方提供的一款强大的命令行工具，但是我自己在使用时，第一步——&lt;strong>认证授权&lt;/strong>时就遇到了问题。&lt;/p>
+&lt;h3 id="长话短说">长话短说
+&lt;/h3>&lt;p>我分别了测试了几种的挂梯子方式，最后的结论是:&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;code>gemini-cli&lt;/code>的auth流程依赖于启动浏览器进行OAuth 2.0认证流程，整个流程不仅需要你在浏览器有科学上网环境，终端内部也需要通过&lt;code>HTTP_PROXY&lt;/code>来实现科学上网&lt;/p>&lt;/blockquote>
+&lt;p>进一步说，为什么终端需要挂代理？&lt;br>
+因为&lt;code>gemini&lt;/code>命令会启动一个本地Web服务器来接收&lt;code>Google的回调&lt;/code>，并启动浏览器，所以整个过程都需要能顺畅访问Google服务。&lt;/p>
+&lt;h3 id="解决方案为你的终端设置代理">解决方案：为你的终端设置代理
+&lt;/h3>&lt;ol>
+&lt;li>请先在你的代理工具（如 Clash, V2RayN, Surge 等）中找到 HTTP 代理的端口号，通常是 &lt;code>7890&lt;/code>, &lt;code>10809&lt;/code> 等。&lt;/li>
+&lt;li>然后根据你的不同操作系统输入以下命令&lt;/li>
+&lt;/ol>
+&lt;h4 id="windows-powershell">Windows (PowerShell)
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$env:all_proxy&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s2">&amp;#34;socks5://127.0.0.1:7890&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$env:HTTP_PROXY&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s2">&amp;#34;http://127.0.0.1:7890&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$env:HTTPS_PROXY&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s2">&amp;#34;http://127.0.0.1:7890&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="linuxmacos">Linux/MacOS
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-BASH" data-lang="BASH">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 为当前终端会话设置代理&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">HTTP_PROXY&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;http://127.0.0.1:7890&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">HTTPS_PROXY&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;http://127.0.0.1:7890&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># (可选，但推荐)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">all_proxy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;socks5://127.0.0.1:7890&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
