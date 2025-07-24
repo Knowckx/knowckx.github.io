@@ -27,7 +27,9 @@ enableGitInfo = true
   lastmod = ['lastmod', 'modified', ':git', ':fileModTime', 'date'] # 按顺序依次获取
 
 
-[sitemap]
-  changefreq = 'weekly'
-  filename = 'sitemap.xml'
-  priority = 0.5
+# [sitemap]
+#   changefreq = 'weekly'
+#   filename = 'sitemap.xml'
+#   priority = 0.5
+
+# enableRobotsTXT = true
