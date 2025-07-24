@@ -1,8 +1,8 @@
-# baseurl = "https://knowckx.github.io"
+baseurl = "https://knowckx.github.io"
 
 # baseurl="/"
 
-baseurl = "knowckx.github.io"
+# baseurl = "knowckx.github.io"
 
 
 languageCode = "zh-cn"
