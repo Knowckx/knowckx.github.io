@@ -100,3 +100,15 @@ http://www.example.com/yoursite/ - 与站点地图处于同级目录中（必须
 日期必须使用 W3C 日期时间编码。日期时间格式：
 2005-02-21  或者   
 2005-02-21T18:00:15+00:00
+
+
+
+## 切换到github.io后 发现sitemap没有效果了
+
+最近有很多帖子表明，Google 连接到托管在 github.io 上的任何站点地图都存在更实质性的问题。
+也就是说，问题来自github.io
+
+--> Github 屏蔽了 Google Bot
+
+
+从 Github 页面切换到 Cloudflare 页面
