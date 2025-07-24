@@ -13,6 +13,9 @@ Robots协议（也称为robots.txt）是一个网站根目录下的文本文件�
 
 hugo是静态主题，所以没什么需要屏蔽的内容，协议写法可以参考如下
 
+User-agent: *
+
+
 ```typescript
 User-agent: *
 Allow: /
