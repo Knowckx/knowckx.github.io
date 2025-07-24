@@ -8,6 +8,10 @@ title = "Knowckx's Blog"
 # GA Tracking ID
 googleAnalytics = "G-4DX39HKR9W"
 
+# 指定时区 因为 hugo 默认时区比中国时间慢 8 小时
+timezone = "Asia/Shanghai"
+
+
 # Theme i18n support
 # Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk, ar
 defaultContentLanguage = "zh-cn"
