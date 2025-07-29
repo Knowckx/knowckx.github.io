@@ -1,63 +1,121 @@
----
-title: git rebase有个坑
-description: git rebase有个坑
-date: 2023-04-28 08:00:00+0800
-categories: ["编程"]
-tags: ["git"]
-weight: 3
----
++++
+title = "git rebase有个坑"
+slug = "git-rebase-push-rejected"
+description = "这是个老问题，以前没注意.."
+categories = ["编程"]
+tags = ["git"]
+keywords = ["git", "rebase"]
+weight = 3
+date = "2023-04-28 08:00:00+0800"
++++
 
 ### 场景:
 
-这是个老问题，以前没注意，今天手动做了几次实验，基本搞清楚了。
+这是一个Git在日常工作中非常核心的问题，很多工作了多年的同事也没吃透这个问题，没有正确理解`merge`和`rebase`的区别。    
+今天我花时间自己做了几个实验，也算是明白了，记录一下。
 
-常见场景，自己fork了一个分支进行开发，然后发起了PR  
-结果发现fork的分支已经落后于主分支几个更新。(在你的开发期间，主分支有新合入的改动)
+**常见场景**  
+自己`fork`了一个分支进行一个特性功能的开发，开发完了准备发起了`PR`  
+结果发现在自己开发期间，`主分支`有了几次新的合入。
 
-这时候你想把主分支的改动更新进来。  
-为了更**优雅**, 此时执行`git reabase upstream main`  
-你把远程分支的更新内容拉取到了你本地
+这时候你想把主分支的改动更新到本地。  
+为了让合并的历史更**优雅**, 此时执行了`git reabase upstream main`  
+此时问题来了，你会发现你的这个本地的分支`push`不上去了。
 
-问题来了，你会发现你的这个分支push不上去
-
-### 原因:  
-此时你在本地分支执行git rebase之后，rebase操作修改了你的本地分支历史
-
-> rebase节点后, Commit ID是会变的
-
-导致本地分支与 rebase 前的远程分支历史产生分歧（即使你们的最终代码是一致的）
-
-这时候执行push远程，git认为你的远程分支和本地分支状态不一致了, 所以rejected.
+**原因**  
+简单来说，`git rebase` 操作修改了你本地分支的提交历史，使其与远程分支的提交历史产生了分歧。  
+Git为了保护远程分支不被意外覆盖，会拒绝你的`non-fast-forward`推送。  
 
 
-### 解决:  
-推荐在使用fork的分支开发时，使用merge策略来抓取远程改动会方便一点。   
+### 正常的 git push 流程
+在没有冲突的情况下，`git push` 遵循一个**快进式**（Fast-forward）的原则。
+
+远程分支 (origin/my-feature) 的历史是:  
+> A --- B
+
+你拉取了代码，在本地 (my-feature) 继续工作，增加了提交 C:  
+> A --- B --- C
+
+当你执行 `git push` 时，Git会比较你的本地分支和远程分支。  
+它发现你的本地分支只是在远程分支`提交B`的基础上加了一个`提交C`  
+于是它会执行一次**Fast-forward**，直接把远程分支的指针移动到`C`。  
+推送后，远程分支也变成了:  
+> A --- B --- C
+
+这个过程是最常见的，也是安全的，因为它只是在原有历史的末尾继续添加新内容，不会丢失任何东西。
+
+### git rebase 的流程解释
+`rebase` 的中文意思是**变基**，它的核心作用是`重写提交历史`，让分支历史变成一条直线更美观。  
+
+假设你从 `main` 分支切出了 `my-feature` 分支并开始工作。
+> main 分支: A --- B  
+
+> my-feature 分支: A --- B --- C (你增加了提交 C)
+
+在你工作的时候，你的同事向 `main` 分支推送了一个新的提交 D。
+> main 分支现在是: A --- B --- D
+
+> 你的 my-feature 分支还是: A --- B --- C
+
+此时，你的分支和 main 分支从提交 B 开始**分叉**了。  
+为了让你的分支包含 main 的最新更改，你执行了 `git rebase main`。
+
+rebase 会做以下事情：  
+a. 暂时"**收起**"你在 `my-feature` 分支上的独有提交（也就是 `C`）。  
+b. 从与 `main` 分支最后的共同提交B开始，抓取新增加的改动 `D` 到 `my-feature` 分支  
+c. 将刚才**收起**的提交 `C` 在新的起点 `D` 上重新应用一遍。  
+> 此时my-feature 分支变成了: A --- B --- D --- 收起的C
+
+关键点来了：  
+重新应用的 `C` 这个提交，虽然代码内容没变，但它的`父提交`从原来的 `B` 变成了现在的 `D`。   
+在Git中，一个提交的唯一标识`SHA-1哈希值`是由其内容、作者、时间戳、以及**父提交**等信息共同决定的。  
+**父提交**变了，哈希值就会变！所以新的 `C` 对应的hashID，和原来的 `C` 是不同的    
+你实际上得到一个内容完全一样，但是hashID变了的提交 `C'`。  
+> 所以Rebase之后，my-feature 分支历史: A --- B --- D --- C'
+
+### 为什么 rebase 后 push 会失败？
+
+现在，我们来比较一下 `rebase` 后的本地分支和远程分支  
+> 本地 my-feature 分支: A --- B --- D --- C'
+
+> 远程 origin/my-feature 分支: A --- B --- C
+
+当你执行 `git push` 时，Git会进行比较，然后它会发现：
+这两个分支从共同的祖先 B 开始就分道扬镳了。本地 `my-feature`的历史里并没有包含远程的 `C` 提交。  
+如果接受推送，远程的 `C` 提交就会丢失，这太危险了！所以拒绝这次推送。
+
+这就是你看到的 (`non-fast-forward`) 错误。  
+Git通过这个机制，防止你无意中覆盖掉远程仓库可能存在的、你本地没有的提交。
+
+### 解决方式:  
+**方式1** 在使用`fork`后的分支开发后，使用`merge`策略来合并改动。   
 缺点: commit的历史线会比较混乱，不好看
 
-或者在使用reabse时，搭配`-f`来强行更新**远程自己的分支**，  
-这时候可以实现，你的改动完全是在别人的改动之后新加的改动，Commit ID的历史是一条直线，很会**优雅**
+**方式2** 使用`reabse`后，搭配`push -f`来强行更新**远程自己的分支**，  
+Commit ID的历史会是一条直线，就像前面例子的`A --- B --- D --- C'`，很会**优雅**
 
 
-### 备注 rebase原理:
+### 解释push -f 的作用和风险
+`git push --force` (或简写 `-f`) 就是你给Git下的一个强制命令，意思是：
+> “别管什么快进不快进了，也别管远程分支上有什么。我push给你的这个版本就是最终版本，你就用我这个版本去覆盖”
 
-1. 同步状态: 开始时，本地分支 my-feature 和远程分支 origin/my-feature 指向同一个 commit，历史完全一致。
+执行 `git push -f` 后，
+>  远程的 origin/my-feature 被强制更新为: A --- B --- D --- C'
 
-2. 执行 `git rebase upstream/main`: 这个操作做了几件事：
-- 找到 my-feature 和 upstream/main 的共同祖先 commit。
-- 把 my-feature 分支上 相对于共同祖先 的所有 commits "暂存" 起来。
-- 把 my-feature 分支的起点移动（"变基"）到 upstream/main 的最新 commit 上。
-- 把之前 "暂存" 的那些 commits 依次重新应用 到新的起点上。
+`git push -f` 是一个比较危险的操作，千万不要向公共分支（如 main, develop）执行 `push -f`  
 
-3. 重点: Commit ID 的变化  
-即使代码改动内容完全一样，但由于这些 commit 的父 commit 变了（它们现在是基于 upstream/main 的最新 commit，而不是之前的某个 commit），  
-Git 会为它们生成 全新的 Commit ID (SHA-1 hash)。  
-所以，你本地 my-feature 分支上的 commit 历史被*重写*了。都变了。
+对于自己的特性分支执行是没有问题的。通常，一个特性分支只有你一个人在开发。  
+在你准备合并到主分支之前，用 rebase 来保持分支的整洁，然后用 `push -f` 更新你自己的远程分支，这是非常常见的做法。
 
-4. Push 被拒绝了:  
-当你执行 git push origin my-feature 时：  
-Git 对比你本地的 my-feature 和远程的 origin/my-feature。  
-它发现远程分支 origin/my-feature 的历史 不是 你本地 my-feature 历史的一个 祖先 (fast-forward 关系)。
 
-他们分叉了——远程是旧的历史，本地是 rebase 后的新历史。  
-他们是两条实际上有相同的改动，但是Commit ID 不同的历史线。(rebase的坑)
+**更安全的选择：`git push --force-with-lease`**  
+它在强制推送前会增加一个检查：只有当远程分支的状态和你本地最后一次拉取时一模一样，它才会执行强制推送。
+
+换句话说，如果在你执行 rebase 到你准备 push 的这段时间里，有其他人也向这个远程分支推送了新的提交，
+`--force-with-lease` 就会失败。这可以防止你覆盖掉别人在你不知情的情况下推送的工作。
+日常工作中，推荐使用 `git push --force-with-lease` 代替 `git push -f`。
+
+
+
+
 
