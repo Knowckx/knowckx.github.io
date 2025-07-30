@@ -5,7 +5,7 @@ description = "在国内网络环境下，gemini-cli的OAuth网页认证经常�
 categories = ["AI"]
 tags = ["Gemini", "AI", "Proxy"]
 keywords = ["AI", "gemini-cli", "认证失败", "代理设置", "terminal proxy"]
-weight = 3
+weight = 4
 date = "2025-07-15 11:12:34+0800"
 +++
 
