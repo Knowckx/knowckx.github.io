@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Python on Knowckx's Blog</title><link>https://knowckx.github.io/categories/python/</link><description>Recent content in Python on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 02 Aug 2025 15:47:29 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/categories/python/index.xml" rel="self" type="application/rss+xml"/><item><title>Python函数的默认参数为何不能是[]或{}？</title><link>https://knowckx.github.io/p/python-mutable-default-arguments-pitfall/</link><pubDate>Thu, 24 Jul 2025 11:12:34 +0800</pubDate><guid>https://knowckx.github.io/p/python-mutable-default-arguments-pitfall/</guid><description>&lt;p>今天在写一个股票行情的接口爬虫，为了方便我写了一个发送 POST 请求的函数。&lt;br>
+签名类似于 &lt;code>do_post(url, post_data={})&lt;/code>&lt;br>
+然后我把全部代码扔给&lt;code>Gemini&lt;/code>进行检查优化，它竟然提示我 &lt;code>post_data={}&lt;/code>这个写法存在一个经典的陷阱&lt;br>
+我半信半疑去写了个简单的测试，结果发现还真是这样。&lt;/p>
+&lt;p>我觉得很多人和我一样，也不知道这一点，过来记录一下&lt;/p>
+&lt;h3 id="复现">复现
+&lt;/h3>&lt;p>代码真的很简单，你可以先预测一下它的输出是什么。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">fn_test&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">input_map&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{}):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;函数开始时, input_map 是: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">input_map&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">input_map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;token&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">123&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;函数结束时, input_map 变成: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">input_map&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;第一次调用&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">fn_test&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;第二次调用&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">fn_test&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;p>如果你认为两次调用的输出会一模一样，那就掉进陷阱里了。&lt;/p>
+&lt;p>实际的输出结果是：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">--- 第一次调用 ---
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">函数开始时, input_map 是: {}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">函数结束时, input_map 变成: {&amp;#39;token&amp;#39;: 123}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--- 第二次调用 ---
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">函数开始时, input_map 是: {&amp;#39;token&amp;#39;: 123}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">函数结束时, input_map 变成: {&amp;#39;token&amp;#39;: 123}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>第一次调用的输出是正常的&lt;/p>
+&lt;p>但是第二次调用的输出就不对了，为什么第二次调用的第一次打印会是&lt;code>{'token': 123}&lt;/code> ？ 默认值不应该是一个空字典&lt;code>{}&lt;/code>吗？&lt;/p>
+&lt;h3 id="原因">原因
+&lt;/h3>&lt;p>这里python为我们留了一个坑，当函数声明的默认参数是一个可变对象时，比如dict或者list类型，&lt;/p>
+&lt;p>所有外面在调用此函数未提供具体参数的，他们实际上&lt;code>都会共享同一个对象&lt;/code>。&lt;/p>
+&lt;p>也就是第一次无参调用此函数，和第二次无参调用此函数，他们指向了同一个dict.&lt;/p>
+&lt;p>那么假如在某次调用过程中，&lt;strong>无意间修改了这个dict&lt;/strong>，这个修改就会&lt;strong>污染&lt;/strong>后续所有无参的调用过程&lt;/p>
+&lt;h3 id="解决方法">解决方法:
+&lt;/h3>&lt;p>把签名改成&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">fn_test&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">inputMap&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="nb">dict&lt;/span>&lt;span class="o">|&lt;/span>&lt;span class="kc">None&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">None&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">pass&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>只声明他可能会属于dict这个类型，但是实际值默认是&lt;code>None&lt;/code>&lt;/p>
+&lt;p>反正记住一个简单的规则：不要使用&lt;code>可变对象（如 [] 或 {}）&lt;/code>作为函数的默认参数就可以了。&lt;/p>
+&lt;blockquote>
+&lt;p>AI写业务代码真的太强了，我准备好退休了&lt;/p>&lt;/blockquote></description></item></channel></rss>

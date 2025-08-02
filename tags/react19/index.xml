@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>React19 on Knowckx's Blog</title><link>https://knowckx.github.io/tags/react19/</link><description>Recent content in React19 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 02 Aug 2025 15:47:29 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/tags/react19/index.xml" rel="self" type="application/rss+xml"/><item><title>Shadcn的一个坑 forwardRef问题</title><link>https://knowckx.github.io/p/shadcn-react.forwardref/</link><pubDate>Sun, 27 Apr 2025 01:04:49 +0800</pubDate><guid>https://knowckx.github.io/p/shadcn-react.forwardref/</guid><description>&lt;h2 id="场景">场景
+&lt;/h2>&lt;p>现在是晚上1点，今天被一个&lt;code>shadcn-ui&lt;/code>的问题坑了3个小时……&lt;/p>
+&lt;p>啊， 我人生宝贵的三小时，够我打&lt;del>10把红警小块地&lt;/del>或者&lt;del>魔兽世界打完一个完整的团队本&lt;/del>。&lt;/p>
+&lt;p>这里记录一下，假如你们遇到了，希望能节约一点你们的时间！&lt;/p>
+&lt;h2 id="shadcn获取组件ref">Shadcn获取组件ref
+&lt;/h2>&lt;p>&lt;code>Shadcn&lt;/code>增加UI组件的命令我想大家都知道&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">pnpm dlx shadcn@latest init
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm dlx shadcn@latest add input
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>今天我遇到一个需求，在input组件加载后实现输入框自动聚焦，因此需要拿到input组件的&lt;code>ref&lt;/code>&lt;/p>
+&lt;p>然后神奇的事件来了，我发现我没办法拿到&lt;code>shadcn&lt;/code>组件的ref&lt;br>
+因为使用了&lt;code>pnpm dlx shadcn@latest add input&lt;/code>后&lt;br>
+他生成的input代码长这样:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-typescript" data-lang="typescript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">React&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s2">&amp;#34;react&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">cn&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s2">&amp;#34;@/lib/utils&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">function&lt;/span> &lt;span class="nx">Input&lt;/span>&lt;span class="p">({&lt;/span> &lt;span class="nx">className&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kr">type&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">...&lt;/span>&lt;span class="nx">props&lt;/span> &lt;span class="p">}&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nx">React&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">ComponentProps&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="s2">&amp;#34;input&amp;#34;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">input&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="kr">type&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">data-slot&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;input&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">className&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nx">cn&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;file:text-foreground placeholder:text-muted-foreground ...&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">className&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="na">...props&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">export&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">Input&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>发现没，里面压根没有&lt;code>React.forwardRef&lt;/code>&lt;br>
+要知道&lt;code>React.forwardRef&lt;/code>这条命令是在 React v16.3.0 版本中正式推出的，所以&lt;code>shadcn&lt;/code>早就应该带这个引用了&lt;/p>
+&lt;h2 id="排查">排查
+&lt;/h2>&lt;h2 id="代码对比">代码对比
+&lt;/h2>&lt;p>然后我去官网比对了下代码版本:&lt;a class="link" href="https://ui.shadcn.com/docs/components/input" target="_blank" rel="noopener"
+>官网的Input组件&lt;/a>&lt;br>
+点开&lt;code>Installation - Manual&lt;/code>，这里是他手动安装的版本:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-typescript" data-lang="typescript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="kr">as&lt;/span> &lt;span class="nx">React&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s2">&amp;#34;react&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="nx">cn&lt;/span> &lt;span class="p">}&lt;/span> &lt;span class="kr">from&lt;/span> &lt;span class="s2">&amp;#34;@/lib/utils&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">Input&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">React&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">forwardRef&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">HTMLInputElement&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="na">React.ComponentProps&lt;/span>&lt;span class="err">&amp;lt;&lt;/span>&lt;span class="s2">&amp;#34;input&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">({&lt;/span> &lt;span class="nx">className&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kr">type&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">...&lt;/span>&lt;span class="nx">props&lt;/span> &lt;span class="p">},&lt;/span> &lt;span class="nx">ref&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以发现他的版本是有&lt;code>React.forwardRef&lt;/code>的。&lt;/p>
+&lt;p>这说明，我的代码版本不对。&lt;/p>
+&lt;h2 id="排查缓存问题">排查缓存问题：
+&lt;/h2>&lt;p>代码文件是&lt;code>pnpm dlx shadcn@latest add input&lt;/code>这条命令生成的。&lt;br>
+首先想到可能是 &lt;code>pnpm dlx&lt;/code> 拉代码时自身可能有缓存。&lt;/p>
+&lt;p>执行&lt;code>pnpm store prune&lt;/code>，删除整个&lt;code>node_modules&lt;/code>，重新安装，没解决问题。&lt;/p>
+&lt;h2 id="排查-registry">排查 Registry
+&lt;/h2>&lt;p>我很奇怪，难道是pnpm dlx 因为某种原因没有拉取到最新的 CLI 版本？&lt;br>
+pnpm对应的&lt;code>Registry&lt;/code>给了我旧版本的代码？&lt;/p>
+&lt;p>找了下查和改Registry的方式&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-typescript" data-lang="typescript">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">pnpm&lt;/span> &lt;span class="nx">config&lt;/span> &lt;span class="kr">get&lt;/span> &lt;span class="nx">registry&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">pnpm&lt;/span> &lt;span class="nx">config&lt;/span> &lt;span class="kr">set&lt;/span> &lt;span class="nx">registry&lt;/span> &lt;span class="nx">https&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="c1">//registry.npmmirror.com/ --global
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我原来用的腾讯源，换到了淘宝源&lt;/p>
+&lt;p>拉下来的组件代码还是没有带&lt;code>React.forwardRef&lt;/code>！&lt;/p>
+&lt;p>又换了次官方源。还是一样。&lt;/p>
+&lt;p>问了下Gemini, 他让我直接改源码，在源码里加上&lt;code>React.forwardRef&lt;/code>实现传递ref&lt;br>
+因为这样的话相当于改了自动工具生成的文件，显然这个方案不好。&lt;/p>
+&lt;h2 id="tailwind-v4--react19">Tailwind v4 + React19
+&lt;/h2>&lt;p>这时候脑子就抓狂了，感觉这事也太奇怪了。 耐着性子继续查(&lt;del>反正老子今天不上班&lt;/del>)。&lt;/p>
+&lt;p>为了缩小可能的范围，我准备创建一个新的最小包含Shadcn的mini项目来实验:&lt;/p>
+&lt;p>&lt;a class="link" href="https://ui.shadcn.com/docs/installation/vite" target="_blank" rel="noopener"
+>shadcn官网的安装流程&lt;/a>&lt;/p>
+&lt;p>按照官网的说明，重新安装的过程中，我发现了一个细节， Shadcn官网提到了 &lt;code>Tailwind v4&lt;/code>和&lt;code>React19&lt;/code>的升级问题。&lt;/p>
+&lt;p>我的本地版本是&lt;code>Tailwind v4&lt;/code>和&lt;code>React 18.3&lt;/code>&lt;br>
+因为&lt;code>React19&lt;/code>是前几个月刚出的，我没更新，怕不稳定。(我习惯于用&lt;strong>上一个大版本的最后一个小版本&lt;/strong>)&lt;/p>
+&lt;p>然后我开始检查&lt;code>React19&lt;/code>和&lt;code>React.forwardRef&lt;/code>的关系，然后发现了一个重要信息:&lt;/p>
+&lt;p>&lt;a class="link" href="https://react.dev/reference/react/forwardRef" target="_blank" rel="noopener"
+>react官方的React.forwardRef&lt;/a>&lt;/p>
+&lt;p>这个API竟然已经被&lt;code>React19&lt;/code>打上了Deprecated！终于有了线索。&lt;/p>
+&lt;p>后面接着查，我发现了这个&lt;a class="link" href="https://github.com/shadcn-ui/ui/issues/6739" target="_blank" rel="noopener"
+>shadcn-ui的issue&lt;/a>，事情大体清楚了。&lt;/p>
+&lt;h2 id="真相大白">真相大白
+&lt;/h2>&lt;p>到了新的&lt;code>React19&lt;/code>这个版本后，想获取组件的ref不需要再使用&lt;code>React.forwardRef&lt;/code>&lt;br>
+而shadcn为了支持&lt;code>Tailwind v4&lt;/code>和&lt;code>React 19&lt;/code>，已经完成了代码更新。&lt;br>
+包括shadcn官网目前提供的&lt;code>Installation&lt;/code>说明, 实际上是支持了&lt;code>React 19&lt;/code>的版本&lt;/p>
+&lt;p>而在用户这一边，当用户增加新的UI组件时，使用的默认命令行是&lt;/p>
+&lt;blockquote>
+&lt;p>pnpm dlx shadcn@latest add input&lt;/p>&lt;/blockquote>
+&lt;p>因为用户本身输入的要求是&lt;code>shadcn@latest&lt;/code>。&lt;br>
+既然是&lt;code>latest&lt;/code>，也就把最新的支持&lt;code>React19&lt;/code>的版本，没有使用&lt;code>React.forwardRef&lt;/code>的代码给用户了。&lt;/p>
+&lt;p>坑点就是&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>dlx shadcn@latest&lt;/code>这个命令行不会识别你用的react具体版本，自动把最新的组件代码给你了&lt;/li>
+&lt;li>官网的&lt;code>Installation - Manual&lt;/code>没同步更新也没说明，使用的反而不是react19版本, 和CLI代码不同。&lt;/li>
+&lt;/ul>
+&lt;h2 id="解决方案">解决方案
+&lt;/h2>&lt;p>解决方式有两种&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>别用&lt;code>shadcn@latest&lt;/code>，而是指定一个旧版本的组件。一切依然岁月静好。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>激进。升级&lt;code>react19&lt;/code>。 我是本地小项目，所以直接就升级了。我把升级的命令行贴一下:&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">// 升级react19 只推荐有把握的小项目直接升级
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm install --save-exact react@^19.0.0 react-dom@^19.0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm install --save-exact @types/react@^19.0.0 @types/react-dom@^19.0.0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pnpm update
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>新版本&lt;code>React19&lt;/code>获取组件的ref很简单&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-typescript" data-lang="typescript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">inputRef&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">useRef&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">HTMLInputElement&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="kc">null&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 组件的Props
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">const&lt;/span> &lt;span class="nx">InputProps&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ref&lt;/span>: &lt;span class="kt">inputRef&lt;/span> &lt;span class="c1">// rect19 Props里可以直接传ref
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">Input&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>&lt;span class="na">...InputProps&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="感想">感想:
+&lt;/h2>&lt;p>程序员的很多知识和技能，特别是对&lt;code>生产工具/框架&lt;/code>相关的，贬值真的很快。&lt;/p>
+&lt;p>假设我们有一位前端程序员，学习使用React工作了一段时间，他获得了如下的开发经验:&lt;/p>
+&lt;blockquote>
+&lt;p>在 React 中，如果你想获取一个函数组件内部渲染的 DOM 元素的 ref，这个函数组件必须使用 &lt;code>React.forwardRef&lt;/code> 来包装。&lt;br>
+否则，直接传递 ref prop 给这个函数组件是无效的（React 会发出警告），因为函数组件本身没有实例，ref 的目的是指向底层的 DOM 节点或类组件实例。&lt;/p>&lt;/blockquote>
+&lt;p>而在2025年的4月的今天，这个经验已经&lt;strong>贬值为0&lt;/strong>。&lt;/p>
+&lt;p>这也是很多程序员永远会&lt;strong>疲于奔命&lt;/strong>的原因，主流的开发技能，这部分的知识更新速度是很快的。&lt;br>
+不仅自身需要时时学习，更何况现在还有&lt;strong>AI编程&lt;/strong>的入场。 真的是脚步停下来就会被淘汰。&lt;/p>
+&lt;p>收工！&lt;/p></description></item></channel></rss>
