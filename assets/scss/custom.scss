@@ -1,41 +1,31 @@
 /*
-    自定义音乐播放器样式
+    自定义音乐播放器样式 (优化版)
 */
 
 // 播放器主容器
 #music-player-container {
     position: fixed;
-    top: 20px;       // 距离顶部 20px
-    left: 20px;      // 距离左侧 20px
+    top: 5px;
+    left: 22px;
     z-index: 1000;
     
-    display: flex;   // 使用 Flexbox 布局，让按钮和信息横向排列
-    align-items: center; // 垂直居中对齐
+    display: flex;
+    align-items: center;
     
     background-color: var(--card-background);
     border: 1px solid var(--border-color);
-    border-radius: 50px; // 使用较大的圆角，形成胶囊形状
-    padding: 5px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 50px; // 胶囊形状
+    padding: 4px; // 减小内边距
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     
-    // 初始时半透明，增加简约感
-    opacity: 0.8;
-    transform: translateX(-20px); // 初始时向左偏移一点
-    transition: opacity 0.3s ease, transform 0.3s ease;
-
-    // 鼠标悬浮时完全不透明，并移动到最终位置
-    &:hover {
-        opacity: 1;
-        transform: translateX(0);
-    }
+    // 平滑过渡效果
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-// 播放/暂停按钮
+// 播放/暂停按钮 (彩色醒目方案)
 #music-toggle-btn {
-    width: 40px;
-    height: 40px;
-    background-color: var(--primary-color); // 使用主题的主色调，更醒目
-    color: var(--primary-background-color); // 按钮图标用背景色，对比度高
+    width: 36px;
+    height: 36px;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -43,7 +33,7 @@
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    flex-shrink: 0; // 防止按钮在 flex 布局中被压缩
+    flex-shrink: 0;
     transition: transform 0.2s ease;
 
     &:hover {
@@ -53,24 +43,57 @@
 
 // 音乐信息区域
 #music-info {
-    padding: 0 15px 0 10px; // 内边距 (上右下左)
-    overflow: hidden; // 防止长文件名溢出
-    color: var(--secondary-text-color); // 使用次要文字颜色，不那么刺眼
+    // 默认状态下是收起的
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap; // 确保内部元素不换行
+    
+    padding-left: 0; // 默认无左边距
+    color: var(--secondary-text-color);
     font-size: 12px;
+    
+    // 过渡效果
+    transition: max-width 0.4s ease-in-out, opacity 0.3s ease-in-out, padding-left 0.4s ease-in-out;
 }
+
+// 当鼠标悬浮在整个播放器上时，展开信息区域
+#music-player-container:hover #music-info {
+    max-width: 150px; // 展开后的最大宽度
+    opacity: 1;
+    padding-left: 10px; // 展开后增加左边距
+    padding-right: 12px;
+}
+
 
 // 文件名
 #music-filename {
-    white-space: nowrap; // 不换行
-    text-overflow: ellipsis; // 溢出时显示省略号
+    text-overflow: ellipsis;
     overflow: hidden;
-    max-width: 150px; // 给一个最大宽度，防止文件名过长破坏布局
     font-weight: 500;
-    color: var(--primary-text-color); // 文件名用主要颜色，更清晰
+    color: var(--primary-text-color);
     margin-bottom: 2px;
 }
 
 // 时间显示
 #music-time {
-    font-family: 'Menlo', 'Consolas', monospace; // 使用等宽字体，数字不会跳动
+    font-family: 'Menlo', 'Consolas', monospace;
+}
+
+// 媒体查询：在小屏幕（手机）上，移到右下角，避免遮挡菜单
+@media (max-width: 768px) {
+    #music-player-container {
+        top: auto;
+        left: auto;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+// 只在屏幕宽度大于 768px (桌面端) 时生效  
+@media (min-width: 769px) { // 使用 769px 确保和 JS 的 > 768 行为一致
+    .sidebar {
+        // 这个值可以根据喜好微调  为侧边栏添加固定的上边距，给播放器腾出空间
+        margin-top: 15px; 
+    }
 }
