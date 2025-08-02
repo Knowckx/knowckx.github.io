@@ -5,7 +5,7 @@ description = "Hugo的Markdown语法示例"
 categories = ["blog"]
 tags = ["blog", "Markdown"]
 keywords = ["blog", "Markdown"]
-weight = 4
+weight = 5
 date = "2023-08-21 12:00:00+0800"
 +++
 

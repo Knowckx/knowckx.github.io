@@ -5,7 +5,7 @@ description = "sitemap.xml里的lastmod配置"
 categories = ["blog"]
 tags = ["blog"]
 keywords = ["hugo", "sitemap", "lastmod"]
-weight = 4
+weight = 5
 date = "2023-11-29 17:12:34+0800"
 +++
 
