@@ -4,7 +4,7 @@ description: go打印嵌套的复杂结构体
 date: 2022-07-02 08:00:00+0800
 categories: ["编程", "golang"]
 tags: ["golang"]
-weight: 5
+weight: 4
 ---
 
 这个需求其实在日常写代码中比较常见，比如调一个接口返回来一个结果，  
