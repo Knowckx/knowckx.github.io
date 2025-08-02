@@ -1,3 +1,76 @@
 /*
-    You can add your own custom styles here.
+    自定义音乐播放器样式
 */
+
+// 播放器主容器
+#music-player-container {
+    position: fixed;
+    top: 20px;       // 距离顶部 20px
+    left: 20px;      // 距离左侧 20px
+    z-index: 1000;
+    
+    display: flex;   // 使用 Flexbox 布局，让按钮和信息横向排列
+    align-items: center; // 垂直居中对齐
+    
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 50px; // 使用较大的圆角，形成胶囊形状
+    padding: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    
+    // 初始时半透明，增加简约感
+    opacity: 0.8;
+    transform: translateX(-20px); // 初始时向左偏移一点
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    // 鼠标悬浮时完全不透明，并移动到最终位置
+    &:hover {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// 播放/暂停按钮
+#music-toggle-btn {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color); // 使用主题的主色调，更醒目
+    color: var(--primary-background-color); // 按钮图标用背景色，对比度高
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    flex-shrink: 0; // 防止按钮在 flex 布局中被压缩
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+// 音乐信息区域
+#music-info {
+    padding: 0 15px 0 10px; // 内边距 (上右下左)
+    overflow: hidden; // 防止长文件名溢出
+    color: var(--secondary-text-color); // 使用次要文字颜色，不那么刺眼
+    font-size: 12px;
+}
+
+// 文件名
+#music-filename {
+    white-space: nowrap; // 不换行
+    text-overflow: ellipsis; // 溢出时显示省略号
+    overflow: hidden;
+    max-width: 150px; // 给一个最大宽度，防止文件名过长破坏布局
+    font-weight: 500;
+    color: var(--primary-text-color); // 文件名用主要颜色，更清晰
+    margin-bottom: 2px;
+}
+
+// 时间显示
+#music-time {
+    font-family: 'Menlo', 'Consolas', monospace; // 使用等宽字体，数字不会跳动
+}
