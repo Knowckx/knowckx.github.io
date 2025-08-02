@@ -1,20 +1,14 @@
-<!-- 背景音乐播放器 (已修正版本) -->
+<!-- 背景音乐播放器 -->
 
 <!-- 1. 音频元素 -->
 <audio id="background-music" src="/audio/wow-Capital of the Orcs.opus" preload="metadata" loop></audio>
 
 <!-- 2. 播放器容器 -->
 <div id="music-player-container">
-    <!-- 播放/暂停按钮 (使用 Lucide SVG) -->
     <button id="music-toggle-btn" aria-label="Play/Pause Music">
-        <!-- Play Icon (默认显示) -->
         <svg id="lucide-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        
-        <!-- Pause Icon (默认隐藏) -->
         <svg id="lucide-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>
     </button>
-    
-    <!-- 音乐信息 -->
     <div id="music-info">
         <div id="music-filename">Loading...</div>
         <div id="music-time">
@@ -23,39 +17,34 @@
     </div>
 </div>
 
-<!-- 3. JavaScript 控制逻辑 (已修正) -->
+<!-- 3. JavaScript 控制逻辑 -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // --- 确保所有元素获取都在 DOM 加载后 ---
+        // 获取所有需要的 DOM 元素
         const audio = document.getElementById('background-music');
-        const playerContainer = document.getElementById('music-player-container');
         const toggleBtn = document.getElementById('music-toggle-btn');
         const filenameEl = document.getElementById('music-filename');
         const currentTimeEl = document.getElementById('music-current-time');
         const totalTimeEl = document.getElementById('music-total-time');
-        const sidebar = document.querySelector('.sidebar');
-
-        // --- 关键修正：在这里获取 SVG 图标元素 ---
         const playIcon = document.getElementById('lucide-play');
         const pauseIcon = document.getElementById('lucide-pause');
 
-        // --- 增加一个安全检查，如果找不到元素就提前退出并报错 ---
+        // 删除 sidebar 的获取，因为不再需要计算边距
+        // const sidebar = document.querySelector('.sidebar'); 
+
         if (!audio || !toggleBtn || !playIcon || !pauseIcon) {
             console.error('播放器初始化失败：一个或多个关键元素未找到！');
             return;
         }
 
-        // 默认音量
         audio.volume = 0.7;
 
-        // --- 核心功能函数 ---
         function formatTime(seconds) {
             const minutes = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${minutes}:${secs.toString().padStart(2, '0')}`;
         }
         
-        // 更新图标状态
         function updateIcon() {
             if (audio.paused) {
                 playIcon.style.display = 'block';
@@ -66,7 +55,6 @@
             }
         }
 
-        // --- 事件监听 ---
         toggleBtn.addEventListener('click', () => {
             audio.paused ? audio.play().catch(e => console.error(e)) : audio.pause();
         });
@@ -79,14 +67,13 @@
             const srcParts = audio.src.split('/');
             filenameEl.textContent = decodeURIComponent(srcParts[srcParts.length - 1]);
             
-
+            // 删除所有关于 sidebar 边距计算的代码
         });
 
         audio.addEventListener('timeupdate', () => {
             currentTimeEl.textContent = formatTime(audio.currentTime);
         });
         
-        // 初始化图标状态
         updateIcon();
     });
 </script>

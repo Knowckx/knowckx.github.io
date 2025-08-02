@@ -1,75 +1,75 @@
 /*
-    自定义音乐播放器样式 (优化版)
+    自定义音乐播放器样式 (固定在左侧底部，暗色模式开关上方)
 */
 
 // 播放器主容器
 #music-player-container {
-    position: fixed;
-    top: 5px;
-    left: 22px;
-    z-index: 1000;
+    position: fixed; // 固定定位
+    bottom: 100px;    // 距离底部 80px (根据计算)
+    left: 12px;      // 距离左侧 25px (与暗色模式开关对齐)
+    z-index: 1000;   // 确保在其他元素之上
     
     display: flex;
     align-items: center;
     
-    background-color: var(--card-background);
     border: 1px solid var(--border-color);
     border-radius: 50px; // 胶囊形状
     padding: 4px; // 减小内边距
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); // 稍微柔和的阴影
     
-    // 平滑过渡效果
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    // 默认状态下是收起的，鼠标悬浮时展开 (与之前左上角交互相同)
+    max-width: 50px; // 初始只显示按钮宽度 (约 36px 按钮 + 2*4px padding)
+    opacity: 0.8;
+    overflow: hidden; // 隐藏溢出内容
+    white-space: nowrap; // 确保内部元素不换行
+    
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); // 统一的过渡效果
+
+    // 鼠标悬浮时展开
+    &:hover {
+        max-width: 180px; // 展开后的最大宽度，可以根据需要调整
+        opacity: 1;
+    }
 }
 
-// 播放/暂停按钮 (彩色醒目方案)
 #music-toggle-btn {
     width: 36px;
     height: 36px;
+    
     border: none;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
     flex-shrink: 0;
     transition: transform 0.2s ease;
 
     &:hover {
         transform: scale(1.1);
     }
+    
+    svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 2.5;
+    }
 }
+
 
 // 音乐信息区域
 #music-info {
-    // 默认状态下是收起的
-    max-width: 0;
-    opacity: 0;
-    overflow: hidden;
-    white-space: nowrap; // 确保内部元素不换行
-    
-    padding-left: 0; // 默认无左边距
+    padding-left: 10px; // 展开后的左边距
+    padding-right: 12px;
     color: var(--secondary-text-color);
     font-size: 12px;
-    
-    // 过渡效果
-    transition: max-width 0.4s ease-in-out, opacity 0.3s ease-in-out, padding-left 0.4s ease-in-out;
 }
-
-// 当鼠标悬浮在整个播放器上时，展开信息区域
-#music-player-container:hover #music-info {
-    max-width: 150px; // 展开后的最大宽度
-    opacity: 1;
-    padding-left: 10px; // 展开后增加左边距
-    padding-right: 12px;
-}
-
 
 // 文件名
 #music-filename {
     text-overflow: ellipsis;
     overflow: hidden;
+    max-width: 160px; // 确保在展开时不会太长
     font-weight: 500;
     color: var(--primary-text-color);
     margin-bottom: 2px;
@@ -80,20 +80,12 @@
     font-family: 'Menlo', 'Consolas', monospace;
 }
 
-// 媒体查询：在小屏幕（手机）上，移到右下角，避免遮挡菜单
+// 媒体查询：在小屏幕（手机）上，根据需要调整位置
 @media (max-width: 768px) {
     #music-player-container {
-        top: auto;
-        left: auto;
+        // 在小屏幕上可能需要调整到其他不碍事的位置，比如右下角
         bottom: 20px;
         right: 20px;
-    }
-}
-
-// 只在屏幕宽度大于 768px (桌面端) 时生效  
-@media (min-width: 769px) { // 使用 769px 确保和 JS 的 > 768 行为一致
-    .sidebar {
-        // 这个值可以根据喜好微调  为侧边栏添加固定的上边距，给播放器腾出空间
-        margin-top: 15px; 
+        left: auto; // 移除左侧定位
     }
 }
