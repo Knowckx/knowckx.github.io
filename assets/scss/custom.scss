@@ -4,7 +4,6 @@
 
 // 播放器主容器
 #music-player-container {
-    // 作为侧边栏的一部分，不再需要任何定位属性
     display: flex;
     align-items: center;
     width: 100%; // 宽度占满侧边栏
@@ -15,7 +14,7 @@
     background-color: var(--card-background);
     border: 1px solid var(--border-color);
     border-radius: 12px; // 可以用个小一点的圆角
-    padding: 8px;
+    padding: 5px;
 }
 
 // 播放/暂停按钮
@@ -49,7 +48,7 @@
 
 // 音乐信息区域
 #music-info {
-    padding-left: 12px;
+    padding-left: 10px;
     color: var(--secondary-text-color);
     font-size: 13px;
     min-width: 0; // 配合 flex 布局，防止内容撑开

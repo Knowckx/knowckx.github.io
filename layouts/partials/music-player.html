@@ -8,7 +8,7 @@
         <svg id="lucide-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>
     </button>
     <div id="music-info">
-        <div id="music-filename">Loading...</div>
+        <div id="music-filename">BGM Player...</div>
         <div id="music-time">
             <span id="music-current-time">0:00</span> / <span id="music-total-time">0:00</span>
         </div>
@@ -40,7 +40,14 @@
         toggleBtn.addEventListener('click', () => { audio.paused ? audio.play().catch(e => console.error(e)) : audio.pause(); });
         audio.addEventListener('play', updateIcon);
         audio.addEventListener('pause', updateIcon);
-        audio.addEventListener('loadedmetadata', () => { totalTimeEl.textContent = formatTime(audio.duration); const srcParts = audio.src.split('/'); filenameEl.textContent = decodeURIComponent(srcParts[srcParts.length - 1]); });
+
+        audio.addEventListener('loadedmetadata', () => {
+            console.log(`loadedmetadata Start`)
+            totalTimeEl.textContent = formatTime(audio.duration);
+            const srcParts = audio.src.split('/');
+            filenameEl.textContent = decodeURIComponent(srcParts[srcParts.length - 1]);
+        });
+
         audio.addEventListener('timeupdate', () => { currentTimeEl.textContent = formatTime(audio.currentTime); });
         
         updateIcon();
