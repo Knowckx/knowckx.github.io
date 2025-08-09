@@ -2,9 +2,9 @@
 title = "Markdown新文章模版"
 slug = "new-md-file"
 description = "Markdown文章模版"
-categories = ["blog"]
-tags = ["vscode", "Markdown"]
-keywords = ["vscode", "Markdown"]
+categories = ["代码之外"]
+tags = ["代码之外", "Markdown"]
+keywords = ["代码之外", "Markdown"]
 weight = 5
 date = "2025-01-01 11:12:34+0800"
 draft = true
