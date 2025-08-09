@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>代码之外 on Knowckx's Blog</title><link>https://knowckx.github.io/tags/%E4%BB%A3%E7%A0%81%E4%B9%8B%E5%A4%96/</link><description>Recent content in 代码之外 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 09 Aug 2025 15:53:53 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/tags/%E4%BB%A3%E7%A0%81%E4%B9%8B%E5%A4%96/index.xml" rel="self" type="application/rss+xml"/><item><title>中国社会阶层金字塔</title><link>https://knowckx.github.io/p/china-social-class-pyramid/</link><pubDate>Sun, 25 May 2025 02:40:34 +0800</pubDate><guid>https://knowckx.github.io/p/china-social-class-pyramid/</guid><description>&lt;ul>
+&lt;li>吃饭时想对未来几年再做一次规划，突然想到了这个问题。所以花了2小时，把我目前认知下&lt;code>社会阶层金字塔&lt;/code>梳理了一遍&lt;/li>
+&lt;li>其实这个认知，最好在&lt;code>上大学时&lt;/code>或者&lt;code>刚工作几年&lt;/code>能获得，可以提前少走很多弯路。&lt;br>
+很多人出身普通，又没人指导，就会觉醒得很慢。&lt;del>比如像我一样，30多岁了，才觉悟社会的运行方式。&lt;/del>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>中国社会层级表&lt;/strong>:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>层级&lt;/th>
+&lt;th>角色等级&lt;/th>
+&lt;th>体制内&lt;/th>
+&lt;th>泛体制&lt;/th>
+&lt;th>体制外&lt;/th>
+&lt;th>权力-资源-影响力&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>塔尖&lt;/td>
+&lt;td>国家领导人&lt;/td>
+&lt;td>政治局常委&lt;/td>
+&lt;td>无&lt;/td>
+&lt;td>无&lt;/td>
+&lt;td>决定国家大政方针，战略发展方向&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>上层&lt;/td>
+&lt;td>高级权力&lt;br>顶尖科学家&lt;br>精英资本层&lt;/td>
+&lt;td>副国级&lt;br>省部级&lt;/td>
+&lt;td>大型央企董事长/党委书记&lt;br>两院院士，上将&lt;/td>
+&lt;td>顶级民营企业家&lt;br>权力资本精英&lt;/td>
+&lt;td>对特定领域/地区有显著影响力&lt;br>与政治权力有着千丝万缕的联系&lt;br>对很多社会资源拥有分配权&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>中上层&lt;/td>
+&lt;td>高级管理&lt;br>专家学者&lt;br>中等资本层&lt;/td>
+&lt;td>厅局级&lt;br>&lt;/td>
+&lt;td>大型事业单位/国企领导层&lt;br>知名专家学者&lt;br>少将、中将&lt;br>&lt;/td>
+&lt;td>大型民企/外企高管层&lt;br>知名投资人&lt;br>知名艺术家/明星/作家&lt;br>头部主播，顶尖电竞选手&lt;/td>
+&lt;td>一定的政策建议权，高层的人脉资源&lt;br>行业内较高的话语权，影响行业标准&lt;br>富人阶层，生活优渥，日常消费奢侈品&lt;br>顶部择偶优先权&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>中层-3&lt;/td>
+&lt;td>中层管理&lt;br>各行业精英代表&lt;/td>
+&lt;td>处级&lt;br>副处级&lt;/td>
+&lt;td>事业单位/国企中层管理&lt;br>头部大学资深教授&lt;br>医院科室负责人&lt;br>上校、大校&lt;/td>
+&lt;td>大型民企/外企中层管理&lt;br>核心技术的专家岗位&lt;br>中等规模的企业主&lt;br>基金经理，律所合伙人&lt;br>知名主播，知名电竞选手&lt;/td>
+&lt;td>拥有一定社会地位&lt;br>通常拥有多套房产，拥有被动收入&lt;br>无明显生活压力，选择性消费奢侈品&lt;br>可能有发达国家的绿卡/国籍/房产&lt;br>高择偶优先权&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>中层-2&lt;/td>
+&lt;td>基层管理&lt;br>资深专业人士&lt;br>&lt;/td>
+&lt;td>科级&lt;br>副科级&lt;br>&lt;/td>
+&lt;td>事业单位/国企基层管理&lt;br>资深教师/医生&lt;br>少校、中校&lt;/td>
+&lt;td>大型民企/外企的基层管理&lt;br>资深技术岗&lt;br>小型企业主&lt;br>资深律师&lt;br>&lt;/td>
+&lt;td>拥有一定专业技能或管理经验&lt;br>通常拥有一套自住房(可能有房贷)&lt;br>收入的主要构成还是工资性收入&lt;br>生活压力存在但是可以应对&lt;br>偶尔会消费奢侈品&lt;br>一流大学学历/海外留学经历&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>中层-1&lt;/td>
+&lt;td>社会的中坚力量&lt;br>一般专业人士&lt;/td>
+&lt;td>科员&lt;/td>
+&lt;td>普通事业单位/国企员工&lt;br>普通教师/医生&lt;/td>
+&lt;td>一般白领，普通专业岗/技术岗&lt;br>普通财务、工程师、设计师&lt;br>初级律师，高级技工&lt;br>个体工商户，小型餐厅经营者&lt;/td>
+&lt;td>所在城市没有房产，租房/存首付中&lt;br>依赖工资收入，存在明显的生活压力&lt;br>努力寻求向上流动的机会&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>中下层&lt;/td>
+&lt;td>基础性工作的劳动者&lt;br>低收入人员群体&lt;/td>
+&lt;td>/&lt;/td>
+&lt;td>事业单位编外人员&lt;/td>
+&lt;td>小微企业职员&lt;br>基础性服务业人员&lt;br>兼职外卖骑手&lt;br>普通农民/底层建筑工人&lt;/td>
+&lt;td>综合收入不高，对物价敏感&lt;br>工作岗位强度大，加班多，福利少&lt;br>可能没有好的学历&lt;br>择偶市场优先权低&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>底层&lt;/td>
+&lt;td>生活困难群体&lt;br>&lt;/td>
+&lt;td>/&lt;/td>
+&lt;td>/&lt;/td>
+&lt;td>无积蓄的失业人员&lt;br>偏远地区贫困户，困难户&lt;br>微薄养老金的老人&lt;br>偏远地区的农民&lt;/td>
+&lt;td>经济状况差，生活拮据，缺少积蓄。&lt;br>缺乏稳定收入来源。&lt;br>依赖社会保障体系。&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>&lt;strong>提几点感想&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>各阶层之间没有明确的界限，存在大量中间状态和交叉地带。&lt;br>
+比如一个拥有多套房产的退休普通教师，很可能比一些小型企业主更富裕。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>大部分人在社会中的一生，就是在玩一个&lt;code>角色扮演游戏&lt;/code>:&lt;br>
+&lt;strong>一个不断消耗角色有限的生命，进行智力上的投入，努力上的投入，来争取更高的社会层级的过程。&lt;/strong>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>大到改变事情走向，小到搞钱择偶，越高的层级优势越明显。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>从过去的历史看来，越到中后期，阶级的流动性越减少，&lt;code>阶级固化&lt;/code>越严重，社会的活力也逐渐消失&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>其实也不用那么卷，每个生命都有自己的活法，提升社会层级只是可选任务。&lt;br>
+每天正常上班，下班打打游戏整点个人兴趣，就这么度过一生，也是一种活法。自己开心才是最重要的。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;hr></description></item><item><title>中国打工人的润学指南</title><link>https://knowckx.github.io/p/awesome-run/</link><pubDate>Sat, 09 Aug 2025 23:15:47 +0800</pubDate><guid>https://knowckx.github.io/p/awesome-run/</guid><description>&lt;p>最近这几天，我把常见的技术移民国家的政策情况，收集并整理了一下。&lt;br>
+我觉得这些信息其他人应该也需要，所以干脆列了个表上传了github。&lt;br>
+我的初心是尽量用最少的文字把各个国家和地区技术移民的关键信息展示出来。&lt;/p>
+&lt;p>假如觉得有问题或者需要补充，请回帖告诉我
+假如觉得有用，可以给个star&lt;/p>
+&lt;p>github &lt;a class="link" href="https://github.com/Knowckx/awesome-run" target="_blank" rel="noopener"
+>https://github.com/Knowckx/awesome-run&lt;/a>&lt;/p>
+&lt;p>v2ex讨论 &lt;a class="link" href="https://www.v2ex.com/t/1151289" target="_blank" rel="noopener"
+>https://www.v2ex.com/t/1151289&lt;/a>&lt;/p>
+&lt;p>PS: &lt;strong>github&lt;/strong>的&lt;strong>readme.md&lt;/strong>给的宽度太小了，表格很窄，阅读起来不舒服&lt;/p>
+&lt;hr>
+&lt;blockquote>
+&lt;p>未曾设想的道路 - 中国打工人的润学指南&lt;/p>&lt;/blockquote>
+&lt;p>&lt;strong>awesome-run&lt;/strong> 是一份为技术人才准备的全球机遇指南 &amp;amp; 移民攻略。&lt;br>
+旨在为程序员这类技术人才，提供一个清晰、简洁、不断更新的各国（地区）永居与入籍路径对比。&lt;br>
+通过标准化的表格，直观地展示关键信息，帮助你快速了解和比较不同选择。&lt;/p>
+&lt;p>移民政策复杂且频繁变动，社区的力量是本项目保持活力的核心。&lt;br>
+我们热切欢迎你的贡献！无论是修正一个错误、更新一项政策，还是增加一个新的国家，都请不要犹豫，通过 Pull Request 或 Issue 来分享你的知识。&lt;/p>
+&lt;p>&lt;strong>免责声明&lt;/strong>：&lt;br>
+本项目所有信息仅供参考，不构成任何法律或移民建议。在做出任何决定前，请务必查阅各国官方移民局网站，以获取最准确、最新的信息。&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>国家/地区&lt;/th>
+&lt;th>获取永久居留权（俗称绿卡，PR）&lt;/th>
+&lt;th>移民监 - 保持永久居留&lt;/th>
+&lt;th>获取国籍/护照&lt;/th>
+&lt;th>双国籍&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>亚洲&lt;/td>
+&lt;td>中国香港&lt;/td>
+&lt;td>香港永久性居民身份&lt;br>需在香港工作生活满七年&lt;/td>
+&lt;td>如果不是中国公民，且连续36个月或以上不在香港，可能会丧失永久居民身份。&lt;/td>
+&lt;td>- 申请香港特区护照，要求是中国公民和拥有香港永久居民身份&lt;br> - 一个外国人可以同时持有原国籍+拥有香港永久性居民身份，但是无法申请香港护照&lt;/td>
+&lt;td>不承认&lt;br>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;/td>
+&lt;td>日本&lt;/td>
+&lt;td>永住者 PR&lt;br>- 常规路径，在日本连续居住10年&lt;br>- 高度人才签证，最快1年或3年后可申请PR&lt;br>- 审查纳税、社保缴纳情况及无犯罪记录&lt;/td>
+&lt;td>- 每7年更新一次在留卡&lt;br>- 离开日本超过一年，需要办理“再入国许可”。&lt;/td>
+&lt;td>归化&lt;br>- 在日本连续居住5年以上&lt;br>- 日语能力至少N3以上，需要和法务局官员进行面谈&lt;br>&lt;/td>
+&lt;td>不承认&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;/td>
+&lt;td>新加坡&lt;/td>
+&lt;td>永久居民 (PR)&lt;br>- 持有工作准证(EP/SP)一段时间后申请，审批不透明，没有明确的打分标准&lt;br>- 中国公民通常需要3到5年时间&lt;br>&lt;/td>
+&lt;td>- 每5年续签一次再入境许可(REP)&lt;br>- 续签时移民局会评估与新加坡的联系情况，纳税、公积金CPF缴纳情况&lt;/td>
+&lt;td>归化：&lt;br>- 成为PR后至少2年。&lt;br>- 同样为评估制。&lt;br>- 第二代男性公民有服役义务&lt;/td>
+&lt;td>不承认&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>大洋洲&lt;/td>
+&lt;td>澳大利亚&lt;/td>
+&lt;td>永久居民 (PR)&lt;br>- 根据技术移民打分制（189/190/491），准备好材料，提交EOI申请，进入池子里排队&lt;br>- 假如被移民局捞上了，他们发邀请，一步到位获得PR身份(甚至此时你从未登陆过澳洲，也没有澳洲的工作)&lt;br>- 竞争激烈。获邀的时间非常依赖职业和分数，从数月到数年不等；&lt;/td>
+&lt;td>移民监: 每5年在澳洲住满2年&lt;/td>
+&lt;td>- 持PR身份，过去4年内住满3年&lt;br>- 申请前1年住满9个月。&lt;br>- 通过公民考试（英语）&lt;/td>
+&lt;td>承认&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;/td>
+&lt;td>新西兰&lt;/td>
+&lt;td>永久居民 (PRV)&lt;br>- 获得新西兰的全职offer(核心)&lt;br>- 技术移民打分(SMC)超过6分，申请居民签证&lt;br>- 持有居民签证，在新西兰居住工作2年以上可申请&lt;/td>
+&lt;td>全球唯一永久绿卡&lt;br>回头签(PRV)是真正永久的，无任何居住要求，可无限期离境并随时返回。&lt;/td>
+&lt;td>- 申请前5年内，每年都住满240天&lt;br>- 新西兰国籍可以去澳洲无限期生活与工作&lt;/td>
+&lt;td>承认&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>北美&lt;/td>
+&lt;td>加拿大&lt;/td>
+&lt;td>永久居民 (PR)&lt;br>- 通过联邦打分系统、省提名计划&lt;br>- 需要2年左右时间&lt;/td>
+&lt;td>移民监: 每5年在加拿大住满至少2年&lt;/td>
+&lt;td>- 已经是PR，并且过去5年内至少住满3年&lt;br>- 审查纳税记录&lt;br>- 通过语言和公民考试&lt;/td>
+&lt;td>承认&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;/td>
+&lt;td>美国&lt;/td>
+&lt;td>永久居民（绿卡, Green Card）&lt;br>- 典型路径：H1B抽签 -&amp;gt; 雇主支持办EB2/3排期&lt;br>- 不确定性很大，中国申请人排期通常很长&lt;/td>
+&lt;td>- 离开美国超过6个月可能会受审查，&lt;br>超过1年则可能被视为放弃绿卡&lt;/td>
+&lt;td>- 持有绿卡满5年&lt;br>- 这5年内在美实际居住30个月&lt;br>- 通过英语和公民知识考试&lt;/td>
+&lt;td>承认&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>欧洲&lt;/td>
+&lt;td>德国&lt;/td>
+&lt;td>德国永居（PR）&lt;br>- 找到工作，持欧盟蓝卡 (EU Blue Card)登陆德国工作&lt;br>- 持蓝卡工作21个月（德语达到B1水平）或33个月（德语A1）&lt;br>注: 德语A1需要3~5个月左右&lt;br>&lt;/td>
+&lt;td>- 不能连续离开德国超过6个月&lt;/td>
+&lt;td>- 连续居住5年以上&lt;br>- 通过入籍考试&lt;br>- 要求德语水平B1以上&lt;/td>
+&lt;td>承认&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;/td>
+&lt;td>爱尔兰&lt;/td>
+&lt;td>可续签的长期居留许可 (Stamp 4)&lt;br>- 找到工作，申请关键技能就业许可(CSEP)&lt;br>- 持有CSEP工作2年，申请Stamp 4&lt;br>&lt;/td>
+&lt;td>- Stamp 4 有效期为2年或5年&lt;br>- 续签时移民官会审查你与爱尔兰的联系紧密度&lt;/td>
+&lt;td>入籍&lt;br>- 9年内累计住满5年&lt;br>- 申请前连续住满1年&lt;br>&lt;/td>
+&lt;td>承认&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table></description></item><item><title>狐狸和鸡的故事</title><link>https://knowckx.github.io/p/the-fable-of-the-fox-and-the-chicken/</link><pubDate>Wed, 06 Aug 2025 16:22:29 +0800</pubDate><guid>https://knowckx.github.io/p/the-fable-of-the-fox-and-the-chicken/</guid><description>&lt;blockquote>
+&lt;p>我始终认为，唤醒更多的人来关注我们社会中确实存在的问题，是有公共价值的。&lt;/p>&lt;/blockquote>
+&lt;p>我在其他平台发的帖子可能会被删。所以在自己的blog里把文字留存一份。&lt;/p>
+&lt;h2 id="正文">正文
+&lt;/h2>&lt;p>🦊对🐔说：“你每个月给我5个鸡蛋🥚，我帮你存着。等你老了不能下蛋了，我再按月还你5个。”&lt;/p>
+&lt;p>整个村的鸡，都开始给狐狸交蛋。&lt;/p>
+&lt;p>狐狸呢，自己吃一些，再给家族里的亲戚送15个，手头紧了就卖掉一些过渡下，小日子过得那叫一个滋润。😎&lt;/p>
+&lt;p>&amp;hellip;&lt;/p>
+&lt;p>🐔觉得自己过得太苦了，活得不明不白，干脆决定不生小鸡了。&lt;/p>
+&lt;p>狐狸一看急了：”哎呀！你怎么能不生了呢？没有小鸡，鸡村的鸡岂不是越来越少了？“&lt;br>
+它清了清嗓子宣布：“好消息！现在生一只小鸡🐣，奖励一个鸡蛋哦！”&lt;/p>
+&lt;p>&amp;hellip;&lt;/p>
+&lt;p>又过了好多年，鸡终于老了，颤颤巍巍地去找狐狸要蛋。&lt;br>
+狐狸慢悠悠地说：“哦，最近啊文件改了，领蛋的年龄推迟了，你再等几年吧。”📜&lt;/p>
+&lt;p>&amp;hellip;&lt;/p>
+&lt;p>鸡没办法，又等了几年，它更老了，背都直不起来了。它再次找到狐狸。&lt;br>
+这一次，狐狸给了它&amp;hellip;&amp;hellip;&lt;/p>
+&lt;p>&lt;strong>一个鸡蛋🥚。&lt;/strong>&lt;/p>
+&lt;p>&amp;hellip;&lt;/p>
+&lt;p>你看，狐狸还是很有信用的，说给，就真的给了。&lt;/p></description></item><item><title>一个适合广深地区的副业思路</title><link>https://knowckx.github.io/p/sideline-idea-suitable-hk/</link><pubDate>Sun, 13 Jul 2025 11:12:34 +0800</pubDate><guid>https://knowckx.github.io/p/sideline-idea-suitable-hk/</guid><description>&lt;h2 id="副业代购的思路">副业代购的思路
+&lt;/h2>&lt;p>最近在研究运动相机的参数时，发现的这个想法&lt;/p>
+&lt;p>&lt;img src="https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-jd-price.jpg"
+width="499"
+height="435"
+srcset="https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-jd-price_hu_4ee2b580b255bcd2.jpg 480w, https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-jd-price_hu_ee87b6a824d1bbcc.jpg 1024w"
+loading="lazy"
+alt="内地价格"
+class="gallery-image"
+data-flex-grow="114"
+data-flex-basis="275px"
+>&lt;/p>
+&lt;p>大疆的&lt;code>Action4&lt;/code>相机是目前很热门的一款产品，&lt;br>
+内地在国补后价格1500元以上，并且还不好抢。&lt;br>
+这导致就连某鱼上二手准新机也能出到1500R&lt;/p>
+&lt;!-- &lt;img src="hk-jd-price.jpg" alt="内地价格"/> -->
+&lt;p>&lt;img src="https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-price.png"
+width="1018"
+height="499"
+srcset="https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-price_hu_9fb440680f073937.png 480w, https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-price_hu_dc2e7808963a9ee1.png 1024w"
+loading="lazy"
+alt="香港官方的价格"
+class="gallery-image"
+data-flex-grow="204"
+data-flex-basis="489px"
+>&lt;/p>
+&lt;p>目前香港的大疆官方店，行货价格在1389港币，换算成RMB大概是1268元，&lt;br>
+单台差价的232元，利润率 232/1268 = 18.3%&lt;/p>
+&lt;p>&lt;img src="https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-cny.png"
+width="584"
+height="398"
+srcset="https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-cny_hu_28b1d8fc4264166b.png 480w, https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-cny_hu_e157901afc410cbf.png 1024w"
+loading="lazy"
+alt="目前汇率"
+class="gallery-image"
+data-flex-grow="146"
+data-flex-basis="352px"
+>&lt;/p>
+&lt;p>关键点来了，内地的居民去香港，每间隔15天就能获得12000的免税额，&lt;br>
+按每个月去两次HK来算，一共是24000的免税额， &lt;br>
+全部利用上可以获得24000*0.183 = 4392的利润空间&lt;/p>
+&lt;p>&lt;img src="https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-Snipaste_view343.png"
+width="992"
+height="400"
+srcset="https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-Snipaste_view343_hu_984d7a12a615176d.png 480w, https://knowckx.github.io/p/sideline-idea-suitable-hk/hk-Snipaste_view343_hu_239219e399e04c58.png 1024w"
+loading="lazy"
+alt="免税额规定"
+class="gallery-image"
+data-flex-grow="248"
+data-flex-basis="595px"
+>&lt;/p>
+&lt;p>Plus: 这里还没算上很多&lt;code>万事达/Visa的信用卡&lt;/code>对境外消费有返现奖励 &lt;br>
+延伸: 我相信还有很多其他的产品拥有值得考虑的差价，只是没有去收集&lt;/p>
+&lt;p>假设一个广深的打工人，周末的时候去香港玩，利用好免税额的规定，&lt;br>
+随便采购点东西卖卖，还是能回血不少。&lt;/p>
+&lt;p>所以把这个作为一个副业，一个月只需要做两天，收入保底4000+，还是不错的。&lt;/p></description></item></channel></rss>

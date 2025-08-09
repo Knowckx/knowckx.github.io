@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>量化 on Knowckx's Blog</title><link>https://knowckx.github.io/tags/%E9%87%8F%E5%8C%96/</link><description>Recent content in 量化 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 09 Aug 2025 15:53:53 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/tags/%E9%87%8F%E5%8C%96/index.xml" rel="self" type="application/rss+xml"/><item><title>yfinance使用的示例</title><link>https://knowckx.github.io/p/yfinance%E4%BD%BF%E7%94%A8%E7%9A%84%E7%A4%BA%E4%BE%8B/</link><pubDate>Fri, 07 Mar 2025 08:00:00 +0800</pubDate><guid>https://knowckx.github.io/p/yfinance%E4%BD%BF%E7%94%A8%E7%9A%84%E7%A4%BA%E4%BE%8B/</guid><description>&lt;h3 id="使用yfinance获取数据">使用yfinance获取数据
+&lt;/h3>&lt;p>最近有需求，需要取一下美股的K线数据，搜了一圈最后选择了&lt;code>yfinance&lt;/code>这个包，结果第一次使用就报错了&lt;/p>
+&lt;blockquote>
+&lt;p>Too Many Requests. Rate limited. Try after a while.&lt;/p>&lt;/blockquote>
+&lt;p>查了一圈最后发现，目前在国内调这个包需要挂代理了&lt;br>
+我把示例代码贴这里，有需要的人可以直接粘贴过去调试。&lt;/p>
+&lt;p>记得改成你本地的科学上网代理端口&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">yfinance&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">yf&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 定义纳斯达克100指数期货的代码&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ticker_symbol&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;NQ=F&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置代理，指定HTTP 请求的代理服务器 | 使用你自己的代理端口&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">proxy&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;http://127.0.0.1:7890&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">environ&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;HTTP_PROXY&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">proxy&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">environ&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;HTTPS_PROXY&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">proxy&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 创建 Ticker 对象&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ticker&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">yf&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Ticker&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ticker_symbol&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 获取最新的市场数据&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ticker_info&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ticker&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">info&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 获取当前价格和前收盘价&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">current_price&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ticker_info&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;regularMarketPrice&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">previous_close&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ticker_info&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;regularMarketPreviousClose&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 计算涨幅&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">price_change&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">current_price&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">previous_close&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">percent_change&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">price_change&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">previous_close&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="mi">100&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 输出结果&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;当前价格: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">current_price&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;前收盘价: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">previous_close&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;涨跌额: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">price_change&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;涨跌幅: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">percent_change&lt;/span>&lt;span class="si">:&lt;/span>&lt;span class="s2">.2f&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">%&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>除了&lt;code>yfinance&lt;/code>之外，国内的&lt;code>新浪财经&lt;/code>也是很好的数据来源。 后面我再贴一些。&lt;/p></description></item></channel></rss>
