@@ -9,13 +9,19 @@ weight = 5
 date = "2025-08-09 23:15:47+0800"
 +++
 
-这几天收集并整理了一下，常见的技术移民国家和地区的政策情况，在这里留一份有两个目的。
+最近这几天，我把常见的技术移民国家的政策情况，收集并整理了一下。  
+我觉得这些信息其他人应该也需要，所以干脆列了个表上传了github。  
+我的初心是尽量用最少的文字把各个国家和地区技术移民的关键信息展示出来。  
 
-1. 在个人blog里放个备份作为留存
-2. **github**的**readme.md**给的宽度太小了，表格很窄，阅读起来不舒服
+假如觉得有问题或者需要补充，请回帖告诉我
+假如觉得有用，可以给个star
+
+github https://github.com/Knowckx/awesome-run
+
+v2ex讨论 https://www.v2ex.com/t/1151289
 
 
-对应Github: [github.com/Knowckx/awesome-run](https://github.com/Knowckx/awesome-run)
+PS: **github**的**readme.md**给的宽度太小了，表格很窄，阅读起来不舒服
 
 ---
 
