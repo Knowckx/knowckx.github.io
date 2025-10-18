@@ -15,7 +15,9 @@ lastUpdated = "2006-01-02 15:04:05"
 
 [sidebar]
 emoji = "👨🏻‍💻"
-subtitle = "\"信仰圣光吧!\" -- 提里奥·弗丁"
+# subtitle = "\"信仰圣光吧!\" -- 提里奥·弗丁"
+subtitle = "I am a programmer with 8 years of development experience, and my main working languages ​​are Golang and Python."
+
 
 [sidebar.avatar]
 enabled = true
