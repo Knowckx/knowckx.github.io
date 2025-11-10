@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gemini on Knowckx's Blog</title><link>https://knowckx.github.io/tags/gemini/</link><description>Recent content in Gemini on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 10 Nov 2025 09:19:20 +0000</lastBuildDate><atom:link href="https://knowckx.github.io/tags/gemini/index.xml" rel="self" type="application/rss+xml"/><item><title>一行命令解决gemini-cli在国内卡认证的问题</title><link>https://knowckx.github.io/p/gemini-cli-auth-proxy-solution/</link><pubDate>Tue, 15 Jul 2025 11:12:34 +0800</pubDate><guid>https://knowckx.github.io/p/gemini-cli-auth-proxy-solution/</guid><description>&lt;p&gt;&lt;code&gt;gemini-cli&lt;/code&gt; 是 Google Gemini 官方提供的一款强大的命令行工具，但是我自己在使用时，第一步——&lt;strong&gt;认证授权&lt;/strong&gt;时就遇到了问题。&lt;/p&gt;
+&lt;h3 id="长话短说"&gt;长话短说
+&lt;/h3&gt;&lt;p&gt;我分别了测试了几种的挂梯子方式，最后的结论是:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;gemini-cli&lt;/code&gt;的auth流程依赖于启动浏览器进行OAuth 2.0认证流程，整个流程不仅需要你在浏览器有科学上网环境，终端内部也需要通过&lt;code&gt;HTTP_PROXY&lt;/code&gt;来实现科学上网&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;进一步说，为什么终端需要挂代理？&lt;br&gt;
+因为&lt;code&gt;gemini&lt;/code&gt;命令会启动一个本地Web服务器来接收&lt;code&gt;Google的回调&lt;/code&gt;，并启动浏览器，所以整个过程都需要能顺畅访问Google服务。&lt;/p&gt;
+&lt;h3 id="解决方案为你的终端设置代理"&gt;解决方案：为你的终端设置代理
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;请先在你的代理工具（如 Clash, V2RayN, Surge 等）中找到 HTTP 代理的端口号，通常是 &lt;code&gt;7890&lt;/code&gt;, &lt;code&gt;10809&lt;/code&gt; 等。&lt;/li&gt;
+&lt;li&gt;然后根据你的不同操作系统输入以下命令&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id="windows-powershell"&gt;Windows (PowerShell)
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-powershell" data-lang="powershell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;$env:all_proxy&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;socks5://127.0.0.1:7890&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;$env:HTTP_PROXY&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;http://127.0.0.1:7890&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;$env:HTTPS_PROXY&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;http://127.0.0.1:7890&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h4 id="linuxmacos"&gt;Linux/MacOS
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-BASH" data-lang="BASH"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 为当前终端会话设置代理&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;HTTP_PROXY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;http://127.0.0.1:7890&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;HTTPS_PROXY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;http://127.0.0.1:7890&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# (可选，但推荐)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;all_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;socks5://127.0.0.1:7890&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item></channel></rss>
