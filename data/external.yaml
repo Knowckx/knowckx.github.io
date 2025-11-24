@@ -1,2 +1,4 @@
-vibrant:
-  url: /js/vibrant.min.js
+Vibrant:
+    - src: /js/vibrant.min.js
+      integrity: sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=
+      type: script
