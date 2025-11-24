@@ -19,9 +19,9 @@ weight = 8
 
 ### 检索测试
 
-knckx未来147 site:knowckx.github.io
-knckx未来258 site:knowckx.github.io
-未来5159 site:knowckx.github.io
+knckx未来147 site:blog.knowckx.top
+knckx未来258 site:blog.knowckx.top
+未来5159 site:blog.knowckx.top
 
 
 

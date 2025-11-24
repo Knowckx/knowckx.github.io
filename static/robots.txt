@@ -1,4 +1,4 @@
-Sitemap: https://knowckx.github.io/sitemap.xml
+Sitemap: https://blog.knowckx.top/sitemap.xml
 
 User-agent: *
 Disallow:
