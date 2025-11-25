@@ -32,7 +32,7 @@
 
         if (!audio || !toggleBtn || !playIcon || !pauseIcon) { return; }
 
-        audio.volume = 0.7;
+        audio.volume = 1;
 
         function formatTime(seconds) { const minutes = Math.floor(seconds / 60); const secs = Math.floor(seconds % 60); return `${minutes}:${secs.toString().padStart(2, '0')}`; }
         function updateIcon() { if (audio.paused) { playIcon.style.display = 'block'; pauseIcon.style.display = 'none'; } else { playIcon.style.display = 'none'; pauseIcon.style.display = 'block'; } }
@@ -45,7 +45,10 @@
             console.log(`loadedmetadata Start`)
             totalTimeEl.textContent = formatTime(audio.duration);
             const srcParts = audio.src.split('/');
-            filenameEl.textContent = decodeURIComponent(srcParts[srcParts.length - 1]);
+            let fileName = decodeURIComponent(srcParts[srcParts.length - 1]);
+            // 使用正则替换掉最后一个 . 及其后面的字符
+            fileName = fileName.replace(/\.[^/.]+$/, "");
+            filenameEl.textContent = fileName;
         });
 
         audio.addEventListener('timeupdate', () => { currentTimeEl.textContent = formatTime(audio.currentTime); });
@@ -53,3 +56,4 @@
         updateIcon();
     });
 </script>
+
