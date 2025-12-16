@@ -12,8 +12,8 @@ block = [['\[', '\]'], ['$$', '$$']]
 inline = [['\(', '\)']]
 
 [tableOfContents]
-startLevel = 2 # 默认是从2级开始的
-endLevel = 4 
+startLevel = 1 # 默认是从2级开始的
+endLevel = 5
 ordered = true # 开启序号
 
 [highlight]

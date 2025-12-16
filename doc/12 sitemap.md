@@ -29,20 +29,6 @@
 [把直接加入到网址检查里](knowckx.github.io/sitemap.xml)
 移除robots.txt 站点地图可以被robots.txt文件的规则屏蔽
 
-如果站点地图位于 http://www.example.com/mysite/sitemap.xml，则该站点地图的以下网址将无效：
-http://www.example.com/ - 级别高于站点地图
-http://www.example.com/yoursite/ - 与站点地图处于同级目录中（必须前往上层目录，然后再向下返回此网址所在的目录，才能获取此网址）。
-
-
-日期必须使用 W3C 日期时间编码。日期时间格式：
-2005-02-21  或者   
-2005-02-21T18:00:15+00:00
-
-
-
-
-### 结论
-和sitemap.xml本身没有关系。无论是google,还是hugo,还是githubPages,这三者都是正常的。
 
 ### 疑问解答:
 Q 为什么Goole里抓取的文件不是一个纯正的xml, 包含了 XML to HTML conversion for
@@ -69,4 +55,3 @@ A hugo/github都没问题，他们提供的sitemap.xml是对的。
 GitHub（IP 地址）服务器的配额上限已达到，您的抓取将被推迟。
 GitHub 的免费托管服务会损害您的索引。
 
-## 切换到

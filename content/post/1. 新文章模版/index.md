@@ -1,6 +1,6 @@
 +++
 title = "Markdown新文章模版"
-slug = "new-md-file"
+slug = "todo-link"
 description = "Markdown文章模版"
 categories = ["代码之外"]
 tags = ["代码之外", "认知"]
