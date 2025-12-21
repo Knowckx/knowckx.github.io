@@ -18,19 +18,16 @@ date = "2025-12-21 10:24:38+0800"
 
 对应的Windows系统事件是41，也就是非正常关机
 
-![alt text](https://pic3.zhimg.com/80/v2-f6e116f4edf599212960303f7ff33944_1440w.webp)
-
+![41 非正常关机](41-error.webp)
 这很恼火，因为我有服务跑在上面需要7x24小时运行。
 
 ## 解决
 
 然后我查了一圈，最后发现是一个复杂问题，和系统/BIOS/芯片组驱动都有关系，核心因为是CPU的负载太低时，会重启。 经过我的最后测试，发现一个最简单的解决方案:
 
-卸载AMD的驱动软件，安装最新的25.12.1版本，然后点开管理更新-> 更新AMD的芯片组驱动（Chipset Drivers）
+卸载AMD的驱动软件，安装最新的25.12.1版本，然后点开**管理更新**-> **更新AMD的芯片组驱动**（`Chipset Drivers`）
 
-
-![alt text](https://pic3.zhimg.com/80/v2-8042588b15ff6be58af8071c01a095ba_1440w.webp)
-
+![Chipset Drivers](<chipset driver.webp>)
 
 更新完成后，经过我这一周的测试，没有异常重启。
 
