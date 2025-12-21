@@ -3,8 +3,8 @@ title = "awesome-run 中国打工人的润学指南"
 slug = "awesome-run"
 description = "awesome-run是一份为技术人才准备的全球机遇指南 & 移民攻略。"
 categories = ["代码之外"]
-tags = ["代码之外", "移民"]
-keywords = ["代码之外", "移民"]
+tags = ["移民"]
+keywords = ["移民"]
 weight = 5
 date = "2025-08-09 23:15:47+0800"
 +++

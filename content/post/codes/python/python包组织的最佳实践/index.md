@@ -9,7 +9,7 @@ weight = 3
 date = "2025-12-16 22:01:17+0800"
 +++
 
-# 中文
+## 中文
 
 ## 长话短说
 
@@ -106,7 +106,7 @@ user_tom :MyUser | None = None
 ---
 
 
-# English
+## English
 
 ## Best Practices for Python Package Exports & Fixing VS Code Intellisense
 
