@@ -1,10 +1,10 @@
 +++
 title = "联想笔记本Fn+Ctrl键会唤醒cortana的问题"
-slug = "Disabling-Fn+Ctrl-Lenovo-Laptops"
+slug = "Lenovo-Laptops-Disabling-Fn+Ctrl-cortana"
 description = "介绍如何禁用联想的Fn+Ctrl快捷键"
 categories = ["修电脑"]
-tags = []
-keywords = ["Lenovo", "Fn+Ctrl", "cortana"]
+tags = ["修电脑"]
+keywords = ["Lenovo", "Fn+Ctrl", "cortana","禁用快捷键"]
 weight = 5
 date = "2025-04-30 12:00:00+0800"
 +++
@@ -26,15 +26,15 @@ date = "2025-04-30 12:00:00+0800"
 
 有两个方式可以解决，可以试一下:
 
-**方案1 直接卸载`Lenovo Hotkeys`**
+**方案1 卸载联想的应用`Lenovo Hotkeys`**
 
-`Lenovo Hotkeys`是联想的一个应用，可以从win10商店里下载。    
-这个应用管理了Fn键的效果，还有开启大小写键的面板提示，开启`NumLock`键的面板提示。
+`Lenovo Hotkeys`是联想的一个系统快捷键设置应用，可能装机时自带了，也可以后期从win10商店里下载。    
+这个应用管理了`Fn键`的效果，还有开启`大小写`的面板提示，开启`NumLock`键的面板提示等。
 
-卸载:  
+直接卸载此软件可以解决`Ctrl+Fn`的问题:  
 进入Windows设置（快捷键: Win+I）> 应用 > 搜索:`联想快捷键` 或者 `Lenovo Hotkeys`  > 卸载
 
-**方案2 关闭对应联想的服务**
+**方案2 关闭联想的对应服务**
 
 - 快捷键`Win+S`, 输入`服务`, 打开Win的`服务`窗口
 - 在服务里找`Lenovo Function and Fn Key Service`。
@@ -42,9 +42,9 @@ date = "2025-04-30 12:00:00+0800"
 
 此时应该 `Ctrl+Fn` 不会触发了。测试后重启电脑再次确定一下。
 
-## 禁用后的好处:
+## 禁用后有什么好处:
 
-解放了Home键和End键。 在编辑长文件时，可以试下这两个快捷键:
+解放了`Home键`和`End键`。 在编辑长文件时，可以试下这两个快捷键:
 
 快捷键<kbd>Ctrl</kbd> + <kbd>Fn</kbd> + <kbd>左箭头</kbd>   -> 实现跳转到文件顶部（Home键功能）
 

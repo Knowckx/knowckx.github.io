@@ -27,7 +27,8 @@
 
 ### 测试
 [把直接加入到网址检查里](knowckx.github.io/sitemap.xml)
-移除robots.txt 站点地图可以被robots.txt文件的规则屏蔽
+移除robots.txt 
+站点地图可以被robots.txt文件的规则屏蔽
 
 
 ### 疑问解答:
