@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VS Code on Knowckx's Blog</title><link>https://blog.knowckx.top/tags/vs-code/</link><description>Recent content in VS Code on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 24 Dec 2025 03:59:47 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/vs-code/index.xml" rel="self" type="application/rss+xml"/><item><title>Python包导出最佳实践与VSCode智能提示修复</title><link>https://blog.knowckx.top/p/python-package-export-best-practices-vscode-fix-import-suggestions/</link><pubDate>Tue, 16 Dec 2025 22:01:17 +0800</pubDate><guid>https://blog.knowckx.top/p/python-package-export-best-practices-vscode-fix-import-suggestions/</guid><description>&lt;h2 id="中文"&gt;中文
+&lt;/h2&gt;&lt;h2 id="长话短说"&gt;长话短说
+&lt;/h2&gt;&lt;p&gt;假如你使用&lt;code&gt;vscode&lt;/code&gt;写&lt;code&gt;python&lt;/code&gt;，在导入一个模块时希望 vscode 给出的导包建议，&lt;br&gt;
+是建议从包的根路径（&lt;code&gt;__init__.py&lt;/code&gt;）导入类，而不是从深层文件路径导入，请记住修改以下配置：&lt;br&gt;
+在设置里搜索&lt;code&gt;includeAliasesFromUserFiles&lt;/code&gt;，设置为&lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;keywords: &amp;#34;python&amp;#34;, &amp;#34;import suggestions&amp;#34;, &amp;#34;__init__.py&amp;#34;, &amp;#34;__all__&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="背景"&gt;背景
+&lt;/h2&gt;&lt;p&gt;今天在实践 Python 包导出的最佳方式时，遇到了 VS Code 无法正确给出“短路径”导入提示的问题。
+研究了一个小时才解决，这里记录一下，希望能帮大家避坑。（这个问题连 Gemini 3.0 和 Claude 都没有第一时间给出正确原因，大多以为是路径配置问题）。）&lt;/p&gt;
+&lt;h3 id="python组织包导出的最佳实践"&gt;Python组织包导出的最佳实践
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;假如我们有以下的项目结构，其中&lt;code&gt;pkg_a&lt;/code&gt;是我们自己写的包&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-plaintext" data-lang="plaintext"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;📁 /project_root
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;├── 📁 pkg_a
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ ├── 📄 __init__.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ └── 📄 user_define.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└── 📄 start.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start="2"&gt;
+&lt;li&gt;我们在&lt;code&gt;user_define.py&lt;/code&gt;中定义了一个类型&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# pkg_a/user_define.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MyUser&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start="3"&gt;
+&lt;li&gt;通过&lt;code&gt;__init__.py&lt;/code&gt;来定义导出&lt;br&gt;
+在这个文件夹的&lt;code&gt;__init__.py&lt;/code&gt;中，我们可以通过&lt;code&gt;__all__&lt;/code&gt;来定义这个包有下面什么内容是对外导出的。&lt;br&gt;
+这是许多优秀开源项目（如 Requests, Pandas）的标准做法。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# pkg_a/__init__.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pkg_a.user_define&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MyUser&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;__all__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="s2"&gt;&amp;#34;MyUser&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start="4"&gt;
+&lt;li&gt;当我们想引用这个&lt;code&gt;MyUser&lt;/code&gt;定义时，导入定义会有两种方式，目前社区的最佳实践是更推荐第二种导入方式&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# start.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Method 1 ❌-&amp;gt; Use file import&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# from pkg_a.user_define import MyUser&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Method 2 ✅ -&amp;gt; Using the Package Import &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pkg_a&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MyUser&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;user_tom&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;MyUser&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;为什么第二种方式更好呢&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;更好的封装/抽象&lt;br&gt;
+包的调用者无需了解包内部的文件结构。&lt;br&gt;
+假如你稍后将 &lt;code&gt;user_define.py&lt;/code&gt; 重命名为 &lt;code&gt;models.py&lt;/code&gt;，只需要更改 &lt;code&gt;__init__.py&lt;/code&gt; 中的导入语句 ， 外部的调用方&lt;code&gt;start.py&lt;/code&gt;不用修改也不会出错，他是无感知的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;更简洁的导入 API&lt;br&gt;
+更短的导入语句通常更容易阅读。&lt;br&gt;
+&lt;code&gt;from pkg_a import MyUser&lt;/code&gt; 比 &lt;code&gt; from pkg_a.sub_folder.user_files.definitions import MyUser&lt;/code&gt; 更简洁 。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;精确控制导出内容&lt;br&gt;
+通过 &lt;strong&gt;all&lt;/strong&gt;，你可以严格控制当用户使用 from pkg_a import * 时会污染命名空间的内容。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="问题vs-code-默认不支持提示"&gt;问题：VS Code 默认不支持提示
+&lt;/h3&gt;&lt;p&gt;这就引出了我今天遇到的问题：VS Code 无法提示文件级导入路径。&lt;br&gt;
+当我输入 MyUser 尝试自动导入时，IDE 往往建议 from pkg_a.user_define import MyUser，而不是我希望的 from pkg_a import MyUser。&lt;/p&gt;
+&lt;p&gt;然后我排查了一圈，发现这是 VS Code 的 Python 语言服务器 Pylance 的默认行为。&lt;br&gt;
+配置项 python.analysis.includeAliasesFromUserFiles 默认是 false（为了性能考虑，默认不索引用户文件中的别名导出）。&lt;/p&gt;
+&lt;p&gt;解决方法：
+将该配置改为 true 后，VS Code 就能理解你在 &lt;strong&gt;init&lt;/strong&gt;.py 中做的“别名导出”是为了给外部使用的，从而正确地给出简短的包导入建议。&lt;/p&gt;
+&lt;p&gt;又花了我1个多小时，希望对你们有用！&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="english"&gt;English
+&lt;/h2&gt;&lt;h2 id="best-practices-for-python-package-exports--fixing-vs-code-intellisense"&gt;Best Practices for Python Package Exports &amp;amp; Fixing VS Code Intellisense
+&lt;/h2&gt;&lt;h3 id="tldr"&gt;TL;DR
+&lt;/h3&gt;&lt;p&gt;If you use &lt;code&gt;VS Code&lt;/code&gt; for Python development and want the IDE to suggest imports from the package root (&lt;code&gt;__init__.py&lt;/code&gt;) instead of the specific file path, you need to tweak a setting.&lt;/p&gt;
+&lt;p&gt;Search for &lt;strong&gt;&lt;code&gt;includeAliasesFromUserFiles&lt;/code&gt;&lt;/strong&gt; in your settings (or set &lt;code&gt;python.analysis.includeAliasesFromUserFiles&lt;/code&gt; in &lt;code&gt;settings.json&lt;/code&gt;) and set it to &lt;strong&gt;&lt;code&gt;true&lt;/code&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id="background"&gt;Background
+&lt;/h3&gt;&lt;p&gt;While practicing the best way to organize Python package exports today, I encountered an issue where VS Code failed to suggest the &amp;ldquo;clean&amp;rdquo; import path. I spent an hour troubleshooting this, so I&amp;rsquo;m documenting it here to verify it works for you. (Even AI assistants like Gemini 3.0 and Claude didn&amp;rsquo;t pinpoint the exact configuration cause immediately).&lt;/p&gt;
+&lt;h3 id="best-practices-for-python-package-organization"&gt;Best Practices for Python Package Organization
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;Project Structure
+Suppose we have the following structure, where &lt;code&gt;pkg_a&lt;/code&gt; is our custom package:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;📁 /project_root
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;├── 📁 pkg_a
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ ├── 📄 __init__.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ └── 📄 user_define.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└── 📄 start.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;Defining a Class
+We define a class inside &lt;code&gt;user_define.py&lt;/code&gt;:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# pkg_a/user_define.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MyUser&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;Exporting via &lt;code&gt;__init__.py&lt;/code&gt;
+In the package&amp;rsquo;s &lt;code&gt;__init__.py&lt;/code&gt;, we expose the content using &lt;code&gt;__all__&lt;/code&gt;. This pattern is widely used in open-source projects.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# pkg_a/__init__.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pkg_a.user_define&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MyUser&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;__all__&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="s2"&gt;&amp;#34;MyUser&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;Importing the Class
+When importing &lt;code&gt;MyUser&lt;/code&gt; in &lt;code&gt;start.py&lt;/code&gt;, there are two methods. The community &lt;strong&gt;strongly recommends Method 2&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# start.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Method 1 ❌ -&amp;gt; File Import (Implementation detail leak)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# from pkg_a.user_define import MyUser&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# Method 2 ✅ -&amp;gt; Package Import (Facade Pattern)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pkg_a&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MyUser&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;user_tom&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;MyUser&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Why is Method 2 better?&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Better Encapsulation/Abstraction&lt;/strong&gt;
+The consumer of the package doesn&amp;rsquo;t need to know the internal file structure.
+If you later rename &lt;code&gt;user_define.py&lt;/code&gt; to &lt;code&gt;models.py&lt;/code&gt;, you only need to update the import in &lt;code&gt;pkg_a/__init__.py&lt;/code&gt;. The external code in &lt;code&gt;start.py&lt;/code&gt; remains unchanged and unbroken.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Cleaner Import API&lt;/strong&gt;
+Shorter import statements are generally more readable.
+&lt;code&gt;from pkg_a import MyUser&lt;/code&gt; is much cleaner than &lt;code&gt;from pkg_a.sub_folder.user_files.definitions import MyUser&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Control Over Exports&lt;/strong&gt;
+It allows you to control exactly what is exported when someone uses &lt;code&gt;from pkg_a import *&lt;/code&gt; via the &lt;code&gt;__all__&lt;/code&gt; list.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="the-issue-vs-code-default-behavior"&gt;The Issue: VS Code Default Behavior
+&lt;/h3&gt;&lt;p&gt;Here is the problem I faced: &lt;strong&gt;VS Code defaults to suggesting the file import path.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;When I typed &lt;code&gt;MyUser&lt;/code&gt; hoping for an auto-import, the IDE suggested &lt;code&gt;from pkg_a.user_define import ...&lt;/code&gt; instead of the cleaner package import.&lt;/p&gt;
+&lt;p&gt;It turns out this is a setting in &lt;strong&gt;Pylance&lt;/strong&gt;. The setting &lt;code&gt;python.analysis.includeAliasesFromUserFiles&lt;/code&gt; defaults to &lt;code&gt;false&lt;/code&gt; (likely for performance reasons).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The Fix:&lt;/strong&gt;
+Setting this to &lt;code&gt;true&lt;/code&gt; allows Pylance to recognize that the alias created in &lt;code&gt;__init__.py&lt;/code&gt; is intended for public use, enabling it to suggest the correct, shorter import path.&lt;/p&gt;</description></item></channel></rss>
