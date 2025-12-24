@@ -2,7 +2,7 @@
 title = "我决定暂时放下React 转用Svelte"
 slug = "try-to-use-Svelte"
 description = "我做了一个违背祖训的决定..."
-categories = ["编程", "前端"]
+categories = ["编程技巧", "前端"]
 tags = ["前端", "React18", "Svelte"]
 keywords = ["前端", "React18", "Svelte"]
 weight = 3

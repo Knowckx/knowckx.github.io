@@ -2,7 +2,7 @@
 title: go打印嵌套的复杂结构体
 description: go打印嵌套的复杂结构体
 date: 2022-07-02 08:00:00+0800
-categories: ["编程", "golang"]
+categories: ["编程技巧", "golang"]
 tags: ["golang"]
 weight: 4
 ---

@@ -2,7 +2,7 @@
 title: 总结一下k8s查询secret几种方式
 description: 总结一下k8s查询secret几种方式
 date: 2022-03-02 08:00:00+0800
-categories: ["编程", "k8s"]
+categories: ["编程技巧", "k8s"]
 tags: ["k8s"]
 weight: 4
 ---

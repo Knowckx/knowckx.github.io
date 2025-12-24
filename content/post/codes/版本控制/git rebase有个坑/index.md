@@ -2,7 +2,7 @@
 title = "git rebase有个坑"
 slug = "git-rebase-push-rejected"
 description = "这是个老问题，以前没注意.."
-categories = ["编程"]
+categories = ["编程技巧"]
 tags = ["git"]
 keywords = ["git", "rebase"]
 weight = 3

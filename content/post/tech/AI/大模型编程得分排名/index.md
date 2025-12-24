@@ -2,7 +2,7 @@
 title = "大语言模型编程得分排名(更新中)"
 slug = "LLM-Programming-Ranking"
 description = "常用大模型编程得分排行榜"
-keywords = ["大模型","编程","AI","排行榜"]
+keywords = ["大模型","编程技巧","AI","排行榜"]
 categories = ["AI", "大模型"]
 tags = ["AI编程排行榜"]
 weight = 5

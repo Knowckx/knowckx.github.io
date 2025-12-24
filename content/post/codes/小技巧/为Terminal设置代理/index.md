@@ -2,7 +2,7 @@
 title: 为Terminal设置代理
 description: 为Terminal设置代理
 date: 2024-12-05 08:00:00+0800
-categories: ["编程"]
+categories: ["编程技巧"]
 tags: ["shell"]
 weight: 4
 ---

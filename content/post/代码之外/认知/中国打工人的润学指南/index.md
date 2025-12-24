@@ -2,12 +2,13 @@
 title = "awesome-run 中国打工人的润学指南"
 slug = "awesome-run"
 description = "awesome-run是一份为技术人才准备的全球机遇指南 & 移民攻略。"
-categories = ["代码之外"]
-tags = ["移民"]
-keywords = ["移民"]
+categories = ["认知"]
+tags = ["认知"]
+keywords = ["移民", "IT移民", "绿卡"]
 weight = 5
 date = "2025-08-09 23:15:47+0800"
 +++
+
 
 最近这几天，我把常见的技术移民国家的政策情况，收集并整理了一下。  
 我觉得这些信息其他人应该也需要，所以干脆列了个表上传了github。  
