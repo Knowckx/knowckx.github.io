@@ -2,9 +2,9 @@
 title = "一行命令解决gemini-cli在国内卡认证的问题"
 slug = "gemini-cli-auth-proxy-solution"
 description = "在国内网络环境下，gemini-cli的OAuth网页认证经常失败..."
-categories = ["AI"]
-tags = ["Gemini", "AI", "Proxy"]
-keywords = ["AI", "gemini-cli", "认证失败", "代理设置", "terminal proxy"]
+categories = ["编程相关"]
+tags = ["编程相关"]
+keywords = ["Gemini", "gemini-cli", "认证失败", "代理设置", "terminal proxy"]
 weight = 4
 date = "2025-07-15 11:12:34+0800"
 +++

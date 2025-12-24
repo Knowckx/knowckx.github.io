@@ -2,7 +2,7 @@
 title = "狐狸和鸡的故事"
 slug = "The-fable-of-the-fox-and-the-chicken"
 description = "每一位打工人都值得一读的故事"
-categories = ["代码之外"]
+categories = ["认知"]
 tags = ["认知"]
 keywords = ["认知", "养老金", "少子化"]
 weight = 5

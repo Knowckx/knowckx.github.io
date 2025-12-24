@@ -2,8 +2,8 @@
 title = "Python包导出最佳实践与VSCode智能提示修复"
 slug = "python-package-export-best-practices-vscode-fix-import-suggestions"
 description = "探讨Python中利用__init__.py进行包导出的最佳实践，并解决VSCode (Pylance) 默认无法给出正确的自动导入提示(import suggestions)的问题。"
-categories = ["python", "vscode"]
-tags = ["python", "Best Practices", "VS Code", "Pylance", "import suggestions"]
+categories = ["python"]
+tags = ["python", "VS Code"]
 keywords = ["python", "vscode", "pylance", "import suggestions", "__init__.py", "__all__", "includeAliasesFromUserFiles"]
 weight = 3
 date = "2025-12-16 22:01:17+0800"

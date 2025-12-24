@@ -2,7 +2,7 @@
 title = "我愿称之为史上最大的财富转移：养老金与年轻的供奉者"
 slug = "The-Pension-System-and-Its-Young-Tributaries"
 description = "最近全民社保的事沸沸扬扬..."
-categories = ["代码之外"]
+categories = ["认知"]
 tags = ["认知"]
 keywords = ["认知"]
 weight = 5

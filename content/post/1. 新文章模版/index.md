@@ -2,7 +2,7 @@
 title = "Markdown新文章模版"
 slug = "todo-link"
 description = "Markdown文章模版"
-categories = ["代码之外"]
+categories = ["认知"]
 tags = ["认知"]
 keywords = ["认知"]
 weight = 5

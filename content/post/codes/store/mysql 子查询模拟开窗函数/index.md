@@ -2,8 +2,8 @@
 title: mysql模拟开窗函数
 description: mysql使用子查询来模拟开窗函数
 date: 2024-01-26 08:00:00+0800
-categories: ["编程技巧"]
-tags: ["编程技巧"]
+categories: ["编程相关"]
+tags: ["编程相关"]
 weight: 4
 ---
 

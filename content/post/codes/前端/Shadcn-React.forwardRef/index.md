@@ -2,7 +2,7 @@
 title = "Shadcn的一个坑 forwardRef问题"
 slug = "Shadcn-React.forwardRef"
 description = "今天被一个shadcn-ui的问题坑了3个小时……"
-categories = ["编程技巧", "前端"]
+categories = ["编程相关", "前端"]
 tags = ["前端", "Shadcn", "React19"]
 keywords = ["Shadcn", "React.forwardRef", "React19"]
 weight = 2
