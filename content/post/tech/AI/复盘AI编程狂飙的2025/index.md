@@ -7,6 +7,7 @@ tags = ["AI", "编程", "职业转型", "Claude"]
 keywords = ["AI编程", "程序员转行", "DeepSeek", "Claude Code", "Cursor", "gemini"]
 weight = 3
 date = "2026-01-05 01:45:15+0800"
+draft = true
 +++
 
 > 原创声明: 本文首发于我的个人博客 [原文链接地址](https://blog.knowckx.top/p/ai-programming-2025-retrospective)
