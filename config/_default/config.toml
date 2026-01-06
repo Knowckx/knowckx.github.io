@@ -32,8 +32,8 @@ enableGitInfo = true
   lastmod = ['lastmod', 'modified', ':git', ':fileModTime', 'date'] # 按顺序依次获取
 
 
-[sitemap]
-  changefreq = 'weekly'
+# [sitemap]
+#  changefreq = 'weekly'
 
 
 # enableRobotsTXT = true
