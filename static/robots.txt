@@ -1,4 +1,0 @@
-Sitemap: https://blog.knowckx.top/sitemap.xml
-
-User-agent: *
-Disallow:

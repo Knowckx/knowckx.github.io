@@ -22,7 +22,7 @@ defaultContentLanguage = "zh-cn"
 hasCJKLanguage = true
 
 # Change it to your Disqus shortname before using
-disqusShortname = "hugo-theme-stack"
+# disqusShortname = "hugo-theme-stack"
 
 [pagination]
 pagerSize = 7
@@ -32,8 +32,8 @@ enableGitInfo = true
   lastmod = ['lastmod', 'modified', ':git', ':fileModTime', 'date'] # 按顺序依次获取
 
 
-# [sitemap]
-#  changefreq = 'weekly'
+[sitemap]
+  changefreq = 'daily'
+  filename = 'sitemap.xml'
 
-
-# enableRobotsTXT = true
+enableRobotsTXT = true
