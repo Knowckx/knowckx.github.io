@@ -1,3 +1,6 @@
+# Site description for SEO and Open Graph
+description = "Knowckx的个人技术博客，专注Golang、Python、AI编程、前端开发等领域的技术分享与实践"
+
 # Pages placed under these sections will be shown on homepage and archive page.
 mainSections = ["post"]
 # Output page's full content in RSS.
