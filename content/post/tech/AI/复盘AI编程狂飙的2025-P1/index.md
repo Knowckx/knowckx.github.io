@@ -5,7 +5,7 @@ description = "一个被淘汰的资深程序员在2026年初的深夜感悟：�
 categories = ["认知", "AI"]
 tags = ["回顾AI编程2025"]
 keywords = ["AI编程", "程序员转行", "DeepSeek", "Claude Code", "Cursor", "gemini"]
-weight = 3
+weight = 4
 date = "2026-01-05 01:45:15+0800"
 +++
 
@@ -61,4 +61,4 @@ Google 新推出的 `Antigravity` 编辑器正安静地悬浮在我的主显�
 是每一个还在这个行业里挣扎的人，所必须面对的未来。
 
 
-> 原创声明: 本文原创首发于我的个人博客 https://blog.knowckx.top
+> 原创声明: 本文于2026年元旦后首发于我的个人博客 https://blog.knowckx.top

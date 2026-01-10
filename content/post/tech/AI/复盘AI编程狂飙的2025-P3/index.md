@@ -5,7 +5,7 @@ description = "一个被淘汰的资深程序员在2026年初的深夜感悟：�
 categories = ["认知", "AI"]
 tags = ["回顾AI编程2025"]
 keywords = ["AI编程", "程序员转行", "DeepSeek", "Claude Code", "Cursor", "gemini"]
-weight = 3
+weight = 4
 date = "2026-01-07 23:00:15+0800"
 +++
 
@@ -97,4 +97,4 @@ date = "2026-01-07 23:00:15+0800"
 **所以，当一个东西（高质量的代码）可以被低成本大规模无限量产，无法分辨也没必要分辨来源时，它的稀缺价值也就归零了。**
 
 
-> 原创声明: 本文原创首发于我的个人博客 https://blog.knowckx.top
+> 原创声明: 本文于2026年元旦后首发于我的个人博客 https://blog.knowckx.top

@@ -5,7 +5,7 @@ description = "一个被淘汰的资深程序员在2026年初的深夜感悟：�
 categories = ["认知", "AI"]
 tags = ["回顾AI编程2025"]
 keywords = ["AI编程", "程序员转行", "DeepSeek", "Claude Code", "Cursor", "gemini"]
-weight = 3
+weight = 4
 date = "2026-01-06 00:00:15+0800"
 +++
 
@@ -45,4 +45,4 @@ AI编程，最多只能算一个加速开发的小工具罢了，有时候这个
 
 **我一直以为这种“人机协作”的平衡会维持很久。**
 
-> 原创声明: 本文原创首发于我的个人博客 https://blog.knowckx.top
+> 原创声明: 本文于2026年元旦后首发于我的个人博客 https://blog.knowckx.top
