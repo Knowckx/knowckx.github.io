@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>前端 on Knowckx's Blog</title><link>https://blog.knowckx.top/categories/%E5%89%8D%E7%AB%AF/</link><description>Recent content in 前端 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/categories/%E5%89%8D%E7%AB%AF/index.xml" rel="self" type="application/rss+xml"/><item><title>Shadcn的一个坑 forwardRef问题</title><link>https://blog.knowckx.top/p/shadcn-react.forwardref/</link><pubDate>Sun, 27 Apr 2025 01:04:49 +0800</pubDate><guid>https://blog.knowckx.top/p/shadcn-react.forwardref/</guid><description>&lt;h2 id="场景"&gt;场景
+&lt;/h2&gt;&lt;p&gt;现在是晚上1点，今天被一个&lt;code&gt;shadcn-ui&lt;/code&gt;的问题坑了3个小时……&lt;/p&gt;
+&lt;p&gt;啊， 我人生宝贵的三小时，够我打&lt;del&gt;10把红警小块地&lt;/del&gt;或者&lt;del&gt;魔兽世界打完一个完整的团队本&lt;/del&gt;。&lt;/p&gt;
+&lt;p&gt;这里记录一下，假如你们遇到了，希望能节约一点你们的时间！&lt;/p&gt;
+&lt;h2 id="shadcn获取组件ref"&gt;Shadcn获取组件ref
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;Shadcn&lt;/code&gt;增加UI组件的命令我想大家都知道&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;pnpm dlx shadcn@latest init
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;pnpm dlx shadcn@latest add input
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;今天我遇到一个需求，在input组件加载后实现输入框自动聚焦，因此需要拿到input组件的&lt;code&gt;ref&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;然后神奇的事件来了，我发现我没办法拿到&lt;code&gt;shadcn&lt;/code&gt;组件的ref&lt;br&gt;
+因为使用了&lt;code&gt;pnpm dlx shadcn@latest add input&lt;/code&gt;后&lt;br&gt;
+他生成的input代码长这样:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-typescript" data-lang="typescript"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="nx"&gt;React&lt;/span&gt; &lt;span class="kr"&gt;from&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;react&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;cn&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="kr"&gt;from&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;@/lib/utils&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;Input&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="nx"&gt;className&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kr"&gt;type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="nx"&gt;props&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;React&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ComponentProps&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;input&amp;#34;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;input&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="kr"&gt;type&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;data-slot&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;input&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;className&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;cn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="s2"&gt;&amp;#34;file:text-foreground placeholder:text-muted-foreground ...&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;className&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="na"&gt;...props&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;export&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;Input&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;发现没，里面压根没有&lt;code&gt;React.forwardRef&lt;/code&gt;&lt;br&gt;
+要知道&lt;code&gt;React.forwardRef&lt;/code&gt;这条命令是在 React v16.3.0 版本中正式推出的，所以&lt;code&gt;shadcn&lt;/code&gt;早就应该带这个引用了&lt;/p&gt;
+&lt;h2 id="排查"&gt;排查
+&lt;/h2&gt;&lt;h2 id="代码对比"&gt;代码对比
+&lt;/h2&gt;&lt;p&gt;然后我去官网比对了下代码版本:&lt;a class="link" href="https://ui.shadcn.com/docs/components/input" target="_blank" rel="noopener"
+&gt;官网的Input组件&lt;/a&gt;&lt;br&gt;
+点开&lt;code&gt;Installation - Manual&lt;/code&gt;，这里是他手动安装的版本:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-typescript" data-lang="typescript"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kr"&gt;as&lt;/span&gt; &lt;span class="nx"&gt;React&lt;/span&gt; &lt;span class="kr"&gt;from&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;react&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;cn&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="kr"&gt;from&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;@/lib/utils&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;Input&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;React&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;forwardRef&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;HTMLInputElement&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="na"&gt;React.ComponentProps&lt;/span&gt;&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;input&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="nx"&gt;className&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kr"&gt;type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="nx"&gt;props&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="nx"&gt;ref&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;// ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以发现他的版本是有&lt;code&gt;React.forwardRef&lt;/code&gt;的。&lt;/p&gt;
+&lt;p&gt;这说明，我的代码版本不对。&lt;/p&gt;
+&lt;h2 id="排查缓存问题"&gt;排查缓存问题：
+&lt;/h2&gt;&lt;p&gt;代码文件是&lt;code&gt;pnpm dlx shadcn@latest add input&lt;/code&gt;这条命令生成的。&lt;br&gt;
+首先想到可能是 &lt;code&gt;pnpm dlx&lt;/code&gt; 拉代码时自身可能有缓存。&lt;/p&gt;
+&lt;p&gt;执行&lt;code&gt;pnpm store prune&lt;/code&gt;，删除整个&lt;code&gt;node_modules&lt;/code&gt;，重新安装，没解决问题。&lt;/p&gt;
+&lt;h2 id="排查-registry"&gt;排查 Registry
+&lt;/h2&gt;&lt;p&gt;我很奇怪，难道是pnpm dlx 因为某种原因没有拉取到最新的 CLI 版本？&lt;br&gt;
+pnpm对应的&lt;code&gt;Registry&lt;/code&gt;给了我旧版本的代码？&lt;/p&gt;
+&lt;p&gt;找了下查和改Registry的方式&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-typescript" data-lang="typescript"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;pnpm&lt;/span&gt; &lt;span class="nx"&gt;config&lt;/span&gt; &lt;span class="kr"&gt;get&lt;/span&gt; &lt;span class="nx"&gt;registry&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;pnpm&lt;/span&gt; &lt;span class="nx"&gt;config&lt;/span&gt; &lt;span class="kr"&gt;set&lt;/span&gt; &lt;span class="nx"&gt;registry&lt;/span&gt; &lt;span class="nx"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//registry.npmmirror.com/ --global
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我原来用的腾讯源，换到了淘宝源&lt;/p&gt;
+&lt;p&gt;拉下来的组件代码还是没有带&lt;code&gt;React.forwardRef&lt;/code&gt;！&lt;/p&gt;
+&lt;p&gt;又换了次官方源。还是一样。&lt;/p&gt;
+&lt;p&gt;问了下Gemini, 他让我直接改源码，在源码里加上&lt;code&gt;React.forwardRef&lt;/code&gt;实现传递ref&lt;br&gt;
+因为这样的话相当于改了自动工具生成的文件，显然这个方案不好。&lt;/p&gt;
+&lt;h2 id="tailwind-v4--react19"&gt;Tailwind v4 + React19
+&lt;/h2&gt;&lt;p&gt;这时候脑子就抓狂了，感觉这事也太奇怪了。 耐着性子继续查(&lt;del&gt;反正老子今天不上班&lt;/del&gt;)。&lt;/p&gt;
+&lt;p&gt;为了缩小可能的范围，我准备创建一个新的最小包含Shadcn的mini项目来实验:&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://ui.shadcn.com/docs/installation/vite" target="_blank" rel="noopener"
+&gt;shadcn官网的安装流程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;按照官网的说明，重新安装的过程中，我发现了一个细节， Shadcn官网提到了 &lt;code&gt;Tailwind v4&lt;/code&gt;和&lt;code&gt;React19&lt;/code&gt;的升级问题。&lt;/p&gt;
+&lt;p&gt;我的本地版本是&lt;code&gt;Tailwind v4&lt;/code&gt;和&lt;code&gt;React 18.3&lt;/code&gt;&lt;br&gt;
+因为&lt;code&gt;React19&lt;/code&gt;是前几个月刚出的，我没更新，怕不稳定。(我习惯于用&lt;strong&gt;上一个大版本的最后一个小版本&lt;/strong&gt;)&lt;/p&gt;
+&lt;p&gt;然后我开始检查&lt;code&gt;React19&lt;/code&gt;和&lt;code&gt;React.forwardRef&lt;/code&gt;的关系，然后发现了一个重要信息:&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://react.dev/reference/react/forwardRef" target="_blank" rel="noopener"
+&gt;react官方的React.forwardRef&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这个API竟然已经被&lt;code&gt;React19&lt;/code&gt;打上了Deprecated！终于有了线索。&lt;/p&gt;
+&lt;p&gt;后面接着查，我发现了这个&lt;a class="link" href="https://github.com/shadcn-ui/ui/issues/6739" target="_blank" rel="noopener"
+&gt;shadcn-ui的issue&lt;/a&gt;，事情大体清楚了。&lt;/p&gt;
+&lt;h2 id="真相大白"&gt;真相大白
+&lt;/h2&gt;&lt;p&gt;到了新的&lt;code&gt;React19&lt;/code&gt;这个版本后，想获取组件的ref不需要再使用&lt;code&gt;React.forwardRef&lt;/code&gt;&lt;br&gt;
+而shadcn为了支持&lt;code&gt;Tailwind v4&lt;/code&gt;和&lt;code&gt;React 19&lt;/code&gt;，已经完成了代码更新。&lt;br&gt;
+包括shadcn官网目前提供的&lt;code&gt;Installation&lt;/code&gt;说明, 实际上是支持了&lt;code&gt;React 19&lt;/code&gt;的版本&lt;/p&gt;
+&lt;p&gt;而在用户这一边，当用户增加新的UI组件时，使用的默认命令行是&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;pnpm dlx shadcn@latest add input&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;因为用户本身输入的要求是&lt;code&gt;shadcn@latest&lt;/code&gt;。&lt;br&gt;
+既然是&lt;code&gt;latest&lt;/code&gt;，也就把最新的支持&lt;code&gt;React19&lt;/code&gt;的版本，没有使用&lt;code&gt;React.forwardRef&lt;/code&gt;的代码给用户了。&lt;/p&gt;
+&lt;p&gt;坑点就是&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;dlx shadcn@latest&lt;/code&gt;这个命令行不会识别你用的react具体版本，自动把最新的组件代码给你了&lt;/li&gt;
+&lt;li&gt;官网的&lt;code&gt;Installation - Manual&lt;/code&gt;没同步更新也没说明，使用的反而不是react19版本, 和CLI代码不同。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="解决方案"&gt;解决方案
+&lt;/h2&gt;&lt;p&gt;解决方式有两种&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;别用&lt;code&gt;shadcn@latest&lt;/code&gt;，而是指定一个旧版本的组件。一切依然岁月静好。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;激进。升级&lt;code&gt;react19&lt;/code&gt;。 我是本地小项目，所以直接就升级了。我把升级的命令行贴一下:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;// 升级react19 只推荐有把握的小项目直接升级
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;pnpm install --save-exact react@^19.0.0 react-dom@^19.0.0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;pnpm install --save-exact @types/react@^19.0.0 @types/react-dom@^19.0.0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;pnpm update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;新版本&lt;code&gt;React19&lt;/code&gt;获取组件的ref很简单&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-typescript" data-lang="typescript"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;inputRef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;useRef&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;HTMLInputElement&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;(&lt;/span&gt;&lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// 组件的Props
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;InputProps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;ref&lt;/span&gt;: &lt;span class="kt"&gt;inputRef&lt;/span&gt; &lt;span class="c1"&gt;// rect19 Props里可以直接传ref
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;Input&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="na"&gt;...InputProps&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="感想"&gt;感想:
+&lt;/h2&gt;&lt;p&gt;程序员的很多知识和技能，特别是对&lt;code&gt;生产工具/框架&lt;/code&gt;相关的，贬值真的很快。&lt;/p&gt;
+&lt;p&gt;假设我们有一位前端程序员，学习使用React工作了一段时间，他获得了如下的开发经验:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在 React 中，如果你想获取一个函数组件内部渲染的 DOM 元素的 ref，这个函数组件必须使用 &lt;code&gt;React.forwardRef&lt;/code&gt; 来包装。&lt;br&gt;
+否则，直接传递 ref prop 给这个函数组件是无效的（React 会发出警告），因为函数组件本身没有实例，ref 的目的是指向底层的 DOM 节点或类组件实例。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;而在2025年的4月的今天，这个经验已经&lt;strong&gt;贬值为0&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这也是很多程序员永远会&lt;strong&gt;疲于奔命&lt;/strong&gt;的原因，主流的开发技能，这部分的知识更新速度是很快的。&lt;br&gt;
+不仅自身需要时时学习，更何况现在还有&lt;strong&gt;AI编程&lt;/strong&gt;的入场。 真的是脚步停下来就会被淘汰。&lt;/p&gt;
+&lt;p&gt;收工！&lt;/p&gt;</description></item><item><title>我决定暂时放下React 转用Svelte</title><link>https://blog.knowckx.top/p/try-to-use-svelte/</link><pubDate>Sat, 13 Dec 2025 19:38:23 +0800</pubDate><guid>https://blog.knowckx.top/p/try-to-use-svelte/</guid><description>&lt;p&gt;作为一名多年经验的服务端开发，习惯了 JAVA/Go/Python 那种自上而下、逻辑确定的执行流。&lt;br&gt;
+当我转到全栈，深入使用了 &lt;code&gt;React 18/19&lt;/code&gt; 后，虽然觉得&lt;code&gt;React&lt;/code&gt;的生态真的是繁荣，比如光一个状态管理就有很多选择。&lt;br&gt;
+但是在日常的开发中，我越来越感觉到一种&lt;strong&gt;框架把它应该做的活扔给了我&lt;/strong&gt;的疲惫感。&lt;/p&gt;
+&lt;p&gt;所以我在想，为什么我写react时会觉得心累？ 大概有如下几个原因。&lt;/p&gt;
+&lt;h2 id="react的问题"&gt;react的问题
+&lt;/h2&gt;&lt;p&gt;React是有渲染状态的， React 的核心哲学是 &lt;code&gt;UI = f(State)&lt;/code&gt;，这很好。&lt;br&gt;
+但为了维持这个纯函数式的幻觉，React 引入了很多&lt;strong&gt;非业务逻辑需要&lt;/strong&gt;的复杂度。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;各种hook的负担:&lt;/strong&gt;
+从&lt;code&gt;useState&lt;/code&gt;开始，直接有&lt;code&gt;useRef&lt;/code&gt;, &lt;code&gt;useEffect&lt;/code&gt;, &lt;code&gt;useContext&lt;/code&gt;, &lt;code&gt;useReducer&lt;/code&gt;, &lt;code&gt;memo&lt;/code&gt;, &lt;code&gt;useMemo&lt;/code&gt;, &lt;code&gt;useCallback&lt;/code&gt;&amp;hellip;等一堆概念需要学习，熟悉，了解最佳实践和坑点。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;需要担心依赖数组：&lt;/strong&gt;
+大家都知道写很多hook都有依赖数组&lt;br&gt;
+比如写 &lt;code&gt;useEffect&lt;/code&gt; 时，就必须小心翼翼地维护依赖数组。少写了导致闭包陷阱，多写了会导致无限循环。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;需要担心性能优化&lt;/strong&gt;: React只有&lt;strong&gt;手动挡&lt;/strong&gt;的性能优化：&lt;br&gt;
+本来只是想渲染一个列表，结果发现父组件一动，子组件全部重新渲染了。&lt;br&gt;
+我有单次渲染强迫症，我就希望最好只有一次渲染。&lt;br&gt;
+于是被迫到处包一层 &lt;code&gt;useMemo&lt;/code&gt;、&lt;code&gt;useCallback&lt;/code&gt; 和 &lt;code&gt;React.memo&lt;/code&gt;。&lt;br&gt;
+这感觉就像是在手动管理内存，而不是在写业务。开发者的注意力就被分散了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Hooks 的闭包陷阱：&lt;/strong&gt; 在很多异步操作中，或者在闭包的场景下，假如你引用了State，就需要小心拿到的变量值是旧值。
+初学者可能需要很久才会发现这的问题。因为这并不直观。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;总结一下： 我发现我在使用react时，需要花费很多时间在思考我这代码是不是&lt;strong&gt;符合react的最佳实践&lt;/strong&gt;呢，是不是不小心&lt;strong&gt;重复渲染&lt;/strong&gt;了呢?
+有时候这部分用掉的时间，超过了“思考业务逻辑”的时间。这很不好。&lt;/p&gt;
+&lt;h2 id="寻找替代品-solidjs-vs-svelte"&gt;寻找替代品 SolidJS vs Svelte
+&lt;/h2&gt;&lt;p&gt;由于这些痛点，我开始寻找更直观的框架。&lt;br&gt;
+目光自然锁定在了两个在论坛上被经常提起的名字：&lt;code&gt;SolidJS&lt;/code&gt; 和 &lt;code&gt;Svelte&lt;/code&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SolidJS：极致的性能，细粒度更新，没有 Virtual DOM。它的 createSignal 比 React 的 useState 更符合逻辑直觉。&lt;/li&gt;
+&lt;li&gt;Svelte：编译型框架，在很多场景下，代码量能比 React 减少 30% 以上，同样没有 Virtual DOM，主打像写原生 HTML/JS 一样简单。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;为什么我最终选择了 Svelte？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在我细致地去了解这两个框架的能力之后，我个人感觉他们都很好，都成功解决了react的痛点 &amp;ndash;&amp;gt; 让写业务更加符合直觉，性能也更好。&lt;/p&gt;
+&lt;p&gt;既然都能解决核心问题，那么我作为一个&lt;em&gt;非专业向的前端&lt;/em&gt;，我最关心的其实就是&lt;strong&gt;社区热度&lt;/strong&gt;。&lt;br&gt;
+有社区热度的框架，活得更久，适配的轮子更多，遇到问题也好查资料。&lt;/p&gt;
+&lt;p&gt;那从目前的情况来看(今天是&lt;strong&gt;2025-12-13&lt;/strong&gt;) ，Svelte目前比solid有更好的社区热度和社区支持，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Svelte &amp;ndash;&amp;gt; github star 80k / NPM 周下载量 200万+&lt;/li&gt;
+&lt;li&gt;solid &amp;ndash;&amp;gt; github star 35k / NPM 周下载量 20万+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;企业背景与就业市场&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;企业背书： Svelte 的创始人 Rich Harris 加入了 Vercel（Next.js 的开发商）&lt;br&gt;
+这意味着 Svelte 拥有更好的资金保障，未来发展会比较稳定，不存在突然停止更新的情况。&lt;/li&gt;
+&lt;li&gt;就业机会： 虽然远少于 React 和 Vue，但在很多初创公司 Svelte 的招聘需求也正在增加。&lt;br&gt;
+上次爆出一个新闻，apple用Svelte重写了网页版App Store。只也是 Svelte 热度的表现吧。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="最后结语"&gt;最后结语
+&lt;/h2&gt;&lt;p&gt;我觉得个人项目写代码，最后还是要回归开发本身的乐趣的。&lt;br&gt;
+Svelte成功让我找回了刚开始学编程时的那种简单和快乐 -&amp;gt; 定义变量，修改它的值，界面随之改变。就这么简单。&lt;/p&gt;
+&lt;p&gt;可能 Svelte 不是大厂招聘的硬通货（那是 React/Vue 的地盘），但它绝对是独立开发者的好东西。&lt;/p&gt;
+&lt;p&gt;所以，作为一个&lt;strong&gt;独立开发者&lt;/strong&gt;，所以我使用&lt;code&gt;Svelte&lt;/code&gt;来代替&lt;code&gt;React&lt;/code&gt;&lt;/p&gt;</description></item></channel></rss>

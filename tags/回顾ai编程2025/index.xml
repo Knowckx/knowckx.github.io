@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>回顾AI编程2025 on Knowckx's Blog</title><link>https://blog.knowckx.top/tags/%E5%9B%9E%E9%A1%BEai%E7%BC%96%E7%A8%8B2025/</link><description>Recent content in 回顾AI编程2025 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/%E5%9B%9E%E9%A1%BEai%E7%BC%96%E7%A8%8B2025/index.xml" rel="self" type="application/rss+xml"/><item><title>一个被淘汰的程序员，复盘 AI 编程突破性的2025(P4)</title><link>https://blog.knowckx.top/p/ai-programming-2025-retrospective-part4/</link><pubDate>Thu, 08 Jan 2026 23:00:15 +0800</pubDate><guid>https://blog.knowckx.top/p/ai-programming-2025-retrospective-part4/</guid><description>&lt;h2 id="part4-2026年无人驾驶编程"&gt;Part 4 - 2026年 “无人驾驶”编程
+&lt;/h2&gt;&lt;p&gt;在进入正题前，我得给非技术背景的朋友解释一下&lt;strong&gt;IDE&lt;/strong&gt;的概念。&lt;/p&gt;
+&lt;p&gt;你可以把它想象成一个“数字化车间”。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个木匠干活不能徒手劈柴，他需要工作台，上面整齐地摆放着锯子、刨子、量尺等很多工具。&lt;/li&gt;
+&lt;li&gt;现代程序员干活，也不可能白板写代码(&lt;em&gt;某些公司的奇怪面试除外&lt;/em&gt;)。&lt;br&gt;
+IDE就是一个让程序员高效写代码的地方，它集成了代码提示工具，调试器（Debug 寻找代码里的虫子）以及各种各样的自动化工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;AI 对 IDE 支持分为几个阶段，有点类似于&lt;strong&gt;汽车的自动驾驶&lt;/strong&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;辅助驾驶时代（2021-2023）&lt;/strong&gt;： 代表作是 &lt;code&gt;GitHub Copilot&lt;/code&gt;。它更多是一个高级版的“自动补全”，你只需要写部分代码，他会猜出来你的意图，然后提示你可以一键补全剩下的代码。它只是个称职的副驾驶，能帮你省点力气。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;半自动驾驶时代（2024）&lt;/strong&gt;： 代表作是 &lt;code&gt;Cursor&lt;/code&gt; 。这一次 &lt;code&gt;IDE&lt;/code&gt; 发生了两个重大的质变：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;全局视野（Context）&lt;/strong&gt;：它不只看着你目前正在写的那个文件，它会读遍你整个项目，他比你更清楚你需要的那个函数在项目的什么位置，所以提供了更好的提示支持。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;原地重构（Cmd + K）&lt;/strong&gt;: 你选中一段屎山代码，你敲个 &lt;code&gt;Cmd/Ctrl + K&lt;/code&gt;，要求重写，要更优雅，它会按照它所知道的项目背景和其他代码文件内容生成适合的代码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;全自动驾驶时代（2025）&lt;/strong&gt;
+这就是我今天要说的“终局形态”， 编程界的“&lt;strong&gt;L4 级自动驾驶&lt;/strong&gt;”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;汽车行业折腾了十年，还没实现真正意义上的 L4 级别自动驾驶（即：在限定区域内，驾驶员可以完全不干预）。 &lt;/p&gt;
+&lt;p&gt;在 2026 年初，我们悲哀地发现：&lt;strong&gt;自动驾驶在马路上还没完全实现呢，但在程序员世界里 L4 级先降临了~&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;马路上的自动驾驶：需要处理复杂的物理世界、极端的天气，路边横穿出来的野猫，奇奇怪怪的马路杀手。&lt;br&gt;
+代码里的自动驾驶：编程语言是&lt;strong&gt;逻辑自洽&lt;/strong&gt;的，框架是标准化的。项目内的文件都是可以读取并且掌握的。&lt;br&gt;
+对于 AI 来说这环境简直太舒服了，这里不会没有随机的风雨，只有固定的逻辑需求。&lt;br&gt;
+AI 像上帝一样已经全部掌握了这个纯逻辑世界。&lt;/p&gt;
+&lt;p&gt;于是2026年，最新的编程流程已经变成了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;用户提出意图（帮我写个订单取消功能） 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; AI 提出实现方案 -&amp;gt; AI 拆解实施步骤 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; AI 执行步骤1 -&amp;gt; AI 产出步骤1的解决方案 -&amp;gt; AI 编写代码 -&amp;gt; AI 运行环境 -&amp;gt; 步骤1交付
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; AI 执行步骤2 .... 步骤2交付
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; AI 执行步骤N .... 步骤N交付
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;AI 自动打开浏览器，像真人一样视觉验收功能  -&amp;gt; 用户意图完成
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;这是一种令人恐惧的自主性。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;AI可以实现自己长时间无需外来介入直至完成目标的&lt;strong&gt;闭环&lt;/strong&gt;能力。&lt;br&gt;
+我知道，目前的&lt;code&gt;AI IDE&lt;/code&gt;还会卡住，它高阶抽象代码的能力也不好，甚至有些解决方案方向就是错的，但是&lt;strong&gt;全自动 AI 编程在结构上已经完备了&lt;/strong&gt;，后续只需要等待大模型逐渐提升解决问题的能力就行了。&lt;/p&gt;
+&lt;p&gt;在这个过程中，程序员变成了什么呢？&lt;br&gt;
+“监考老师”。AI是那个天赋异禀的考生，而你唯一的价值，是防止它在考卷上偶尔会乱画。&lt;br&gt;
+每个月准时给&lt;code&gt;Google/ChatGPT/Anthropic&lt;/code&gt;充值订阅费。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;老板那边，账本算得更清：&lt;/strong&gt;&lt;br&gt;
+35 岁的程序员: 没办法加班吧？要的还多。&lt;br&gt;
+25 岁的程序员: 经验怕不够吧，便宜点就算了，昨天竟然告诉我要求加薪？？？&lt;br&gt;
+AI：7x24 小时待命，不闹情绪，不买五险一金，一年订阅费只要几千块钱。 &lt;strong&gt;真香！！&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="part5死与新生deathrebirth"&gt;Part5 死与新生（Death&amp;amp;Rebirth）
+&lt;/h2&gt;&lt;p&gt;程序员曾经引以为傲的那些技术——会&lt;code&gt;C++&lt;/code&gt;/&lt;code&gt;JAVA&lt;/code&gt;&amp;hellip;N种语言的开发，能写出来质量很高的&lt;code&gt;Clean Code&lt;/code&gt;，常见的技术问题倒背如流 ——在 2025 年的这场海啸中，已经全部失去了意义。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;以前&lt;/strong&gt;的编程是“过程导向”的。 我们会关注这个功能是“如何实现的”，提交上去的代码质量高不高。&lt;br&gt;
+&lt;strong&gt;现在&lt;/strong&gt;的编程是“结果导向”的。 我们只关注“要什么”，什么功能是高价值的，具体的实现大部分托管给 AI。&lt;br&gt;
+&lt;strong&gt;未来&lt;/strong&gt;的编程，而且随着 AI 的快速进化，我相信一个完全不懂编程的普通人，告诉AI想要一个什么功能的APP，AI 直接现场给你搓出来的时刻离我们不会太遥远。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;所以，现实是非常残酷的：传统的手工编码，已经在事实上死亡了。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;无论你是出身大专还是 985，无论你是拥有 3 年还是 15 年的经验，只要你还在以“手工”的方式输出代码，你就在被淘汰的名单上。&lt;/p&gt;
+&lt;h3 id="part51传统编程的最后三块自留地"&gt;Part5.1 传统编程的最后三块“自留地”
+&lt;/h3&gt;&lt;p&gt;根据我的经验和见识，我认为未来人类程序员只剩下最后三个地方具有防御性的价值&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;第一，架构设计与高级抽象能力。&lt;/strong&gt; AI 可以写出完美的零件代码，但它还无法在没有任何指导的情况下，&lt;strong&gt;全局思考&lt;/strong&gt;如何让复杂的系统既健壮又灵活，这种“上帝视角”的全局观，依然需要人类的指导。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;第二，少数偏门与前沿方向。&lt;/strong&gt; AI最强的编程领域是什么？ 传统的前后端开发。这些领域在Github上有数不尽的训练材料喂给AI。而那些 AI 还没吃过足够多训练语料的领域——比如某些冷门的工业协议、前沿的量子计算、或者是私募基金内部密不透风的自研量化模型。AI没有训练材料，自然不会产生威胁。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;第三，对业务的深度洞察与“翻译”能力&lt;/strong&gt;&lt;br&gt;
+当用户提出大而空泛的整体性需求，例如&amp;quot;提高用户付费转化率&amp;quot;，AI并不能很好地解决这种问题。 AI 只擅长处理输入输出很明确的逻辑问题，只有人类能处理复杂业务场景下产出一系列的解决方案。&lt;br&gt;
+另外，AI也不擅长发现用户的需求点。所以在未来，没有程序员，只有“带着技术大脑”的产品经理&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="part52回归创意的本质"&gt;Part5.2 回归创意的本质
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;麦克阿瑟曾说: 老兵不死，只是凋零&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;中文: 危机。&lt;br&gt;
+他同时带有&lt;code&gt;危&lt;/code&gt;和&lt;code&gt;机&lt;/code&gt;两个字。 实际上每一次遇到危险的时候，往往也是一种难得的机会。&lt;/p&gt;
+&lt;p&gt;2025 年的这场技术海啸，对很多人来说是危机（Danger），但我觉得，它也是酝酿着很多的机会（Opportunity）。&lt;/p&gt;
+&lt;p&gt;在过去的就职岁月中，我经历过被公司&amp;quot;优化&amp;quot;的绝望，也经历过被 AI 碾压的无力。 但我惊喜地发现，在我放下了对“程序员”身份的执念时，我反而找回兴奋的感觉。&lt;br&gt;
+我确实有很多想做的东西。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;“然后，旧的程序员死去了，新的创造者诞生了。”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我不再是一个这也不会，那也不会需要花大量时间去自学的独立开发者， 我现在管着一支由 50 个 &lt;code&gt;Agent&lt;/code&gt;（AI 智能体） 组成的“虚拟开发小组”。&lt;/p&gt;
+&lt;p&gt;每一个AI时代的人，都可以成为一个&lt;strong&gt;超级个体&lt;/strong&gt;，一个人可以完成过去一个开发小组的产出能力。&lt;br&gt;
+AI出产品文档，AI出设计稿，AI实现前后端编码，AI实现自动部署运维&amp;hellip;&lt;/p&gt;
+&lt;p&gt;我不再关心那一行代码写得漂不漂亮，我只关心需求是不是合理的，是否解决了现实世界的痛点，产出的功能点是不是能吸引用户。&lt;/p&gt;
+&lt;h3 id="part53最后"&gt;Part5.3 最后
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;“那些灵魂被重力束缚的人，终将被时代留在身后。”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;请别哀悼石器时代你用来砍树的&lt;strong&gt;斧头&lt;/strong&gt;了，此时此刻，一台名为“AI Agent”的新时代&lt;strong&gt;高达&lt;/strong&gt;正停在你的面前。 驾驶舱已经开启，我们该出发了。&lt;/p&gt;
+&lt;p&gt;让我们一起去驾驶那台新时代的高达吧。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“自由高达，出击！”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;以上。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原创声明: 本文于2026年元旦后首发于我的个人博客 &lt;a class="link" href="https://blog.knowckx.top" target="_blank" rel="noopener"
+&gt;https://blog.knowckx.top&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>一个被淘汰的程序员，复盘 AI 编程突破性的2025(P3)</title><link>https://blog.knowckx.top/p/ai-programming-2025-retrospective-part3/</link><pubDate>Wed, 07 Jan 2026 23:00:15 +0800</pubDate><guid>https://blog.knowckx.top/p/ai-programming-2025-retrospective-part3/</guid><description>&lt;h2 id="part3-2025年技术海啸的奇点时刻"&gt;Part3 - 2025年：技术海啸的奇点时刻
+&lt;/h2&gt;&lt;p&gt;如果说 2025 年以前 AI 编程的进化还遵循着某种&amp;quot;线性&amp;quot;的发展，那么整个 2025 年，AI编程是以&amp;quot;&lt;strong&gt;指数级的姿态&lt;/strong&gt;&amp;ldquo;在狂飙突击。&lt;/p&gt;
+&lt;h3 id="part31-第一场海啸成本屠夫deepseek"&gt;Part3.1 - 第一场海啸 成本屠夫 DeepSeek
+&lt;/h3&gt;&lt;p&gt;2025 年初，当整个行业还在小心翼翼地计算着 &lt;code&gt;Token&lt;/code&gt; 成本，硅谷巨头们还在喋喋不休地抱怨算力多么昂贵时，&lt;code&gt;DeepSeek&lt;/code&gt; 带着它的 &lt;code&gt;V3&lt;/code&gt; 和 &lt;code&gt;R1&lt;/code&gt; 模型横空出世。&lt;/p&gt;
+&lt;p&gt;它像一柄重锤，直接把大模型的价格打到了地板上。 它的成本比硅谷同类的大模型整整降低了 80% 到 90%！&lt;/p&gt;
+&lt;p&gt;我清晰地记得，当时在&lt;code&gt;DeepSeek&lt;/code&gt;的官网为 &lt;code&gt;API-Key&lt;/code&gt; 充进去 10 块钱，竟然产生了一种&amp;quot;能用到地老天荒&amp;quot;的错觉。 &lt;/p&gt;
+&lt;p&gt;因为 &lt;code&gt;Token&lt;/code&gt; 太便宜了，我经常直接让AI一次性输出5个版本的解决方案，然后让他们互相辩论哪种才是最佳实践，只选一个最好的。&lt;br&gt;
+这种&amp;rdquo;&lt;strong&gt;火力覆盖&lt;/strong&gt;&amp;ldquo;的暴力美学在2025年前是不可想象的。&lt;/p&gt;
+&lt;p&gt;但这件事的第一个深层价值不只是在于&amp;quot;省钱&amp;rdquo;，而在于它彻底终结了&amp;quot;&lt;strong&gt;Token 焦虑&lt;/strong&gt;&amp;quot;，为后续的&amp;quot;&lt;strong&gt;多 Agent 协作&lt;/strong&gt;&amp;ldquo;铺平了基础&lt;/p&gt;
+&lt;p&gt;因为成本足够低，AI 终于摆脱了&amp;quot;一问一答&amp;quot;的简易对话模式，而是进入了&amp;quot;规模化折腾&amp;quot;的新纪元。 &lt;/p&gt;
+&lt;p&gt;它可以肆无忌惮地加载你项目中数十万行代码的完整上下文，也可以在后台跑 100 次不同的重构方案，自我验证，互相比较，直到找出那个最优解扔到你脸上。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;当然成本只有几毛钱，比你去菜市场买棵大白菜还便宜。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="part32-第二场海啸thinking模式普及"&gt;Part3.2 - 第二场海啸 Thinking模式普及
+&lt;/h3&gt;&lt;p&gt;如果说成本降低是&amp;quot;量变&amp;rdquo;，那么 &lt;strong&gt;Thinking 模式（推理模型）&lt;/strong&gt; 的普及则是 AI 编程从&amp;quot;辅助工具&amp;quot;迈向&amp;quot;生产力工具&amp;quot;的&amp;quot;质变&amp;quot;。&lt;/p&gt;
+&lt;p&gt;这场变革的起点可以追溯到 2024 年 9 月 OpenAI 发布的 o1 系列。&lt;/p&gt;
+&lt;p&gt;在那之前，大模型本质上是在进行&amp;quot;快思考&amp;quot;：根据你已经输入的内容，基于概率预测，&lt;strong&gt;蹦出下一个最可能的单词&lt;/strong&gt;。 &lt;/p&gt;
+&lt;p&gt;这种模式下，模型更像是在靠&amp;quot;猜&amp;quot;，虽然反应很快，但在并不擅长处理复杂问题，经常会产生&amp;quot;幻觉&amp;quot;现象。 &lt;/p&gt;
+&lt;p&gt;也就是大家常提到的 AI 在&lt;strong&gt;一本正经地胡说八道&lt;/strong&gt;，有时候还能编造一些现实中不存在的东西。&lt;/p&gt;
+&lt;p&gt;进入 2025 年时，推理模型开始被各家大模型普及。&lt;code&gt;Claude 3.7 Sonnet&lt;/code&gt;、&lt;code&gt;Google Gemini&lt;/code&gt; 以及国产 &lt;code&gt;DeepSeek R1&lt;/code&gt; 纷纷跟进，将 &lt;code&gt;Thinking&lt;/code&gt; 模式列为标配。&lt;/p&gt;
+&lt;p&gt;也是在这一年，大部分用户在使用大模型时习惯了输入完提示词后需要看着界面上的&lt;code&gt;Thinking&lt;/code&gt;等待一段时间。 &lt;/p&gt;
+&lt;p&gt;在这段沉默的时间里，AI 实际上在进行&lt;strong&gt;自我纠错&lt;/strong&gt;，它会不断质疑自己提出的方案，自问自答，在输出结果前就&lt;strong&gt;过滤掉低级的逻辑错误&lt;/strong&gt;，提高了回答的严谨性。&lt;/p&gt;
+&lt;p&gt;当幻觉问题被攻克之后，AI 在开发流程中的定位发生了变化。 它不再是一个只能写写细节代码的&amp;quot;半个玩具&amp;quot;，而是一个能够参与复杂问题处理并提出有效解决方案的可靠工具。&lt;/p&gt;
+&lt;h3 id="part33-第三场海啸claudecode"&gt;Part3.3 - 第三场海啸 Claude Code
+&lt;/h3&gt;&lt;p&gt;如果说 &lt;code&gt;DeepSeek&lt;/code&gt; 的成本优势 和 &lt;code&gt;Think模式&lt;/code&gt;的普及使得AI编程真正落地成为了生产力工具，&lt;br&gt;
+那么 2025 年2 月下旬 &lt;code&gt;Anthropic&lt;/code&gt; 发布的 &lt;code&gt;Claude Code&lt;/code&gt; 工具，则直接解决了AI下场&lt;strong&gt;动手&lt;/strong&gt;的能力问题。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;简单科普一下：&lt;code&gt;Claude Code&lt;/code&gt; 是一个可以安装在用户电脑上的应用程序，安装之后 AI 可以直接在用户电脑上阅读文件，修改文件、运行测试、执行命令。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;这是一个标志性的进展。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在此之前，AI 始终是一个被锁死在浏览器对话框里的&amp;quot;咨询顾问&amp;quot;，它写出的代码，必须由我这位&amp;quot;资深开发工程师&amp;quot;亲自审查一遍，然后“复制、粘贴”到项目里才算数。&lt;br&gt;
+我依然是代码的造物主，AI只是个生成部分代码，提高生产效率的工具。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;但是从此之后，AI就变成了一个可以亲自下场干活的&amp;quot;员工&amp;quot;。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;Claude Code&lt;/code&gt; 的支持下，我只需要输入一句，&amp;ldquo;帮我把 PrintDetail 这个函数的注释写一下&amp;rdquo;。&lt;br&gt;
+然后 AI 会自己动起来:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它先是用 &lt;code&gt;grep&lt;/code&gt; 命令搜索项目里的文件，定位函数位置&lt;/li&gt;
+&lt;li&gt;然后读取文件内容，分析目标函数的定义和上下文，产生最佳修改方案&lt;/li&gt;
+&lt;li&gt;直接改写文件，把最工整的注释填上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;整个过程，我只是坐在位子上喝咖啡。&lt;br&gt;
+屏幕上的光标飞速闪烁，仿佛有一个隐形的“助手”就坐在我旁边，用比我快百倍的速度敲击键盘。&lt;br&gt;
+我甚至没有打开 &lt;code&gt;IDE&lt;/code&gt;，回头一看，需求就搞定了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;此时此刻，AI 这已经不是“编程助手”了，而是“全自动代码机器人”。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在我第一次看到终端里会自动跳出 &lt;code&gt;grep&lt;/code&gt;、&lt;code&gt;vi&lt;/code&gt;、&lt;code&gt;git commit&lt;/code&gt; 的时候， 我感到一种后背发凉的恐惧。&lt;br&gt;
+它不是在帮我，&lt;strong&gt;它是在真的在取代我的手&lt;/strong&gt;。我意识到，人机的边界已经彻底模糊了。&lt;/p&gt;
+&lt;p&gt;当一个 &lt;code&gt;Git Commit&lt;/code&gt;（代码的提交记录）出现在代码仓库里，人类已经无法通过代码的质量、风格、甚至是其中的Bug，来判断这究竟是资深程序员写的，还是 AI 在三秒钟内生成的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当然，质量差的代码，我相信是人类写的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;所以，当一个东西（高质量的代码）可以被低成本大规模无限量产，无法分辨也没必要分辨来源时，它的稀缺价值也就归零了。&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原创声明: 本文于2026年元旦后首发于我的个人博客 &lt;a class="link" href="https://blog.knowckx.top" target="_blank" rel="noopener"
+&gt;https://blog.knowckx.top&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>一个被淘汰的程序员，复盘 AI 编程突破性的2025(P2)</title><link>https://blog.knowckx.top/p/ai-programming-2025-retrospective-part2/</link><pubDate>Tue, 06 Jan 2026 00:00:15 +0800</pubDate><guid>https://blog.knowckx.top/p/ai-programming-2025-retrospective-part2/</guid><description>&lt;h2 id="part2---2025年初-粘贴复制的黄昏"&gt;Part2 - 2025年初 粘贴/复制的黄昏
+&lt;/h2&gt;&lt;p&gt;让我们回到 2025 年初吧。&lt;/p&gt;
+&lt;p&gt;那时候，距离 &lt;code&gt;ChatGPT&lt;/code&gt; 震撼世界其实也就两年左右。&lt;/p&gt;
+&lt;p&gt;这段时间里 AI 在编程界的进展并没有那么快，在程序员圈子中，AI 只是从新闻里的“新鲜玩意儿”变成了“编程辅助必备”。&lt;/p&gt;
+&lt;p&gt;当时的市场上，&lt;strong&gt;Claude 3.5 Sonnet&lt;/strong&gt;  刚刚封神，&lt;strong&gt;GPT-4o&lt;/strong&gt; 还在和它反复拉锯，而 Google 的 &lt;strong&gt;Gemini 1.5 Pro&lt;/strong&gt; 以超长的上下文窗口被大家称赞。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;那时的我们，是怎么写代码的？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;大多数人的屏幕上都挂着一个网页窗口，进行着一种我感觉有点像是&lt;strong&gt;代码搬运工&lt;/strong&gt;的操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当我遇到一个记不清的&lt;code&gt;API&lt;/code&gt;接口，或者一个输入输出都很明确的函数需求&lt;/li&gt;
+&lt;li&gt;把需求像喂饭一样喂给 AI，看着它一行行吐出代码&lt;/li&gt;
+&lt;li&gt;最关键的一步来了：&lt;strong&gt;全文选中（Ctrl+A） 手动复制（Ctrl+C），回到 代码编辑器(IDE) 粘贴（Ctrl+V）&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;注意，复制粘贴的&lt;strong&gt;过程&lt;/strong&gt;很关键，这是我们作为程序员的尊严。&lt;strong&gt;尊严你懂吧&lt;/strong&gt;？&lt;/p&gt;
+&lt;p&gt;那时候的 AI，其实更像是一个能写出好代码的&lt;strong&gt;初级实习生&lt;/strong&gt;。
+它能写出漂亮的单点函数，带上详尽的注释说明，甚至能处理一些正则的撰写(一种对人类非常不友好的复杂的规则表达式)。&lt;/p&gt;
+&lt;p&gt;不过，也就这样了。它就像一个只有“短暂记忆”的鱼，它并不能认识你项目里那几千个错综复杂的文件，更没有能力去你的电脑里执行一些简单命令。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;那还是一个&amp;quot;手工&amp;quot;的时代，一个“辅助”的时代&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;那时候，行业里大家还是有一些傲慢的。&lt;br&gt;
+AI编程，最多只能算一个加速开发的小工具罢了，有时候这个工具还会吐出一些不存在的&lt;code&gt;API&lt;/code&gt;(AI幻觉)。&lt;/p&gt;
+&lt;p&gt;真正的代码审核，架构设计、跨模块解耦、复杂的 Bug 排查，还是得靠我们这些‘&lt;strong&gt;人类高级码农&lt;/strong&gt;’。&lt;/p&gt;
+&lt;p&gt;当时的 &lt;code&gt;GitHub Copilot&lt;/code&gt; 就像一个增强版的 &lt;code&gt;Tab&lt;/code&gt; 语法补全，&lt;code&gt;Cursor&lt;/code&gt; 还未大显身手，&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;我一直以为这种“人机协作”的平衡会维持很久。&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原创声明: 本文于2026年元旦后首发于我的个人博客 &lt;a class="link" href="https://blog.knowckx.top" target="_blank" rel="noopener"
+&gt;https://blog.knowckx.top&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>一个被淘汰的程序员，复盘 AI 编程突破性的2025(P1)</title><link>https://blog.knowckx.top/p/ai-programming-2025-retrospective-part1/</link><pubDate>Mon, 05 Jan 2026 01:45:15 +0800</pubDate><guid>https://blog.knowckx.top/p/ai-programming-2025-retrospective-part1/</guid><description>&lt;h2 id="part1-代码正在变成废钞"&gt;Part1 - 代码正在变成“废钞”
+&lt;/h2&gt;&lt;p&gt;2026 年 1 月 4 日，深夜。&lt;/p&gt;
+&lt;p&gt;今天是元旦假期的最后一天，窗外是喧嚣渐散的灯火。我坐在书房里，屏幕的光映在发际线&lt;strong&gt;略微&lt;/strong&gt;后移的额头上(只！是！略！微！)&lt;/p&gt;
+&lt;p&gt;Google 新推出的 &lt;code&gt;Antigravity&lt;/code&gt; 编辑器正安静地悬浮在我的主显示器上，配合着当今最强大的编程模型 &lt;code&gt;Claude Opus 4.5 (Thinking)&lt;/code&gt;，光标正以一种非人的速度在屏幕上狂奔。&lt;/p&gt;
+&lt;p&gt;我对着输入框给出了一个自然语言的指令：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“为我的行情浏览 App 增加一个全局的数据缓存吧，所有模块请求数据时都优先走全局缓存入口”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;屏幕那头，AI 开始多线程并行翻阅了整个项目的近万行代码，随后进入了数十秒的&lt;code&gt;Thinking&lt;/code&gt;(思考)模式。 然后输出了一套可靠的重构方案文档。&lt;/p&gt;
+&lt;p&gt;我喝了一口已经有些凉掉的咖啡，只回复了两个字：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;“批准。”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;接下来的五分钟，就是属于 2026 年 AI 编程最新的科幻时刻：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; AI 自动制定了执行方案
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; 开始写核心的业务逻辑
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; 补全单元测试
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; 自动执行单元测试
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; 更新旧代码中的依赖 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; 自动唤起内置的 Chrome 完成功能验收
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-&amp;gt; 最后，侧边栏弹出一个温柔的通知：
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;“功能已完成，所有测试用例都通过了”
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我靠在椅背上，翻阅着 AI 生成的那些从命名风格再到逻辑都&lt;strong&gt;没法挑剔的代码&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;回想起过去十年里那些在 &lt;code&gt;Google&lt;/code&gt; 和 &lt;code&gt;Stack Overflow&lt;/code&gt; 上疯狂翻找、在深夜为了处理一个线上问题常常 Debug 到眼眶通红的时光。&lt;/p&gt;
+&lt;p&gt;那些让我引以为傲的编程技巧，那些曾经支撑我拿着高薪的&lt;strong&gt;技术护城河&lt;/strong&gt;，在这一刻显得如此原始，就如同石器时代的农耕手作一样。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;我不仅是被职场淘汰了，现在也被 AI 淘汰了。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;站在 2026 年这个时间节点，我不得不承认： 我从大学开始苦练了十几年的编码技能和非常多的经验，正在像一张张过期的“&lt;strong&gt;废钞&lt;/strong&gt;”一样，迅速失去价值。&lt;/p&gt;
+&lt;p&gt;所以，我觉得我们需要坐下来，回头看看过去，特别是2025年这场正在发生的“AI 编程”大变革。&lt;/p&gt;
+&lt;p&gt;这绝非过往那种 Go 挑战 Java、Rust 挑战 C++ 的渐进式演进，而是一场彻底的&lt;strong&gt;推翻式大变革&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;是每一个还在这个行业里挣扎的人，所必须面对的未来。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原创声明: 本文于2026年元旦后首发于我的个人博客 &lt;a class="link" href="https://blog.knowckx.top" target="_blank" rel="noopener"
+&gt;https://blog.knowckx.top&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description></item></channel></rss>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Svn on Knowckx's Blog</title><link>https://blog.knowckx.top/tags/svn/</link><description>Recent content in Svn on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/svn/index.xml" rel="self" type="application/rss+xml"/><item><title>关于svn还原和重置命令</title><link>https://blog.knowckx.top/p/%E5%85%B3%E4%BA%8Esvn%E8%BF%98%E5%8E%9F%E5%92%8C%E9%87%8D%E7%BD%AE%E5%91%BD%E4%BB%A4/</link><pubDate>Thu, 18 Aug 2022 08:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/%E5%85%B3%E4%BA%8Esvn%E8%BF%98%E5%8E%9F%E5%92%8C%E9%87%8D%E7%BD%AE%E5%91%BD%E4%BB%A4/</guid><description>&lt;p&gt;git重置本地修改很方便，可以&lt;strong&gt;git reset &amp;ndash;hard&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;查了下svn对应的操作:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;svn revert . -R &lt;span class="c1"&gt;# 还原所有更改&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;svn cleanup . --remove-unversioned &lt;span class="c1"&gt;# 清理未被版本控制的文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item></channel></rss>

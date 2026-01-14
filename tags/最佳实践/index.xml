@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>最佳实践 on Knowckx's Blog</title><link>https://blog.knowckx.top/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link><description>Recent content in 最佳实践 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/index.xml" rel="self" type="application/rss+xml"/><item><title>Python函数的默认参数为何不能是[]或{}？</title><link>https://blog.knowckx.top/p/python-mutable-default-arguments-pitfall/</link><pubDate>Thu, 24 Jul 2025 11:12:34 +0800</pubDate><guid>https://blog.knowckx.top/p/python-mutable-default-arguments-pitfall/</guid><description>&lt;p&gt;今天在写一个股票行情的接口爬虫，为了方便我写了一个发送 POST 请求的函数。&lt;br&gt;
+签名类似于 &lt;code&gt;do_post(url, post_data={})&lt;/code&gt;&lt;br&gt;
+然后我把全部代码扔给&lt;code&gt;Gemini&lt;/code&gt;进行检查优化，它竟然提示我 &lt;code&gt;post_data={}&lt;/code&gt;这个写法存在一个经典的陷阱&lt;br&gt;
+我半信半疑去写了个简单的测试，结果发现还真是这样。&lt;/p&gt;
+&lt;p&gt;我觉得很多人和我一样，也不知道这一点，过来记录一下&lt;/p&gt;
+&lt;h3 id="复现"&gt;复现
+&lt;/h3&gt;&lt;p&gt;代码真的很简单，你可以先预测一下它的输出是什么。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;fn_test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input_map&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{}):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;函数开始时, input_map 是: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;input_map&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;input_map&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;token&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;123&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;函数结束时, input_map 变成: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;input_map&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;第一次调用&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;fn_test&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;第二次调用&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;fn_test&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;如果你认为两次调用的输出会一模一样，那就掉进陷阱里了。&lt;/p&gt;
+&lt;p&gt;实际的输出结果是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;--- 第一次调用 ---
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;函数开始时, input_map 是: {}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;函数结束时, input_map 变成: {&amp;#39;token&amp;#39;: 123}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;--- 第二次调用 ---
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;函数开始时, input_map 是: {&amp;#39;token&amp;#39;: 123}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;函数结束时, input_map 变成: {&amp;#39;token&amp;#39;: 123}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;第一次调用的输出是正常的&lt;/p&gt;
+&lt;p&gt;但是第二次调用的输出就不对了，为什么第二次调用的第一次打印会是&lt;code&gt;{'token': 123}&lt;/code&gt; ？ 默认值不应该是一个空字典&lt;code&gt;{}&lt;/code&gt;吗？&lt;/p&gt;
+&lt;h3 id="原因"&gt;原因
+&lt;/h3&gt;&lt;p&gt;这里python为我们留了一个坑，当函数声明的默认参数是一个可变对象时，比如dict或者list类型，&lt;/p&gt;
+&lt;p&gt;所有外面在调用此函数未提供具体参数的，他们实际上&lt;code&gt;都会共享同一个对象&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;也就是第一次无参调用此函数，和第二次无参调用此函数，他们指向了同一个dict.&lt;/p&gt;
+&lt;p&gt;那么假如在某次调用过程中，&lt;strong&gt;无意间修改了这个dict&lt;/strong&gt;，这个修改就会&lt;strong&gt;污染&lt;/strong&gt;后续所有无参的调用过程&lt;/p&gt;
+&lt;h3 id="解决方法"&gt;解决方法:
+&lt;/h3&gt;&lt;p&gt;把签名改成&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;fn_test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inputMap&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="kc"&gt;None&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;只声明他可能会属于dict这个类型，但是实际值默认是&lt;code&gt;None&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;反正记住一个简单的规则：不要使用&lt;code&gt;可变对象（如 [] 或 {}）&lt;/code&gt;作为函数的默认参数就可以了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;AI写业务代码真的太强了，我准备好退休了&lt;/p&gt;
+&lt;/blockquote&gt;</description></item></channel></rss>

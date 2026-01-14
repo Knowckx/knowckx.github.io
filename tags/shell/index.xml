@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Shell on Knowckx's Blog</title><link>https://blog.knowckx.top/tags/shell/</link><description>Recent content in Shell on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/shell/index.xml" rel="self" type="application/rss+xml"/><item><title>为Terminal设置代理</title><link>https://blog.knowckx.top/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</link><pubDate>Thu, 05 Dec 2024 08:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/%E4%B8%BAterminal%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/</guid><description>&lt;p&gt;Mac在终端下通过设置环境变量来配置代理，Linux的终端也是一样，这里记录一下。&lt;/p&gt;
+&lt;p&gt;打开你的代理软件，我用的是ClashX.&lt;br&gt;
+找到软件的代理端口，我这边http和socks5都是7890&lt;/p&gt;
+&lt;p&gt;终端里输入:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;https_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://127.0.0.1:7890 &lt;span class="nv"&gt;http_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;http://127.0.0.1:7890 &lt;span class="nv"&gt;all_proxy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;socks5://127.0.0.1:7890
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;设置好代理后，对该终端下执行的二进制都会生效，比如golang开发中的go get&lt;/p&gt;
+&lt;p&gt;设置好之后可以用&lt;strong&gt;curl&lt;/strong&gt;测试一下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;curl google.com
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 输出HTML&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;HTML&amp;gt;&amp;lt;HEAD&amp;gt;&amp;lt;meta http-equiv&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;content-type&amp;#34;&lt;/span&gt; &lt;span class="nv"&gt;content&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;text/html;charset=utf-8&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;TITLE&amp;gt;301 Moved&amp;lt;/TITLE&amp;gt;&amp;lt;/HEAD&amp;gt;&amp;lt;BODY&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;H1&amp;gt;301 Moved&amp;lt;/H1&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The document has moved
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;A &lt;span class="nv"&gt;HREF&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;http://www.google.com/&amp;#34;&lt;/span&gt;&amp;gt;here&amp;lt;/A&amp;gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;/BODY&amp;gt;&amp;lt;/HTML&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item></channel></rss>

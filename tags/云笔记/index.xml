@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>云笔记 on Knowckx's Blog</title><link>https://blog.knowckx.top/tags/%E4%BA%91%E7%AC%94%E8%AE%B0/</link><description>Recent content in 云笔记 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/%E4%BA%91%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>onenote生成目录</title><link>https://blog.knowckx.top/p/onenote%E7%94%9F%E6%88%90%E7%9B%AE%E5%BD%95/</link><pubDate>Sat, 17 Sep 2022 08:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/onenote%E7%94%9F%E6%88%90%E7%9B%AE%E5%BD%95/</guid><description>&lt;p&gt;Tips: 这是之前老blog的旧文章，从其他blog复制过来时图丢了&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;onenote&lt;/strong&gt;这个笔记我大概使用了8年多， 现在重度依赖onenote来组织和收集知识。&lt;/p&gt;
+&lt;p&gt;最近在研究给一个已定义好&lt;strong&gt;分级标题&lt;/strong&gt;的页面，生成大纲目录的方法。&lt;br&gt;
+(真想吐槽一下 这么简单的功能onenote就是不做)&lt;/p&gt;
+&lt;p&gt;开始在网上搜集信息，已知的方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过自带的&lt;em&gt;自定义标签&lt;/em&gt;来实现&lt;/li&gt;
+&lt;li&gt;通过付费插件 onetastic、数字珍宝来实现&lt;/li&gt;
+&lt;li&gt;通过开源插件Onemore来现实&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我最后测试了一下方案3，一个开源的插件：OneMore&lt;/p&gt;
+&lt;p&gt;开源地址在github，&lt;a class="link" href="https://github.com/stevencohn/OneMore" target="_blank" rel="noopener"
+&gt;传送门&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在release里可以下载安装。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意：需要&lt;code&gt;office&lt;/code&gt;版本的onenote，mac不支持，onenote for win10也不支持。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;安装完成后可以在&lt;strong&gt;开始&lt;/strong&gt;里看到多了一栏菜单。&lt;/li&gt;
+&lt;li&gt;在文中在设置好文本的各级标题后&lt;/li&gt;
+&lt;li&gt;选择&lt;strong&gt;片段&lt;/strong&gt;-&lt;strong&gt;目录&lt;/strong&gt;, 会自动生成目录&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;目录生成后带了超链接 可以实现刷新，回到顶部等&lt;br&gt;
+感谢开源作者的付出！&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>修电脑 on Knowckx's Blog</title><link>https://blog.knowckx.top/categories/%E4%BF%AE%E7%94%B5%E8%84%91/</link><description>Recent content in 修电脑 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/categories/%E4%BF%AE%E7%94%B5%E8%84%91/index.xml" rel="self" type="application/rss+xml"/><item><title>解决AMD CPU 长时间待机会自动重启的问题</title><link>https://blog.knowckx.top/p/solving-amd-cpus-standby-restarting/</link><pubDate>Sun, 21 Dec 2025 10:24:38 +0800</pubDate><guid>https://blog.knowckx.top/p/solving-amd-cpus-standby-restarting/</guid><description>&lt;h2 id="场景"&gt;场景
+&lt;/h2&gt;&lt;p&gt;我的笔记本是 机械革命无界15x暴风雪 CPU是&lt;code&gt;AMD R7-H-255&lt;/code&gt;，也就是7840H/8745H/8845H的马甲U&lt;/p&gt;
+&lt;p&gt;最近遇到的问题是笔记本在长时间低负载待机时，大概2个小时后就会自动重启，&lt;/p&gt;
+&lt;p&gt;对应的Windows系统事件是&lt;code&gt;41&lt;/code&gt;，也就是非正常关机&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://blog.knowckx.top/p/solving-amd-cpus-standby-restarting/41-error.webp"
+width="1200"
+height="501"
+srcset="https://blog.knowckx.top/p/solving-amd-cpus-standby-restarting/41-error_hu_b2dcb065fb25a13b.webp 480w, https://blog.knowckx.top/p/solving-amd-cpus-standby-restarting/41-error_hu_cec4fa8cd2e6b12e.webp 1024w"
+loading="lazy"
+alt="41-非正常关机"
+class="gallery-image"
+data-flex-grow="239"
+data-flex-basis="574px"
+&gt;&lt;/p&gt;
+&lt;p&gt;这很恼火，因为我有些服务跑需要&lt;code&gt;7x24&lt;/code&gt;小时运行。&lt;/p&gt;
+&lt;h2 id="解决"&gt;解决
+&lt;/h2&gt;&lt;p&gt;然后我查了一圈资料，发现这是一个复杂问题，和系统/BIOS/芯片组驱动都有关系。&lt;br&gt;
+核心原因是长时间待机时，CPU的负载太低了，AMD的CPU就会自动重启。&lt;/p&gt;
+&lt;p&gt;网上给的很的多方案都是尝试加负载来解决:&lt;br&gt;
+BIOS关闭CPU的节能模式 / 用软件锁最低频率 / 电源计划设置最低处理器 等等&amp;hellip;&lt;/p&gt;
+&lt;p&gt;我相信这些方案都是有效的，但是解决问题都&lt;code&gt;不够优雅&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;经过我的多次测试，发现了一个最简单的解决方案:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;卸载你目前的AMD的驱动软件&lt;/li&gt;
+&lt;li&gt;去AMD官网安装最新的&lt;code&gt;25.12.1&lt;/code&gt;版本&lt;/li&gt;
+&lt;li&gt;然后点开&lt;strong&gt;管理更新&lt;/strong&gt;-&amp;gt; &lt;strong&gt;更新AMD的芯片组驱动&lt;/strong&gt;（&lt;code&gt;Chipset Drivers&lt;/code&gt;）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src="https://blog.knowckx.top/p/solving-amd-cpus-standby-restarting/chipset%20driver.webp"
+width="1200"
+height="487"
+srcset="https://blog.knowckx.top/p/solving-amd-cpus-standby-restarting/chipset%20driver_hu_1515c95804ed2e64.webp 480w, https://blog.knowckx.top/p/solving-amd-cpus-standby-restarting/chipset%20driver_hu_b3374b4395b43933.webp 1024w"
+loading="lazy"
+alt="Chipset Drivers"
+class="gallery-image"
+data-flex-grow="246"
+data-flex-basis="591px"
+&gt;&lt;/p&gt;
+&lt;p&gt;更新完成后，经过我这一周的实机测试，没有再出现异常的重启。&lt;/p&gt;
+&lt;p&gt;这个问题困扰我3个小时，希望对你们有用。&lt;/p&gt;</description></item><item><title>联想笔记本Fn+Ctrl键会唤醒cortana的问题</title><link>https://blog.knowckx.top/p/lenovo-laptops-disabling-fn-ctrl-cortana/</link><pubDate>Wed, 30 Apr 2025 12:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/lenovo-laptops-disabling-fn-ctrl-cortana/</guid><description>&lt;h2 id="场景-ctrlfn唤醒小娜的问题"&gt;场景: Ctrl+Fn唤醒小娜的问题
+&lt;/h2&gt;&lt;p&gt;联想的笔记本，按住键盘上的&lt;code&gt;Ctrl+Fn&lt;/code&gt;后，会尝试唤醒&lt;code&gt;微软小娜&lt;/code&gt;。&lt;br&gt;
+假如你的电脑已经卸载了小娜，那么就会出现一个弹窗，提示:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;需要使用新应用以打开此ms cortana2&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这是因为小娜卸载后，他找不到这个应用，引导你去windows的应用商店下载。&lt;/p&gt;
+&lt;h2 id="解决方案"&gt;解决方案
+&lt;/h2&gt;&lt;p&gt;这个问题很烦人，所以我花了1小时多搜了一圈资料，找到了解决方案。&lt;/p&gt;
+&lt;p&gt;有两个方式可以解决，可以试一下:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方案1 卸载联想的应用&lt;code&gt;Lenovo Hotkeys&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Lenovo Hotkeys&lt;/code&gt;是联想的一个系统快捷键设置应用，可能装机时自带了，也可以后期从win10商店里下载。 &lt;br&gt;
+这个应用管理了&lt;code&gt;Fn键&lt;/code&gt;的效果，还有开启&lt;code&gt;大小写&lt;/code&gt;的面板提示，开启&lt;code&gt;NumLock&lt;/code&gt;键的面板提示等。&lt;/p&gt;
+&lt;p&gt;直接卸载此软件可以解决&lt;code&gt;Ctrl+Fn&lt;/code&gt;的问题:&lt;br&gt;
+进入Windows设置（快捷键: Win+I）&amp;gt; 应用 &amp;gt; 搜索:&lt;code&gt;联想快捷键&lt;/code&gt; 或者 &lt;code&gt;Lenovo Hotkeys&lt;/code&gt; &amp;gt; 卸载&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方案2 关闭联想的对应服务&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;快捷键&lt;code&gt;Win+S&lt;/code&gt;, 输入&lt;code&gt;服务&lt;/code&gt;, 打开Win的&lt;code&gt;服务&lt;/code&gt;窗口&lt;/li&gt;
+&lt;li&gt;在服务里找&lt;code&gt;Lenovo Function and Fn Key Service&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;右键属性 -&amp;gt; 点击&lt;code&gt;停用&lt;/code&gt; 然后启动类型改成&lt;code&gt;禁止&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;此时应该 &lt;code&gt;Ctrl+Fn&lt;/code&gt; 不会触发了。测试后重启电脑再次确定一下。&lt;/p&gt;
+&lt;h2 id="禁用后有什么好处"&gt;禁用后有什么好处:
+&lt;/h2&gt;&lt;p&gt;解放了&lt;code&gt;Home键&lt;/code&gt;和&lt;code&gt;End键&lt;/code&gt;。 在编辑长文件时，可以试下这两个快捷键:&lt;/p&gt;
+&lt;p&gt;快捷键&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;Fn&lt;/kbd&gt; + &lt;kbd&gt;左箭头&lt;/kbd&gt; -&amp;gt; 实现跳转到文件顶部（Home键功能）&lt;/p&gt;
+&lt;p&gt;快捷键&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;Fn&lt;/kbd&gt; + &lt;kbd&gt;右箭头&lt;/kbd&gt; -&amp;gt; 实现跳转到文件末尾（End键功能）&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="备注联想的fn键的其他效果"&gt;备注:联想的Fn键的其他效果
+&lt;/h2&gt;&lt;p&gt;Fn+空格  控制键盘背光&lt;/p&gt;
+&lt;p&gt;Fn+M 启用/禁用触摸板&lt;/p&gt;
+&lt;p&gt;Fn+Q 不同操作模式间切换（节能、性能、智能）&lt;/p&gt;
+&lt;p&gt;Fn+Esc 开启和关闭Fn&lt;/p&gt;</description></item></channel></rss>

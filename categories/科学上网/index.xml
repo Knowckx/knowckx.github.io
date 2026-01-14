@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>科学上网 on Knowckx's Blog</title><link>https://blog.knowckx.top/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</link><description>Recent content in 科学上网 on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/categories/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/index.xml" rel="self" type="application/rss+xml"/><item><title>科学上网-推荐一个自用的机场</title><link>https://blog.knowckx.top/p/cfw-v2rayn-airport/</link><pubDate>Thu, 10 Apr 2025 08:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/cfw-v2rayn-airport/</guid><description>&lt;h2 id="更新"&gt;更新
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;2025-07-05 凌晨更新&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;暂时&lt;strong&gt;不推荐&lt;/strong&gt;这个机场!&lt;/p&gt;
+&lt;p&gt;最近我发现刷&lt;code&gt;youtube&lt;/code&gt;时节点经常断流，更新了新的节点情况也没变好。&lt;br&gt;
+工单的回复是GFW的封杀缘故，但是无法令人信服(别的机场都好好的 就你特别？)&lt;br&gt;
+等待他的网络质量稳定下来再说吧。&lt;br&gt;
+同时我也在看看其他的机场，有好的我会更新。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2025-04-10 下午更新&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;机场我还在用，我应该是20年注册的，应该有5年多了。&lt;br&gt;
+（这么一个小站竟然没跑路，也挺神奇的）&lt;/li&gt;
+&lt;li&gt;这个机场的节点过一段时间就会更新地址，记得[刷新订阅 + 节点测速 + 重新选择最优节点]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://blog.knowckx.top/image-1.png"
+loading="lazy"
+alt="我的购买记录"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2022-04-13 下午05:16更新&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;今天v2ex的网友提出了这个机场的账号流量是&lt;code&gt;100G/月&lt;/code&gt;，这是我之前没有注意到的，&lt;br&gt;
+因为我平时使用完全够用，所有没有考虑这点，这里需要指出一下。&lt;/p&gt;
+&lt;h2 id="旧帖内容"&gt;旧帖内容
+&lt;/h2&gt;&lt;p&gt;两年前我也为了一个稳定的科学上网手段折腾过，还专门买过服务器自建Shadowsocks。&lt;br&gt;
+后面发现这事不太靠谱，一但被墙锁定IP就要重新去VPS换新IP，不仅麻烦，而且换一次公网IP在很多VPS那边是收费项目。&lt;/p&gt;
+&lt;p&gt;这时候我发现机场才是我这样的懒人最需要的东西。&lt;br&gt;
+交点钱，给我能稳定科学上网的节点，不要费心，不要整多余的事！&lt;/p&gt;
+&lt;p&gt;目前这个机场我使用了2年半，感觉良好。&lt;br&gt;
+关键胜在节点多，费用也比较便宜。(假如你有edu邮箱，性价比很高)&lt;br&gt;
+所以推荐一下。&lt;/p&gt;
+&lt;p&gt;下面说几个重点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;这是个&lt;em&gt;公益向&lt;/em&gt;站点。最好使用&lt;code&gt;edu邮箱&lt;/code&gt;注册，买套餐时会有&lt;strong&gt;50%优惠&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;登陆这个机场有时候需要挂VPN.&lt;/li&gt;
+&lt;li&gt;假如你注册时需要邀请码，可以试试这个&lt;code&gt;1KL9&lt;/code&gt;, &lt;a class="link" href="https://okti.xyz/auth/register?code=1KL9" target="_blank" rel="noopener"
+&gt;带邀请的入口&lt;/a&gt;。&lt;br&gt;
+通过邀请注册的用户可以获得0.99资金，可以免费使用公益节点套餐试用。&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://okti.xyz/auth/register" target="_blank" rel="noopener"
+&gt;不带邀请的入口&lt;/a&gt;可以点击这里&lt;/li&gt;
+&lt;li&gt;注册后记得加一下&lt;code&gt;官方TG群&lt;/code&gt;！ 他的域名可能会换(旧域名称发生过被GFW拦截)&lt;/li&gt;
+&lt;li&gt;翻墙的客户端，Mac V2RayU / Windows V2RayN&lt;/li&gt;
+&lt;li&gt;一个节点被封锁了 记得刷新一下订阅&lt;/li&gt;
+&lt;li&gt;提供的节点比较多，推荐测速一下，使用你那边&lt;code&gt;延迟最小&lt;/code&gt;的那个节点。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最后的重点，&lt;strong&gt;对于机场这东西，永远不推荐一上来就买长时间套餐！！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;假如你不放心，害怕他跑路，那就买个1毛钱/3毛钱的公益套餐&lt;code&gt;多试用几次&lt;/code&gt;！&lt;br&gt;
+1毛钱买不了吃亏买不了上当。&lt;/p&gt;
+&lt;p&gt;祝你们玩得开心~&lt;/p&gt;</description></item></channel></rss>

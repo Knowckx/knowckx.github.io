@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vscode on Knowckx's Blog</title><link>https://blog.knowckx.top/tags/vscode/</link><description>Recent content in Vscode on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/vscode/index.xml" rel="self" type="application/rss+xml"/><item><title>vscode中的Markdown</title><link>https://blog.knowckx.top/p/vscode-markdown/</link><pubDate>Sun, 01 Jan 2023 12:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/vscode-markdown/</guid><description>&lt;h2 id="markdown-all-in-one插件"&gt;Markdown All in One插件
+&lt;/h2&gt;&lt;h2 id="比较实用的功能"&gt;比较实用的功能
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;B&lt;/kbd&gt; -&amp;gt; &lt;strong&gt;文字加粗&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;打开命令行，输入&lt;code&gt;toc&lt;/code&gt;, 根据多级标题实现目录功能&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;先选中文本，再粘贴链接，快速创建超链接&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;kbd&gt;Alt&lt;/kbd&gt; + &lt;kbd&gt;Shift&lt;/kbd&gt; + &lt;kbd&gt;F&lt;/kbd&gt; -&amp;gt; 表格文本格式化（惊奇）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://github.com/yzhang-gh/vscode-markdown/raw/master/images/gifs/table-formatter.gif"
+loading="lazy"
+alt="alt text"
+&gt;&lt;/p&gt;</description></item></channel></rss>

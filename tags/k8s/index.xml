@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>K8s on Knowckx's Blog</title><link>https://blog.knowckx.top/tags/k8s/</link><description>Recent content in K8s on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/k8s/index.xml" rel="self" type="application/rss+xml"/><item><title>k8s端口转发脚本</title><link>https://blog.knowckx.top/p/k8s%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%84%9A%E6%9C%AC/</link><pubDate>Fri, 22 Jul 2022 08:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/k8s%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%84%9A%E6%9C%AC/</guid><description>&lt;h2 id="k8s端口转发原理"&gt;k8s端口转发原理
+&lt;/h2&gt;&lt;p&gt;我们知道有一些数据库或者服务的API设有白名单机制, 只有在特定的生产集群内部才能访问。&lt;br&gt;
+因为不对公网暴露，我们本地肯定是访问不了的。&lt;/p&gt;
+&lt;p&gt;而在日常工作嘛，总会有一些紧急需求需要连上这些服务，在本地进行一些调试、触发、执行SQL什么的临时性操作，
+那这时候就需要把对应的端口转发出来。&lt;/p&gt;
+&lt;p&gt;我们知道&lt;code&gt;kubectl port-forward&lt;/code&gt;可以把k8s的&lt;code&gt;service&lt;/code&gt;转发到你的本地，&lt;br&gt;
+因此一个常见的做法就是在k8s上创建一个pod专门作为转接，由这个Pod去访问目标端口，&lt;br&gt;
+同时通过&lt;code&gt;port-forward&lt;/code&gt;把对应的pod和端口转到你本地，这样就可以在本地进行连接调试了。&lt;/p&gt;
+&lt;p&gt;下面发一下我日常使用的脚本：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;set&lt;/span&gt; -e
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# args&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;KubeCfg&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;test--prod &lt;span class="c1"&gt;# 目标集群的kubeconfig -- kubecm的列表项&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;NameSpace&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;test-ns &lt;span class="c1"&gt;# 目标ns&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;REMOTE_HOST&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;test.remotehost.com &lt;span class="c1"&gt;# 需要转发的目标host&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;REMOTE_PORT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;5432&lt;/span&gt; &lt;span class="c1"&gt;# 需要转发的目标port&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;LOCAL_PORT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;5439&lt;/span&gt; &lt;span class="c1"&gt;# 本地port&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;TEMP_POD_NAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;test-portjump &lt;span class="c1"&gt;# 用于转发的pod名称&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;kubecm switch &lt;span class="nv"&gt;$KubeCfg&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 脚本退出时自动清理掉pod&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;function&lt;/span&gt; cleanup &lt;span class="o"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;cleanup...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; kubectl delete -n &lt;span class="nv"&gt;$NameSpace&lt;/span&gt; pod/&lt;span class="nv"&gt;$TEMP_POD_NAME&lt;/span&gt; --grace-period &lt;span class="m"&gt;1&lt;/span&gt; --wait&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;trap&lt;/span&gt; cleanup EXIT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;kubectl run -n &lt;span class="nv"&gt;$NameSpace&lt;/span&gt; --image marcnuri/port-forward &lt;span class="nv"&gt;$TEMP_POD_NAME&lt;/span&gt; &lt;span class="se"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; --env &lt;span class="nv"&gt;REMOTE_HOST&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$REMOTE_HOST&lt;/span&gt; &lt;span class="se"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; --env &lt;span class="nv"&gt;REMOTE_PORT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$REMOTE_PORT&lt;/span&gt; &lt;span class="se"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; --env &lt;span class="nv"&gt;LOCAL_PORT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$REMOTE_PORT&lt;/span&gt; &lt;span class="se"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; --port &lt;span class="nv"&gt;$REMOTE_PORT&lt;/span&gt; &lt;span class="se"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; --restart&lt;span class="o"&gt;=&lt;/span&gt;Never
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;kubectl &lt;span class="nb"&gt;wait&lt;/span&gt; -n &lt;span class="nv"&gt;$NameSpace&lt;/span&gt; --for&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;condition&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Ready pod/&lt;span class="nv"&gt;$TEMP_POD_NAME&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;kubectl port-forward -n &lt;span class="nv"&gt;$NameSpace&lt;/span&gt; pod/&lt;span class="nv"&gt;$TEMP_POD_NAME&lt;/span&gt; &lt;span class="nv"&gt;$LOCAL_PORT&lt;/span&gt;:&lt;span class="nv"&gt;$REMOTE_PORT&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; sleep &lt;span class="m"&gt;60&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; nc -vz 127.0.0.1 &lt;span class="nv"&gt;$LOCAL_PORT&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt; &lt;span class="c1"&gt;# 保持连接&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;两个注意点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;这个脚本需要安装一个&lt;code&gt;kubecm&lt;/code&gt;，这是一个常用的切&lt;code&gt;kubeconfig&lt;/code&gt;的工具&lt;/li&gt;
+&lt;li&gt;脚本的最后写了一个循环，是因为kubectl port-forward这个命令在5min中没有操作的话会自动断开连接。&lt;br&gt;
+实际工作中你可能出去倒杯咖啡就断了。因此需要需要这个循环来保持连接。&lt;br&gt;
+(这个东西我翻了很多资料，这应该是client这边最好的保持连接的方式了)
+不要滥用这个脚本。&lt;br&gt;
+理论上这个脚本可以让你连上生产环境的一切地址~&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一定要小心呐。一定要小心呐。一定要小心呐。&lt;/p&gt;</description></item><item><title>总结一下k8s查询secret几种方式</title><link>https://blog.knowckx.top/p/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8Bk8s%E6%9F%A5%E8%AF%A2secret%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</link><pubDate>Wed, 02 Mar 2022 08:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8Bk8s%E6%9F%A5%E8%AF%A2secret%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</guid><description>&lt;h2 id="k8s-secret"&gt;k8s secret
+&lt;/h2&gt;&lt;p&gt;作为一个后端来Infra Team工作有一年了，总结一下目前我已知的获取k8s secret的方式，因为这个需求日常经常会用到&lt;/p&gt;
+&lt;h3 id="1-手动decode"&gt;1. 手动Decode
+&lt;/h3&gt;&lt;p&gt;这最常见的方式，使用命令&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;kubectl get secret testsecret -o yaml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后手动把base64编码后的字符串复制出来&lt;br&gt;
+再去执行&lt;code&gt;echo xx | base64 -D&lt;/code&gt;&lt;br&gt;
+这种应该是大部分使用k8s的开发人员最常用的方式。&lt;br&gt;
+缺点是中间有一段手动复制的操作，用上了鼠标，效率比较低，不够high level~&lt;/p&gt;
+&lt;h3 id="2-使用jsonpath"&gt;2. 使用jsonpath
+&lt;/h3&gt;&lt;p&gt;这个其实是今天发现的，用&lt;code&gt;jsonpath&lt;/code&gt;可以一条命令里完成取secret的操作&lt;/p&gt;
+&lt;p&gt;比如有下面的secret&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;kind: Secret
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;apiVersion: v1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;data:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; properties: ClJFRElTX0hPU1Q9ZGFhcy1yZWRpcy1iZD
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; user.password: hcy1yZWy1yZWRpcyRpcy1iZDClJFRElTX0hPU1Q9ZGF
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个secret有两个值， 假如我们想取properties的信息,可以使用&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;kubectl get secrets/testsecret -o jsonpath=&amp;quot;{.data.properties}&amp;quot; | base64 -D&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;jsonpath可以把对应需要的文本筛选出来，就很舒服&lt;/p&gt;
+&lt;p&gt;另外, 假如key里面已经有了一个字符.应该怎么办？
+可以使用:&lt;br&gt;
+&lt;code&gt;kubectl get secrets/testsecret -o jsonpath=&amp;quot;{.data\.properties}&amp;quot; | base64 -D&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id="3-使用插件kubectl-view-secret"&gt;3. 使用插件kubectl view-secret
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;kubectl view-secret&lt;/code&gt;是一个kubectl的插件，
+安装之后可以直接通过kubectl view-secret命令看secret的内容，
+github可以搜到，不多说了&lt;/p&gt;
+&lt;p&gt;我身边很多同事在用这个插件，肯定是好用的&lt;/p&gt;
+&lt;h3 id="4安装lens"&gt;4.安装Lens
+&lt;/h3&gt;&lt;p&gt;Lens是一个k8s可视化工具，可视化工具嘛，鼠标点点就出来了。&lt;br&gt;
+Lens对应查pod，查pod里的log什么的都挺方便的，懒人必备~&lt;/p&gt;
+&lt;p&gt;综述，以上几种方式，我的推荐顺序是 &lt;code&gt;3 &amp;gt; 4 = 2 &amp;gt; 1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;kubectl view-secret装好后方便一些&lt;/p&gt;
+&lt;p&gt;下班~！&lt;/p&gt;</description></item></channel></rss>

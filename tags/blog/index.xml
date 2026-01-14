@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on Knowckx's Blog</title><link>https://blog.knowckx.top/tags/blog/</link><description>Recent content in Blog on Knowckx's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 14 Jan 2026 13:06:51 +0000</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>hugo的lastmod更新问题</title><link>https://blog.knowckx.top/p/hugo-lastmod-update/</link><pubDate>Wed, 29 Nov 2023 17:12:34 +0800</pubDate><guid>https://blog.knowckx.top/p/hugo-lastmod-update/</guid><description>&lt;h2 id="背景"&gt;背景
+&lt;/h2&gt;&lt;p&gt;最近我改了几篇旧文章之后，发现google没有对我的&lt;code&gt;更新内容&lt;/code&gt;进行及时收录&lt;br&gt;
+我查了一下原因，发现hugo自动生成的&lt;code&gt;sitemap.xml&lt;/code&gt;里，&lt;br&gt;
+对于我手动更新了内容的那篇文章，他的&lt;code&gt;lastmod&lt;/code&gt;并没有变化。&lt;/p&gt;
+&lt;h2 id="关于lastmod字段"&gt;关于lastmod字段
+&lt;/h2&gt;&lt;p&gt;lastmod字段的作用，是告诉搜索引擎的&lt;code&gt;爬虫&lt;/code&gt;，这个页面最后的修改时间。&lt;br&gt;
+假如你的页面实际内容改了，但是这个值没有更新，就会导致爬虫判断这个页面没有改动 &lt;br&gt;
+这就导致了搜索引擎没有及时收录你这次的改动(其实最终会收录，但是时间会很久)&lt;/p&gt;
+&lt;h2 id="hugo的lastmod时间"&gt;hugo的lastmod时间
+&lt;/h2&gt;&lt;p&gt;Hugo在生成&lt;code&gt;sitemap&lt;/code&gt;时，确定&lt;lastmod&gt;值有一个顺序，优先级从高到低：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;文章头部&lt;code&gt;Front Matter&lt;/code&gt;里手动指定的&lt;code&gt;lastmod&lt;/code&gt;字段&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-Yaml" data-lang="Yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nn"&gt;---&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;我的文章&amp;#34;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;date&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ld"&gt;2023-01-01T10:00:00&lt;/span&gt;&lt;span class="m"&gt;+08&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;00&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;lastmod&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ld"&gt;2024-03-15T14:30:00&lt;/span&gt;&lt;span class="m"&gt;+08&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;00&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c"&gt;# Hugo会用这个&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nn"&gt;---&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start="2"&gt;
+&lt;li&gt;
+&lt;p&gt;文章头部&lt;code&gt;Front Matter&lt;/code&gt;里指定的&lt;code&gt;publishDate&lt;/code&gt;字段&lt;br&gt;
+如果找不到 lastmod，Hugo会查找 publishDate&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;文章头部&lt;code&gt;Front Matter&lt;/code&gt;里指定的&lt;code&gt;date&lt;/code&gt;字段&lt;br&gt;
+如果以上两者都没有，Hugo会使用 date 参数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Git 提交信息 (如果 配置项里&lt;code&gt;enableGitInfo&lt;/code&gt; 为 true)：&lt;br&gt;
+如果你的项目是一个Git仓库，并且你在Hugo的配置文件 (hugo.toml 或 config.toml) 中设置了 enableGitInfo = true，&lt;br&gt;
+Hugo会尝试使用最后一次影响该文件的Git提交的作者日期 (author date) 作为 lastmod。这通常是最准确的自动方式。
+&lt;code&gt;:git&lt;/code&gt; 从文件的 git 提交记录获取&lt;br&gt;
+好像和CI有联系&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;文件系统修改时间 (Fallback)：&lt;br&gt;
+如果以上都不可用，它可能会尝试使用文件的实际修改时间，但这个显然在跨系统或CI/CD环境中不可靠。
+&amp;lsquo;:fileModTime&amp;rsquo;
+我测试了下，在&lt;code&gt;CI模式&lt;/code&gt;下，这个值会把&lt;strong&gt;所有文章&lt;/strong&gt;的&lt;code&gt;lastmod&lt;/code&gt;改成最近这次CI执行时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="最后解决方案"&gt;最后解决方案
+&lt;/h2&gt;&lt;p&gt;方式1 使用git记录的文件修改时间 -&amp;gt; &lt;strong&gt;推荐！&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-toml" data-lang="toml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c"&gt;# config.toml&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;enableGitInfo&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt; &lt;span class="c"&gt;# 启用GitInfo支持&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;frontmatter&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;lastmod&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;lastmod&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;modified&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;:git&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;:fileModTime&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;date&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="c"&gt;# 按顺序依次获取&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;a class="link" href="https://gohugo.io/configuration/front-matter/" target="_blank" rel="noopener"
+&gt;具体的配置解释参考&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Hugo的Markdown语法示例</title><link>https://blog.knowckx.top/p/hugo-markdown/</link><pubDate>Mon, 21 Aug 2023 12:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/hugo-markdown/</guid><description>&lt;h2 id="各级标题"&gt;各级标题
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# H1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;## H2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;### H3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="文字效果"&gt;文字效果
+&lt;/h2&gt;&lt;h3 id="斜体--加粗"&gt;斜体 + 加粗
+&lt;/h3&gt;&lt;p&gt;这是&lt;em&gt;文字斜体&lt;/em&gt;效果&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;这是*文字斜体*效果
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这是&lt;strong&gt;文字加粗&lt;/strong&gt;效果&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;这是**文字加粗**效果
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="删除线--下划线"&gt;删除线 + 下划线
+&lt;/h3&gt;&lt;p&gt;这是一段&lt;del&gt;加了删除线的文本&lt;/del&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;这是一段~加了删除线的文本~
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这是一段&lt;u&gt; 下划线示例文本 &lt;/u&gt;内容&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;这是一段&amp;lt;u&amp;gt; 下划线示例文本 &amp;lt;/u&amp;gt;内容
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="高亮"&gt;高亮
+&lt;/h3&gt;&lt;p&gt;Most &lt;mark&gt;salamanders&lt;/mark&gt; are nocturnal&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Most &amp;lt;mark&amp;gt;salamanders&amp;lt;/mark&amp;gt; are nocturnal
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;别的编辑器可以用&amp;quot;&lt;code&gt;==高亮文本==&lt;/code&gt;&amp;ldquo;来实现高亮，hugo好像不行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="超链接"&gt;超链接
+&lt;/h3&gt;&lt;p&gt;&lt;a class="link" href="http://www.baidu.com" target="_blank" rel="noopener"
+&gt;百度一下，你就知道&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[百度一下，你就知道](http://www.baidu.com)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="拓展标记"&gt;拓展标记
+&lt;/h2&gt;&lt;h3 id="键盘按键"&gt;键盘按键
+&lt;/h3&gt;&lt;p&gt;&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;X&lt;/kbd&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;kbd&amp;gt;Ctrl&amp;lt;/kbd&amp;gt; + &amp;lt;kbd&amp;gt;X&amp;lt;/kbd&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="上下标"&gt;上下标
+&lt;/h3&gt;&lt;p&gt;下标 H&lt;sub&gt;2&lt;/sub&gt;O&lt;/p&gt;
+&lt;p&gt;上标 X&lt;sup&gt;n&lt;/sup&gt; + Y&lt;sup&gt;n&lt;/sup&gt; = Z&lt;sup&gt;n&lt;/sup&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;下标 H&amp;lt;sub&amp;gt;2&amp;lt;/sub&amp;gt;O
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;上标 X&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; + Y&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; = Z&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="引用"&gt;引用
+&lt;/h2&gt;&lt;h3 id="块内引用"&gt;块内引用
+&lt;/h3&gt;&lt;p&gt;这是&lt;code&gt;块内引用&lt;/code&gt;效果&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;这是`块内引用`效果
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="区块引用"&gt;区块引用
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;这是区块引用的效果&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; 这是区块引用的效果
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="代码块"&gt;代码块
+&lt;/h3&gt;&lt;p&gt;缩进推荐四个空格&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-html" data-lang="html"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;A paragraph&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="列表"&gt;列表
+&lt;/h2&gt;&lt;h3 id="有序列表"&gt;有序列表
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;First item&lt;/li&gt;
+&lt;li&gt;Second item&lt;/li&gt;
+&lt;li&gt;Third item&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="无序列表"&gt;无序列表
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;List item&lt;/li&gt;
+&lt;li&gt;Another item&lt;/li&gt;
+&lt;li&gt;And another item&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="多级列表"&gt;多级列表
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Fruit
+&lt;ul&gt;
+&lt;li&gt;Apple&lt;/li&gt;
+&lt;li&gt;Orange&lt;/li&gt;
+&lt;li&gt;Banana&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;* Fruit
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * Apple
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * Orange
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * Banana
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="图片"&gt;图片
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;图片需要放在和&lt;code&gt;.md&lt;/code&gt;文件同一个文件夹里&lt;/li&gt;
+&lt;li&gt;hugo一行可以引用多个图片，支持横排图片&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://blog.knowckx.top/p/hugo-markdown/1.jpg"
+width="2000"
+height="1400"
+srcset="https://blog.knowckx.top/p/hugo-markdown/1_hu_32a169d2afcbcc04.jpg 480w, https://blog.knowckx.top/p/hugo-markdown/1_hu_3a73c825de3f86b8.jpg 1024w"
+loading="lazy"
+alt="Image 1"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="342px"
+&gt; &lt;img src="https://blog.knowckx.top/p/hugo-markdown/2.jpg"
+width="1500"
+height="2250"
+srcset="https://blog.knowckx.top/p/hugo-markdown/2_hu_2a56812cdca2c35e.jpg 480w, https://blog.knowckx.top/p/hugo-markdown/2_hu_70fe5bdaa5eb1f20.jpg 1024w"
+loading="lazy"
+alt="Image 2"
+class="gallery-image"
+data-flex-grow="66"
+data-flex-basis="160px"
+&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;![&lt;span class="nt"&gt;Image 1&lt;/span&gt;](&lt;span class="na"&gt;1.jpg&lt;/span&gt;) ![&lt;span class="nt"&gt;Image 2&lt;/span&gt;](&lt;span class="na"&gt;2.jpg&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="水平分割线"&gt;水平分割线
+&lt;/h2&gt;&lt;p&gt;下面是两种水平分割线：&lt;/p&gt;
+&lt;hr&gt;
+&lt;hr&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;代码:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;---
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;***
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="高级功能"&gt;高级功能
+&lt;/h2&gt;&lt;h2 id="表格"&gt;表格
+&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Age&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Bob&lt;/td&gt;
+&lt;td&gt;27&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Alice&lt;/td&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Name | Age
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;--------|------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Bob | 27
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Alice | 23
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="注释"&gt;注释
+&lt;/h2&gt;&lt;p&gt;注释的内容对用户不可见&lt;/p&gt;
+&lt;!-- 这里是注释的内容 --&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-html" data-lang="html"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c"&gt;&amp;lt;!-- 这里是注释的内容 --&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="视频地址的引用"&gt;视频地址的引用
+&lt;/h2&gt;&lt;p&gt;For more details, check out the &lt;a class="link" href="https://stack.jimmycai.com/writing/shortcodes" target="_blank" rel="noopener"
+&gt;documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id="youtube-video"&gt;YouTube video
+&lt;/h3&gt;&lt;div class="video-wrapper"&gt;
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/0qwALOOvUik"
+allowfullscreen
+title="YouTube Video"
+&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;p&gt;格式:&lt;br&gt;
+&lt;code&gt;{{&lt;/code&gt; + &lt;code&gt;视频标签&lt;/code&gt; + &lt;code&gt;}}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;4种视频标签格式:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt; youtube &amp;#34;0qwALOOvUik&amp;#34; &amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt; bilibili &amp;#34;BV1d4411N7zD&amp;#34; &amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt; tencent &amp;#34;g0014r3khdw&amp;#34; &amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt; video &amp;#34;https://www.w3schools.com/tags/movie.mp4&amp;#34; &amp;gt; # 通用视频地址
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>knckx未来148</title><link>https://blog.knowckx.top/p/seo-test-148/</link><pubDate>Fri, 11 Apr 2025 13:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/seo-test-148/</guid><description>&lt;p&gt;注: 这篇文章只是为了测试google/bing之类的搜索引擎有没有正常收录站点文章， 没有实际价值&lt;/p&gt;
+&lt;h2 id="knowckxseo测试"&gt;knowckxSEO测试
+&lt;/h2&gt;&lt;p&gt;内容 knckx未来369&lt;/p&gt;</description></item><item><title>评论系统测试页</title><link>https://blog.knowckx.top/p/%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E6%B5%8B%E8%AF%95%E9%A1%B5/</link><pubDate>Sat, 17 Sep 2022 08:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E6%B5%8B%E8%AF%95%E9%A1%B5/</guid><description>&lt;p&gt;Tips: 此文章只是为了测试评论系统的效果。&lt;/p&gt;</description></item></channel></rss>
