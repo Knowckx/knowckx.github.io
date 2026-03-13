@@ -2,6 +2,7 @@
 title: onenote生成目录
 description: onenote生成目录
 date: 2022-09-17 08:00:00+0800
+lastmod: 2025-04-13T12:20:37+08:00
 categories: ["云笔记"]
 tags: ["云笔记"]
 weight: 5
@@ -38,4 +39,3 @@ Tips: 这是之前老blog的旧文章，从其他blog复制过来时图丢了
 
 目录生成后带了超链接 可以实现刷新，回到顶部等  
 感谢开源作者的付出！
-

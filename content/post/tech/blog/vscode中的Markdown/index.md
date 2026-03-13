@@ -7,6 +7,7 @@ tags = ["vscode", "Markdown"]
 keywords = ["vscode", "Markdown"]
 weight = 5
 date = "2023-01-01 12:00:00+0800"
+lastmod = "2025-07-15T16:53:00+08:00"
 +++
 
 ## Markdown All in One插件
@@ -23,7 +24,6 @@ date = "2023-01-01 12:00:00+0800"
 - <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd> -> 表格文本格式化（惊奇）
 
 ![alt text](https://github.com/yzhang-gh/vscode-markdown/raw/master/images/gifs/table-formatter.gif)
-
 
 
 

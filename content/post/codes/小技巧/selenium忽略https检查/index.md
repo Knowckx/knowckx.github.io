@@ -2,6 +2,7 @@
 title: selenium设置Chrome忽略https证书
 description: selenium设置Chrome忽略https证书
 date: 2024-05-05 08:00:00+0800
+lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]
 tags: ["爬虫"]
 weight: 5

@@ -2,6 +2,7 @@
 title: yfinance使用的示例
 description: yfinance使用代理访问数据
 date: 2025-03-07 08:00:00+0800
+lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "量化"]
 tags: ["量化"]
 weight: 6

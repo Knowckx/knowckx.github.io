@@ -7,6 +7,7 @@ tags = ["python", "VS Code"]
 keywords = ["python", "vscode", "pylance", "import suggestions", "__init__.py", "__all__", "includeAliasesFromUserFiles"]
 weight = 3
 date = "2025-12-16 22:01:17+0800"
+lastmod = "2025-12-24T11:01:31+08:00"
 +++
 
 ## 中文
@@ -193,7 +194,6 @@ It turns out this is a setting in **Pylance**. The setting `python.analysis.incl
 
 **The Fix:**
 Setting this to `true` allows Pylance to recognize that the alias created in `__init__.py` is intended for public use, enabling it to suggest the correct, shorter import path.
-
 
 
 

@@ -2,6 +2,7 @@
 title: Git删除远程分支某次commit的方法
 description: Git删除远程分支某次commit的方法
 date: 2024-09-18 08:00:00+0800
+lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]
 tags: ["git"]
 weight: 3

@@ -2,6 +2,7 @@
 title: 关于Golang切片的几个注意点
 description: Golang切片
 date: 2023-01-02 08:00:00+0800
+lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "golang"]
 tags: ["golang"]
 weight: 4

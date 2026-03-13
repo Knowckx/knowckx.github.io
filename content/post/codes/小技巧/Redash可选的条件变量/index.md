@@ -2,6 +2,7 @@
 title: Redash可选的条件变量
 description: Redash可选的条件变量
 date: 2022-06-15 08:00:00+0800
+lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]
 tags: []
 weight: 5

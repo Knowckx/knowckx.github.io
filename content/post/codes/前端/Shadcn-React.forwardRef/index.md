@@ -7,6 +7,7 @@ tags = ["前端", "Shadcn", "React19"]
 keywords = ["Shadcn", "React.forwardRef", "React19"]
 weight = 2
 date = "2025-04-27 01:04:49+0800"
+lastmod = "2025-12-24T11:01:31+08:00"
 +++
 
 
@@ -197,7 +198,6 @@ return (
 不仅自身需要时时学习，更何况现在还有**AI编程**的入场。 真的是脚步停下来就会被淘汰。
 
 收工！
-
 
 
 

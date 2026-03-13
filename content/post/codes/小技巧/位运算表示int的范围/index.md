@@ -2,6 +2,7 @@
 title: 位运算表示int的范围
 description: 位运算表示int的范围
 date: 2023-07-29 08:00:00+0800
+lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]
 tags: []
 weight: 4

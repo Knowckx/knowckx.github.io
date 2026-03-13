@@ -7,6 +7,7 @@ tags = ["回顾AI编程2025"]
 keywords = ["AI编程", "程序员转行", "DeepSeek", "Claude Code", "Cursor", "gemini"]
 weight = 4
 date = "2026-01-05 01:45:15+0800"
+lastmod = "2026-01-12T13:45:13+08:00"
 +++
 
 

@@ -7,6 +7,7 @@ tags = ["git"]
 keywords = ["git", "rebase"]
 weight = 3
 date = "2023-04-28 08:00:00+0800"
+lastmod = "2025-12-24T11:01:31+08:00"
 +++
 
 ### 场景:
@@ -114,7 +115,6 @@ Commit ID的历史会是一条直线，就像前面例子的`A --- B --- D --- C
 换句话说，如果在你执行 rebase 到你准备 push 的这段时间里，有其他人也向这个远程分支推送了新的提交，
 `--force-with-lease` 就会失败。这可以防止你覆盖掉别人在你不知情的情况下推送的工作。
 日常工作中，推荐使用 `git push --force-with-lease` 代替 `git push -f`。
-
 
 
 

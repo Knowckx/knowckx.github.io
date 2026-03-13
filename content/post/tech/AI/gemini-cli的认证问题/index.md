@@ -7,6 +7,7 @@ tags = ["编程相关"]
 keywords = ["Gemini", "gemini-cli", "认证失败", "代理设置", "terminal proxy"]
 weight = 4
 date = "2025-07-15 11:12:34+0800"
+lastmod = "2025-12-24T11:01:31+08:00"
 +++
 
 `gemini-cli` 是 Google Gemini 官方提供的一款强大的命令行工具，但是我自己在使用时，第一步——**认证授权**时就遇到了问题。
@@ -43,5 +44,4 @@ export HTTPS_PROXY="http://127.0.0.1:7890"
 # (可选，但推荐)
 export all_proxy="socks5://127.0.0.1:7890"
 ```
-
 

@@ -2,6 +2,7 @@
 title: go打印嵌套的复杂结构体
 description: go打印嵌套的复杂结构体
 date: 2022-07-02 08:00:00+0800
+lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "golang"]
 tags: ["golang"]
 weight: 4
@@ -87,4 +88,3 @@ func PrintJson(in interface{}) {
 
 可以看到Home这个结构体也打印出来了，无论是map还是slice输出都是OK的，
 PrintJson这个函数才几行？ 简单好用~
-

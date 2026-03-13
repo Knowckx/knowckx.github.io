@@ -2,6 +2,7 @@
 title: golang错误处理 使用errors包
 description: golang错误处理 使用errors包
 date: 2024-10-29 08:00:00+0800
+lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "golang"]
 tags: ["golang"]
 weight: 4
