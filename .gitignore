@@ -2,3 +2,5 @@ public
 resources
 .hugo_build.lock
 temp
+.hugo_cache
+public-check

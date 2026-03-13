@@ -29,7 +29,7 @@ pagerSize = 7
 
 enableGitInfo = true
 [frontmatter]
-  lastmod = ['lastmod', 'modified', ':git', ':fileModTime', 'date'] # 按顺序依次获取
+  lastmod = ['lastmod', ':git', ':fileModTime', 'date'] # 优先使用单页显式 lastmod，再回退到 Git / 文件时间
 
 
 [sitemap]
