@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# 指定 Sitemap 地址，方便 Google 爬取
+Sitemap: https://blog.knowckx.top/sitemap.xml
+
+# 如果你想保留 Cloudflare 帮你做的 AI 屏蔽，
+# 可以手动把 Cloudflare 刚才那一堆 Disallow 复制进来，
+# 或者直接保持简单，让 Cloudflare 继续注入。
