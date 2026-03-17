@@ -1,6 +1,8 @@
 {{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {{ range where .Site.RegularPages "Section" "post" }}
+  {{- $pages := slice .Site.Home -}}
+  {{- $pages = $pages | append .Site.RegularPages -}}
+  {{ range $pages }}
     {{ if not .Sitemap.Disable }}
     <url>
       <loc>{{ .Permalink }}</loc>

@@ -11,6 +11,9 @@
         {{- $googlebot = . -}}
     {{- end -}}
 {{- end -}}
+{{- if and (not $robots) (in (slice "taxonomy" "term") .Kind) -}}
+    {{- $robots = "noindex,follow" -}}
+{{- end -}}
 {{- if and $robots (not $googlebot) -}}
     {{- $googlebot = $robots -}}
 {{- end -}}
