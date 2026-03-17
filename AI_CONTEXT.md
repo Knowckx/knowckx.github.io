@@ -127,6 +127,8 @@ The request flow returned the success message `已请求编入索引`, meaning t
 
 ## Recommended Next Verification Steps
 
+Recommended re-check date: `2026-03-24`
+
 When checking again in the future:
 
 1. Confirm the latest deploy is live on `https://blog.knowckx.top/`
