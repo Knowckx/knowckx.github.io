@@ -4,3 +4,4 @@ resources
 temp
 .hugo_cache
 public-check
+public-check-global

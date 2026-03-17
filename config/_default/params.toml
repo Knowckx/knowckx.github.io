@@ -1,6 +1,14 @@
 # Site description for SEO and Open Graph
 description = "Knowckx的个人技术博客，专注Golang、Python、AI编程、前端开发等领域的技术分享与实践"
 
+[seo.person]
+name = "Knowckx"
+alternateName = "Knowckx"
+description = "独立开发者，长期关注 Golang、Python、AI 编程和前端开发。"
+url = "/about-me/"
+image = "/img/avatar.png"
+sameAs = ["https://github.com/Knowckx"]
+
 # Pages placed under these sections will be shown on homepage and archive page.
 mainSections = ["post"]
 # Output page's full content in RSS.

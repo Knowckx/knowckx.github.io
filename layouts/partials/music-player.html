@@ -42,7 +42,6 @@
         audio.addEventListener('pause', updateIcon);
 
         audio.addEventListener('loadedmetadata', () => {
-            console.log(`loadedmetadata Start`)
             totalTimeEl.textContent = formatTime(audio.duration);
             const srcParts = audio.src.split('/');
             let fileName = decodeURIComponent(srcParts[srcParts.length - 1]);
@@ -56,4 +55,3 @@
         updateIcon();
     });
 </script>
-

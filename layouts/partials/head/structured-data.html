@@ -1,0 +1,104 @@
+{{- $personConfig := .Site.Params.seo.person -}}
+{{- $personURL := "" -}}
+{{- if $personConfig.url -}}
+    {{- $personURL = absURL $personConfig.url -}}
+{{- end -}}
+{{- $personImage := "" -}}
+{{- if $personConfig.image -}}
+    {{- $personImage = absURL $personConfig.image -}}
+{{- end -}}
+{{- $sameAs := slice -}}
+{{- with $personConfig.sameAs -}}
+    {{- $sameAs = . -}}
+{{- else -}}
+    {{- with .Site.Menus.social -}}
+        {{- range . -}}
+            {{- $sameAs = $sameAs | append .URL -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $person := dict
+    "@type" "Person"
+    "name" (default .Site.Title $personConfig.name)
+ -}}
+{{- with $personConfig.alternateName -}}
+    {{- $person = merge $person (dict "alternateName" .) -}}
+{{- end -}}
+{{- with $personConfig.description -}}
+    {{- $person = merge $person (dict "description" .) -}}
+{{- end -}}
+{{- with $personURL -}}
+    {{- $person = merge $person (dict "url" .) -}}
+{{- end -}}
+{{- with $personImage -}}
+    {{- $person = merge $person (dict "image" .) -}}
+{{- end -}}
+{{- if gt (len $sameAs) 0 -}}
+    {{- $person = merge $person (dict "sameAs" $sameAs) -}}
+{{- end -}}
+
+{{- $jsonLD := slice -}}
+
+{{- if .IsHome -}}
+    {{- $website := dict
+        "@context" "https://schema.org"
+        "@type" "WebSite"
+        "name" .Site.Title
+        "url" .Site.BaseURL
+        "description" (partialCached "data/description" . .RelPermalink)
+        "inLanguage" .Site.Language.Lang
+    -}}
+    {{- if $personURL -}}
+        {{- $website = merge $website (dict "author" $person) -}}
+    {{- end -}}
+    {{- $jsonLD = $jsonLD | append $website -}}
+{{- end -}}
+
+{{- if and .IsPage (eq .Section "post") -}}
+    {{- $article := dict
+        "@context" "https://schema.org"
+        "@type" "BlogPosting"
+        "headline" .Title
+        "description" (partialCached "data/description" . .RelPermalink)
+        "mainEntityOfPage" .Permalink
+        "url" .Permalink
+        "datePublished" (.Date.Format "2006-01-02T15:04:05-07:00")
+        "dateModified" (.Lastmod.Format "2006-01-02T15:04:05-07:00")
+        "inLanguage" .Language.Lang
+        "wordCount" .WordCount
+        "author" $person
+    -}}
+    {{- with .Params.tags -}}
+        {{- $article = merge $article (dict "keywords" (delimit . ", ")) -}}
+    {{- else -}}
+        {{- with .Params.keywords -}}
+            {{- $article = merge $article (dict "keywords" (delimit . ", ")) -}}
+        {{- end -}}
+    {{- end -}}
+    {{- with .Params.categories -}}
+        {{- $article = merge $article (dict "articleSection" (index . 0)) -}}
+    {{- end -}}
+    {{- $image := partialCached "helper/image" (dict "Context" . "Type" "opengraph") .RelPermalink "opengraph" -}}
+    {{- if $image.exists -}}
+        {{- $article = merge $article (dict "image" (slice (absURL $image.permalink))) -}}
+    {{- end -}}
+    {{- $jsonLD = $jsonLD | append $article -}}
+{{- end -}}
+
+{{- if eq .RelPermalink "/about-me/" -}}
+    {{- $profilePage := dict
+        "@context" "https://schema.org"
+        "@type" "ProfilePage"
+        "url" .Permalink
+        "name" .Title
+        "description" (partialCached "data/description" . .RelPermalink)
+        "dateModified" (.Lastmod.Format "2006-01-02T15:04:05-07:00")
+        "mainEntity" $person
+    -}}
+    {{- $jsonLD = $jsonLD | append $profilePage -}}
+{{- end -}}
+
+{{- range $jsonLD -}}
+<script type="application/ld+json">{{ . | jsonify | safeJS }}</script>
+{{- end -}}

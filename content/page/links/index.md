@@ -1,36 +1,24 @@
 ---
-title: Links
-description: 常用链接导航页
+title: 常用链接
+slug: links
+description: 我常用的开发资源与个人主页入口，当前仍在持续整理中。
 links:
   - title: GitHub
-    description: GitHub is the world's largest software development platform.
-    website: https://github.com
+    description: 我的开源项目、实验仓库和长期维护的代码沉淀。
+    website: https://github.com/Knowckx
     image: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
 sitemap:
   disable: true
+seo:
+  noindex: true
 menu:
-    main: 
-        weight: 4
-        params:
-            icon: link
-
+  main:
+    weight: 4
+    params:
+      icon: link
 comments: false
 ---
 
-To use this feature, add `links` section to frontmatter.
+这个页面用来整理我常用的开发资源和个人入口，后续会逐步补充。
 
-This page's frontmatter:
-
-```yaml
-links:
-  - title: GitHub
-    description: GitHub is the world's largest software development platform.
-    website: https://github.com
-    image: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-  - title: TypeScript
-    description: TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.
-    website: https://www.typescriptlang.org
-    image: ts-logo-128.jpg
-```
-
-`image` field accepts both local and external images.
+目前先保留 GitHub 入口，方便查看我的开源项目、实验代码和一些长期维护的仓库。

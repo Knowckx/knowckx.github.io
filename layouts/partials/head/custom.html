@@ -1,0 +1,23 @@
+{{- $robots := "" -}}
+{{- $googlebot := "" -}}
+{{- with .Params.seo -}}
+    {{- with .robots -}}
+        {{- $robots = . -}}
+    {{- end -}}
+    {{- if and (not $robots) .noindex -}}
+        {{- $robots = "noindex,follow" -}}
+    {{- end -}}
+    {{- with .googlebot -}}
+        {{- $googlebot = . -}}
+    {{- end -}}
+{{- end -}}
+{{- if and $robots (not $googlebot) -}}
+    {{- $googlebot = $robots -}}
+{{- end -}}
+{{- with $robots -}}
+<meta name="robots" content="{{ . }}">
+{{- end -}}
+{{- with $googlebot -}}
+<meta name="googlebot" content="{{ . }}">
+{{- end -}}
+{{- partial "head/structured-data.html" . -}}
