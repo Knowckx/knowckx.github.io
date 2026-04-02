@@ -6,6 +6,10 @@ lastmod: 2025-04-14T16:54:12+08:00
 categories: ["blog"]
 tags: ["blog"]
 weight: 8
+seo:
+  noindex: true
+sitemap:
+  disable: true
 ---
 
 

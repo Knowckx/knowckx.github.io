@@ -8,6 +8,12 @@ tags = ["blog"]
 date = "2025-04-11 13:00:00"
 lastmod = "2025-12-17T02:51:03+08:00"
 weight = 8
+
+[seo]
+noindex = true
+
+[sitemap]
+disable = true
 +++
 
 
@@ -16,7 +22,6 @@ weight = 8
 ## knowckxSEO测试
 
 内容 knckx未来369
-
 
 
 
