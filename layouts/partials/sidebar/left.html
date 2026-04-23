@@ -54,6 +54,12 @@
                     </a>
                 </li>
             {{ end }}
+            <!-- {{ if (default false $.Site.Params.colorScheme.toggle) }}
+                <li id="dark-mode-toggle" title="{{ T `darkMode` }}">
+                    {{ partial "helper/icon" "toggle-left" }}
+                    {{ partial "helper/icon" "toggle-right" }}
+                </li>
+            {{ end }} -->
         </ol>
     {{- end -}}
 
@@ -97,12 +103,8 @@
                 <!-- 来访统计  -->
 
                 <li class="busuanzi-stats">
-                        <span>今日访问</span>
-                        <strong id="busuanzi_today_uv">--</strong>
-                </li>
-                <li class="busuanzi-stats">
-                        <span>总访问量</span>
-                        <strong id="busuanzi_site_uv" data-offset="4126">--</strong>
+                    <div>今日访问 <strong id="busuanzi_today_uv">--</strong></div>
+                    <div>总访问量 <strong id="busuanzi_site_uv" data-offset="4126">--</strong></div>
                 </li>
 
                 <script>
@@ -136,13 +138,6 @@
                     })();
                 </script>
 
-                {{ if (default false .Site.Params.colorScheme.toggle) }}
-                    <li id="dark-mode-toggle">
-                        {{ partial "helper/icon" "toggle-left" }}
-                        {{ partial "helper/icon" "toggle-right" }}
-                        <span>{{ T "darkMode" }}</span>
-                    </li>
-                {{ end }}
             </ol>
         </li>
     </ol>
