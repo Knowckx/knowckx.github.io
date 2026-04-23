@@ -94,12 +94,47 @@
                 <!-- 这个文件是从stack里的主分支复制的。 这里插入我的音乐播放器！！ -->
                 {{- partial "music-player.html" . -}}  
 
-                <li class="menu-item busuanzi-stats" style="font-size: 0.9rem; opacity: 0.9; line-height: 1.6;">
-                    <div style="display: flex; flex-direction: column; gap: 2px; padding: 0.25rem 0;">
-                        <span>今日访问：<strong id="busuanzi_today_uv">--</strong></span>
-                        <span>总访问量：<span id="busuanzi_site_uv">加载中...</span></span>
-                    </div>
+                <!-- 来访统计  -->
+
+                <li class="busuanzi-stats">
+                        <span>今日访问</span>
+                        <strong id="busuanzi_today_uv">--</strong>
                 </li>
+                <li class="busuanzi-stats">
+                        <span>总访问量</span>
+                        <strong id="busuanzi_site_uv" data-offset="4126">--</strong>
+                </li>
+
+                <script>
+                    (() => {
+                        const el = document.getElementById('busuanzi_site_uv');
+                        if (!el) return;
+
+                        const offset = Number(el.dataset.offset || 0);
+                        if (!offset) return;
+
+                        const applyOffset = () => {
+                            const raw = (el.textContent || '').trim();
+                            const value = Number(raw.replace(/,/g, ''));
+                            if (!Number.isFinite(value)) return false;
+
+                            el.textContent = String(value + offset);
+                            return true;
+                        };
+
+                        if (applyOffset()) return;
+
+                        const observer = new MutationObserver(() => {
+                            if (applyOffset()) observer.disconnect();
+                        });
+
+                        observer.observe(el, {
+                            childList: true,
+                            characterData: true,
+                            subtree: true,
+                        });
+                    })();
+                </script>
 
                 {{ if (default false .Site.Params.colorScheme.toggle) }}
                     <li id="dark-mode-toggle">
