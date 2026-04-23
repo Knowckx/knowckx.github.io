@@ -54,12 +54,12 @@
                     </a>
                 </li>
             {{ end }}
-            <!-- {{ if (default false $.Site.Params.colorScheme.toggle) }}
+            {{ if (default false $.Site.Params.colorScheme.toggle) }}
                 <li id="dark-mode-toggle" title="{{ T `darkMode` }}">
                     {{ partial "helper/icon" "toggle-left" }}
                     {{ partial "helper/icon" "toggle-right" }}
                 </li>
-            {{ end }} -->
+            {{ end }}
         </ol>
     {{- end -}}
 
@@ -102,6 +102,7 @@
 
                 <!-- 来访统计  -->
 
+                <li class="busuanzi-divider" aria-hidden="true"></li>
                 <li class="busuanzi-stats">
                     <div>今日访问 <strong id="busuanzi_today_uv">--</strong></div>
                     <div>总访问量 <strong id="busuanzi_site_uv" data-offset="4126">--</strong></div>
@@ -109,32 +110,41 @@
 
                 <script>
                     (() => {
-                        const el = document.getElementById('busuanzi_site_uv');
-                        if (!el) return;
+                        const targets = [
+                            { id: 'busuanzi_today_uv', offset: 0 },
+                            { id: 'busuanzi_site_uv', offset: Number(document.getElementById('busuanzi_site_uv')?.dataset.offset || 0) },
+                        ];
 
-                        const offset = Number(el.dataset.offset || 0);
-                        if (!offset) return;
-
-                        const applyOffset = () => {
+                        const normalize = (el, offset) => {
                             const raw = (el.textContent || '').trim();
+                            if (!raw || raw === '--' || raw === '加载中...') return false;
+
                             const value = Number(raw.replace(/,/g, ''));
-                            if (!Number.isFinite(value)) return false;
+                            if (!Number.isFinite(value)) {
+                                el.textContent = '--';
+                                return true;
+                            }
 
                             el.textContent = String(value + offset);
                             return true;
                         };
 
-                        if (applyOffset()) return;
+                        for (const { id, offset } of targets) {
+                            const el = document.getElementById(id);
+                            if (!el) continue;
 
-                        const observer = new MutationObserver(() => {
-                            if (applyOffset()) observer.disconnect();
-                        });
+                            if (normalize(el, offset)) continue;
 
-                        observer.observe(el, {
-                            childList: true,
-                            characterData: true,
-                            subtree: true,
-                        });
+                            const observer = new MutationObserver(() => {
+                                if (normalize(el, offset)) observer.disconnect();
+                            });
+
+                            observer.observe(el, {
+                                childList: true,
+                                characterData: true,
+                                subtree: true,
+                            });
+                        }
                     })();
                 </script>
 
