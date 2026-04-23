@@ -94,6 +94,13 @@
                 <!-- 这个文件是从stack里的主分支复制的。 这里插入我的音乐播放器！！ -->
                 {{- partial "music-player.html" . -}}  
 
+                <li class="menu-item busuanzi-stats" style="font-size: 0.9rem; opacity: 0.9; line-height: 1.6;">
+                    <div style="display: flex; flex-direction: column; gap: 2px; padding: 0.25rem 0;">
+                        <span>今日访问：<strong id="busuanzi_today_uv">--</strong></span>
+                        <span>总访问量：<span id="busuanzi_site_uv">加载中...</span></span>
+                    </div>
+                </li>
+
                 {{ if (default false .Site.Params.colorScheme.toggle) }}
                     <li id="dark-mode-toggle">
                         {{ partial "helper/icon" "toggle-left" }}
