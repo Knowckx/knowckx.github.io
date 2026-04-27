@@ -8,6 +8,11 @@
 #newtab = true
 
 [[social]]
+identifier = "Blog"
+name = "Blog"
+url = "https://blog.knowckx.top/"
+
+[[social]]
 identifier = "github"
 name = "GitHub"
 url = "https://github.com/knowckx"
@@ -23,10 +28,7 @@ url = "mailto:knowckx@foxmail.com"
 [social.params]
 icon = "mail"
 
-# [[social]]
-# identifier = "twitter"
-# name = "Twitter"
-# url = "https://twitter.com"
+
 
 # [social.params]
 # icon = "brand-twitter"

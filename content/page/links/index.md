@@ -7,6 +7,10 @@ links:
     description: 我的开源项目、实验仓库和长期维护的代码沉淀。
     website: https://github.com/Knowckx
     image: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+  - title: Blog主页
+    description: 博客主页跳转
+    website: https://blog.knowckx.top
+    image: https://media.githubusercontent.com/media/Knowckx/knowckx.github.io/master/assets/img/avatar.png
 sitemap:
   disable: true
 seo:
