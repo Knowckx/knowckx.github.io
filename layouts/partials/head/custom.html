@@ -19,7 +19,7 @@
 {{- end -}}
 {{- with .Site.Param "baiduSiteVerification" -}}
     {{- if $.IsHome -}}
-<meta name="baidu-site-verification" content="{{ . }}">
+<meta name="baidu-site-verification" content="{{ . }}" />
     {{- end -}}
 {{- end -}}
 {{- with $robots -}}
