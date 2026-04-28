@@ -19,3 +19,13 @@
 - 记录技术实践、踩坑和思考
 - 关注 Golang、Python、AI 编程、前端开发
 - 博客地址：<https://blog.knowckx.top/>
+
+# 常用命令
+## 手动更新主题
+
+hugo mod get -u github.com/CaiJimmy/hugo-theme-stack/v3
+hugo mod tidy
+
+## 本地启动
+
+hugo server
