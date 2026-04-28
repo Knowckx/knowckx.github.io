@@ -1,5 +1,11 @@
 # Site description for SEO and Open Graph
-description = "Knowckx的个人技术博客，专注Golang、Python、AI编程、前端开发等领域的技术分享与实践"
+description = "Knowckx的个人博客，主要分享 Golang、Python、AI 编程和前端开发等技术实践，也记录金融、科技与生活思考。"
+
+# 站点级关键词，首页和未单独设置关键词的页面会回退到这里
+keywords = ["Golang", "Python", "AI编程", "前端开发", "技术博客", "金融", "科技", "生活", "个人博客"]
+
+# 百度站长平台首页验证
+baiduSiteVerification = "codeva-ElHSK7MnQ3"
 
 [seo.person]
 name = "Knowckx"

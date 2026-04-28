@@ -1,6 +1,6 @@
 # 博客项目 AI 上下文
 
-最后更新：2026-03-17
+最后更新：2026-04-28
 
 ## 项目概览
 
@@ -10,10 +10,8 @@
 - 仓库中的 Go 版本：`1.25.4`
 - 源分支：`master`
 - 部署流程：GitHub Actions 构建站点，并将 `public/` 发布到 `gh-pages`
-- 公开访问地址：
-  - GitHub Pages：`https://knowckx.github.io/`
-  - 自定义域名：`https://blog.knowckx.top/`
-
+- 网站先通过`github pages`部署于地址`https://knowckx.github.io/`
+- 然后增加了自定义域名：`https://blog.knowckx.top/` pages 会跳转到此自定义域名
 
 
 ## 当前目标

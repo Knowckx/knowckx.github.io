@@ -3,7 +3,10 @@
 
 {{- $description := partialCached "data/description" . .RelPermalink -}}
 <meta name='description' {{ printf "content=%q" $description | safeHTMLAttr }}>
-{{ with .Params.Keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
+{{- $keywords := or .Params.Keywords .Params.tags .Site.Params.keywords -}}
+{{- with $keywords }}
+<meta name="keywords" content="{{ delimit . ", " }}">
+{{- end }}
 
 {{- $title := partial "data/title" . -}}
 <title>{{ $title }}</title>

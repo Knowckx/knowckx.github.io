@@ -4,7 +4,7 @@ baseurl = "https://blog.knowckx.top/"
 
 
 languageCode = "zh-cn"
-title = "Knowckx's Blog"
+title = "Knowckx | 技术、金融、思考笔记"
 
 # GA Tracking ID
 googleAnalytics = "G-4DX39HKR9W"

@@ -1,18 +1,21 @@
 # Configure main menu and social menu
-#[[main]]
-#identifier = "home"
-#name = "Home"
-#url = "/"
-#[main.params]
-#icon = "home"
-#newtab = true
+# [[main]]
+# identifier = "home"
+# name = "Home"
+# url = "/"
+# [main.params]
+# icon = "home"
+# newtab = true
 
 
-# 很重要 可以帮助其他地址的静态blog 为.top域名贡献外链
+# 很重要 可以帮助博客的其他域名 为.top域名贡献外链
 [[social]]
 identifier = "Blog"
-name = "Blog"
+name = "主页"
 url = "https://blog.knowckx.top/"
+
+[social.params]
+icon = "home"
 
 
 [[social]]

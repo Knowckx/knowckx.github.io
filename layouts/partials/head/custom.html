@@ -17,6 +17,11 @@
 {{- if and $robots (not $googlebot) -}}
     {{- $googlebot = $robots -}}
 {{- end -}}
+{{- with .Site.Params.baiduSiteVerification -}}
+    {{- if $.IsHome -}}
+<meta name="baidu-site-verification" content="{{ . }}">
+    {{- end -}}
+{{- end -}}
 {{- with $robots -}}
 <meta name="robots" content="{{ . }}">
 {{- end -}}

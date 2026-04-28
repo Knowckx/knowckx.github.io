@@ -69,12 +69,9 @@
         "wordCount" .WordCount
         "author" $person
     -}}
-    {{- with .Params.tags -}}
+    {{- $articleKeywords := or .Params.keywords .Params.tags .Site.Params.keywords -}}
+    {{- with $articleKeywords -}}
         {{- $article = merge $article (dict "keywords" (delimit . ", ")) -}}
-    {{- else -}}
-        {{- with .Params.keywords -}}
-            {{- $article = merge $article (dict "keywords" (delimit . ", ")) -}}
-        {{- end -}}
     {{- end -}}
     {{- with .Params.categories -}}
         {{- $article = merge $article (dict "articleSection" (index . 0)) -}}
