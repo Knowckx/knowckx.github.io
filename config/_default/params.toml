@@ -4,9 +4,6 @@ description = "Knowckx的个人博客，主要分享 Golang、Python、AI 编程
 # 站点级关键词，首页和未单独设置关键词的页面会回退到这里
 keywords = ["Golang", "Python", "AI编程", "前端开发", "技术博客", "金融", "科技", "生活", "个人博客"]
 
-# 百度站长平台首页验证
-baiduSiteVerification = "codeva-ElHSK7MnQ3"
-
 [seo.person]
 name = "Knowckx"
 alternateName = "Knowckx"
@@ -29,6 +26,8 @@ customText = ""
 published = "2006-01-02 15:04:05" # 日期格式 小时需要使用15 而不是03
 lastUpdated = "2006-01-02 15:04:05"
 
+# 百度站长平台首页验证
+baiduSiteVerification = "codeva-IOIA2BnWrl"
 
 [sidebar]
 emoji = "👨🏻‍💻"
