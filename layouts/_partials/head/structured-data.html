@@ -47,7 +47,7 @@
         "name" .Site.Title
         "url" .Site.BaseURL
         "description" (partialCached "data/description" . .RelPermalink)
-        "inLanguage" .Site.Language.Lang
+        "inLanguage" .Site.Language.Locale
     -}}
     {{- if $personURL -}}
         {{- $website = merge $website (dict "author" $person) -}}
@@ -65,7 +65,7 @@
         "url" .Permalink
         "datePublished" (.Date.Format "2006-01-02T15:04:05-07:00")
         "dateModified" (.Lastmod.Format "2006-01-02T15:04:05-07:00")
-        "inLanguage" .Language.Lang
+        "inLanguage" .Language.Locale
         "wordCount" .WordCount
         "author" $person
     -}}
@@ -76,9 +76,9 @@
     {{- with .Params.categories -}}
         {{- $article = merge $article (dict "articleSection" (index . 0)) -}}
     {{- end -}}
-    {{- $image := partialCached "helper/image" (dict "Context" . "Type" "opengraph") .RelPermalink "opengraph" -}}
-    {{- if $image.exists -}}
-        {{- $article = merge $article (dict "image" (slice (absURL $image.permalink))) -}}
+    {{- $image := partialCached "helper/image" (dict "Image" .Params.image "Resources" .Resources "Context" .) .RelPermalink "opengraph" -}}
+    {{- if $image -}}
+        {{- $article = merge $article (dict "image" (slice (absURL $image.Permalink))) -}}
     {{- end -}}
     {{- $jsonLD = $jsonLD | append $article -}}
 {{- end -}}

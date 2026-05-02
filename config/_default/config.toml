@@ -3,7 +3,7 @@ baseurl = "https://blog.knowckx.top/"
 # baseurl="/"
 
 
-languageCode = "zh-cn"
+locale = "zh"
 title = "Knowckx | 技术、金融、思考笔记"
 
 # GA Tracking ID
@@ -14,10 +14,10 @@ timezone = "Asia/Shanghai"
 
 
 # Theme i18n support
-# Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk, ar
-defaultContentLanguage = "zh-cn"
+# Available values: en, fr, id, ja, ko, pt-br, zh, zh-hant-hk, zh-hant-tw, es, de, nl, it, th, el, uk, ar
+defaultContentLanguage = "zh"
 
-# Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
+# Set hasCJKLanguage to true if DefaultContentLanguage is in [zh ja ko]
 # This will make .Summary and .WordCount behave correctly for CJK languages.
 hasCJKLanguage = true
 

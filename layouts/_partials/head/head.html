@@ -11,13 +11,20 @@
 {{- $title := partial "data/title" . -}}
 <title>{{ $title }}</title>
 
+{{- if .Params.canonicalUrl -}}
+<link rel="canonical" href="{{ .Params.canonicalUrl }}">
+{{- else -}}
 {{- $canonical := .Permalink -}}
 {{- $paginator := partial "helper/paginator.html" . -}}
-{{- if and $paginator (gt $paginator.PageNumber 1) -}}
-    {{- $canonical = absURL $paginator.URL -}}
+{{- if $paginator -}}
+    {{- if gt $paginator.PageNumber 1 -}}
+        {{- $canonical = absURL $paginator.URL -}}
+    {{- end -}}
 {{- end -}}
 <link rel='canonical' href='{{ $canonical }}'>
+{{- end -}}
 
+{{- partial "head/custom-font.html" . -}}
 {{- partial "head/style.html" . -}}
 {{- partial "head/script.html" . -}}
 {{- partial "head/opengraph/include.html" . -}}
@@ -26,9 +33,15 @@
     <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
 {{- end -}}
 
-{{ with .Site.Params.favicon }}
-    <link rel="shortcut icon" href="{{ . | relURL }}" />
+{{- $favicon := partial "helper/image" (dict "Image" .Site.Params.favicon "Resources" resources "Context" .) -}}
+{{ with $favicon }}
+    <link rel="shortcut icon" href="{{ .Permalink }}" />
 {{ end }}
 
-{{- partial "google_analytics.html" . -}}
+{{- if .Site.Params.cookies.enabled -}}
+    {{- partial "cookies/analytics.html" . -}}
+{{- else -}}
+    {{- template "_internal/google_analytics.html" . -}}
+{{- end -}}
+
 {{- partial "head/custom.html" . -}}

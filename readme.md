@@ -23,8 +23,12 @@
 # 常用命令
 ## 手动更新主题
 
-hugo mod get -u github.com/CaiJimmy/hugo-theme-stack/v3
+hugo mod get -u github.com/CaiJimmy/hugo-theme-stack/v4
 hugo mod tidy
+
+## 迁移说明
+
+当前站点已切换到 Stack v4，中文语言配置改为 `zh`，相关自定义模板放在 `layouts/_partials/` 下。
 
 ## 本地启动
 

@@ -19,7 +19,7 @@ sameAs = ["https://github.com/Knowckx"]
 mainSections = ["post"]
 # Output page's full content in RSS.
 rssFullContent = true
-favicon = "/favicon.ico"
+favicon = "favicon.ico"
 
 [footer]
 since = 2022
@@ -33,16 +33,12 @@ lastUpdated = "2006-01-02 15:04:05"
 emoji = "👨🏻‍💻"
 subtitle = "\"并非所有流浪者都迷失了自我\""
 # subtitle = "I am a programmer with 8 years of development experience, and my main working languages ​​are Golang and Python."
-
-
-[sidebar.avatar]
-enabled = true
-local = true
-src = "img/avatar.png"
+avatar = "img/avatar.png"
 
 [article]
 headingAnchor = false
 math = false
+toc = true
 readingTime = true
 
 [article.license]
@@ -78,20 +74,30 @@ type = "toc"
 site = ""
 card = "summary_large_image"
 
-[defaultImage.opengraph]
-enabled = false
-local = false
-src = ""
-
 [colorScheme]
 toggle = true
 default = "auto"
 
-[imageProcessing.cover]
-enabled = true
+[imageProcessing]
+autoOrient = false
+
+[imageProcessing.external]
+timeout = "5s"
 
 [imageProcessing.content]
+widths = [800, 1600, 2400]
 enabled = true
+
+[imageProcessing.thumbnail]
+enabled = true
+
+[cookies]
+enabled = false
+showSettings = true
+
+[cookies.categories]
+analytics = true
+functional = true
 
 ## Comments
 [comments]

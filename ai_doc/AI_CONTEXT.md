@@ -6,7 +6,7 @@
 
 - 项目类型：个人静态博客
 - 生成器：Hugo `0.161.1` extended
-- 主题：`github.com/CaiJimmy/hugo-theme-stack/v3` `v3.34.2`
+- 主题：`github.com/CaiJimmy/hugo-theme-stack/v4` `v4.0.1`
 - 仓库中的 Go 版本：`1.26.2`
 - 源分支：`master`
 - 部署流程：GitHub Actions 构建站点，并将 `public/` 发布到 `gh-pages`
