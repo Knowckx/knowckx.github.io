@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Codex on Knowckx | 技术、金融、思考笔记</title><link>https://blog.knowckx.top/tags/codex/</link><description>Recent content in Codex on Knowckx | 技术、金融、思考笔记</description><generator>Hugo -- gohugo.io</generator><language>zh</language><lastBuildDate>Fri, 01 May 2026 00:07:00 +0800</lastBuildDate><atom:link href="https://blog.knowckx.top/tags/codex/index.xml" rel="self" type="application/rss+xml"/><item><title>AI 协作编程的个人工作流心得</title><link>https://blog.knowckx.top/p/ai-collaboration-workflow-notes/</link><pubDate>Thu, 30 Apr 2026 08:00:00 +0800</pubDate><guid>https://blog.knowckx.top/p/ai-collaboration-workflow-notes/</guid><description>&lt;p&gt;从去年 12 月开始，我开始尝试用 AI 工具做尽量少手动干预的全托管开发。目前经过 3 个多月的实践，整个项目也已经到了 3 万行，确实积累了一些心得，想整理出来分享一下。&lt;/p&gt;
+&lt;h2 id="工作流边界"&gt;工作流边界
+&lt;/h2&gt;&lt;p&gt;这篇文章只讲我个人验证过的协作工作流，我比较关心 AI 协作编程这件事怎么组织会比较好，哪些习惯能长期省事，哪些习惯只会把项目搞乱。&lt;/p&gt;
+&lt;p&gt;这里不展开具体的技术工具踩坑细节，那些我会单独放到另一篇文档里，免得和方法论混在一起。&lt;/p&gt;
+&lt;h2 id="几个心得"&gt;几个心得
+&lt;/h2&gt;&lt;h3 id="心得1-通过文档指引来实现-ai-管理项目"&gt;心得1 通过文档指引来实现 AI 管理项目
+&lt;/h3&gt;&lt;p&gt;如果一个项目真的打算长期交给 AI 托管，我现在越来越觉得，文档管理非常重要。&lt;/p&gt;
+&lt;p&gt;原因很简单，AI 不像人，不能靠长期记忆掌握项目。每次打开一个新窗口进项目，本质上它都要重新从文档和代码里找上下文。所以最重要的就是有一份文档能起到&lt;strong&gt;地图&lt;/strong&gt;的作用，并且做到&lt;strong&gt;层次清楚，职责分开&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;根据我目前对 AI 托管项目的理解，项目文档最好分成几层：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;入口层&lt;/strong&gt;：比如根目录的 &lt;code&gt;AGENTS.md&lt;/code&gt;，告诉 AI 先看什么、先遵守什么、项目现在处于什么状态&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;长期规约层&lt;/strong&gt;：比如 &lt;code&gt;ai_doc/ai-standards/&lt;/code&gt;，放默认要遵守的开发标准，尽量稳定，别频繁改&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;业务说明层&lt;/strong&gt;：比如 &lt;code&gt;ai_doc/business/&lt;/code&gt;，解释业务知识，专业术语的意思、规则、背景等等&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;架构说明层&lt;/strong&gt;：比如 &lt;code&gt;ai_doc/arch/&lt;/code&gt;，系统的架构，讲清楚系统怎么分模块、怎么协作、哪些边界不能碰&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;动态记录层&lt;/strong&gt;：比如 &lt;code&gt;ai_doc/status/&lt;/code&gt;，放当前开发进度、阶段性任务，随项目变化而更新&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;技能/知识层&lt;/strong&gt;：比如 &lt;code&gt;ai_doc/skills/&lt;/code&gt;，放一些业务的专题经验、特殊流程、可复用做法，按需加载就行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这样拆完以后，AI 的使用方式就会很顺：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先从入口文档知道该去哪里找信息&lt;/li&gt;
+&lt;li&gt;再去看对应的知识层，而不是一上来把整个项目扫一遍&lt;/li&gt;
+&lt;li&gt;真正修改代码之前，先确认开发规约和架构设计上的边界&lt;/li&gt;
+&lt;li&gt;做阶段性任务时，只看动态记录，不把历史噪音一起带进来&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;总之，一份好的 AI 指导文档，核心的验收标准只有一个：&lt;br&gt;
+让新窗口的大模型只靠&lt;strong&gt;少量文档&lt;/strong&gt;，就能迅速掌握项目结构和核心业务。&lt;/p&gt;
+&lt;h3 id="心得2-主动多开新窗口"&gt;心得2 主动多开新窗口
+&lt;/h3&gt;&lt;p&gt;我现在越来越习惯一件事：&lt;strong&gt;主动多开新窗口&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;原因其实不复杂。大模型的对话机制本来就不是“越聊越聪明”，而是“上下文越长，越容易被历史内容拖住”。前面聊过的东西会一直留在上下文里，越聊越多以后，模型很容易被无关信息干扰，回答也会开始变钝。更现实一点说，这些无关上下文还会继续吃 token，最后就是既不够精准，又不够节约。&lt;/p&gt;
+&lt;p&gt;所以我现在的做法很直接：&lt;strong&gt;一件事对应一个窗口&lt;/strong&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个窗口专门改代码&lt;/li&gt;
+&lt;li&gt;一个窗口专门看报错和排查问题&lt;/li&gt;
+&lt;li&gt;一个窗口专门让它整理方案或做复盘&lt;/li&gt;
+&lt;li&gt;另一个窗口专门处理和当前任务无关的临时问题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这样做的好处很明显：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;每个窗口的上下文更干净，模型更容易抓住当前任务&lt;/li&gt;
+&lt;li&gt;任务边界更清楚，不会互相污染&lt;/li&gt;
+&lt;li&gt;你自己也更容易验收，不会把多个问题混在一起看&lt;/li&gt;
+&lt;li&gt;真遇到跑偏的时候，直接重开比在一个脏对话里拉回来更省事&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;总之，该新开就新开，&lt;strong&gt;专事专用&lt;/strong&gt;，养成好习惯，别舍不得。&lt;/p&gt;
+&lt;h3 id="心得3-先-plan-后执行"&gt;心得3 先 plan 后执行
+&lt;/h3&gt;&lt;p&gt;还有一个我现在越来越坚持的习惯：&lt;strong&gt;先 plan，后执行&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;注意，这里的 &lt;code&gt;plan&lt;/code&gt; 不只是 &lt;code&gt;Codex&lt;/code&gt; 或 &lt;code&gt;Claude Code&lt;/code&gt; 里的 &lt;code&gt;Plan&lt;/code&gt; 执行模式，而是要上升成一种工作思维。&lt;/p&gt;
+&lt;p&gt;很多返工，其实不是因为 AI 不会写，而是因为一上来就让它直接改文件了。上下文没聊清楚，目标也没对齐，它只能边想边改，最后改出来的东西经常和你的真实预期有偏差。&lt;/p&gt;
+&lt;p&gt;比如我现在做重构的时候，在思维上就会分成三步：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先让工具解释当前实现。先把它对现状的理解说清楚，看看它是不是真的理解了模块现在是怎么工作的。&lt;/li&gt;
+&lt;li&gt;再让它提出方案。这一步要把修改范围限制住，别让它顺手开始扩散到别的模块。&lt;/li&gt;
+&lt;li&gt;最后才让它改文件。前面两步没聊透，后面就不要急着动代码。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这个流程看起来慢一点，但实际反而更快。因为你把前面的理解、方案、边界先对齐了，后面落地的时候返工会少很多。&lt;br&gt;
+不然很容易出现这种情况：AI 改了一轮，你看完觉得不对；再改一轮，还是偏；最后发现根本是第一步目标就没讲清楚。&lt;/p&gt;
+&lt;p&gt;AI编程年代，比的不是谁对话次数多，而是比谁能把问题定义清楚。&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;偷偷说一句，我觉得我们这些开发dev，目前的新定位就是：人肉 &lt;code&gt;Harness&lt;/code&gt;，也就是负责监督和兜底的那一层。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;h3 id="心得4-不要放任-ai-堆代码"&gt;心得4 不要放任 AI 堆代码
+&lt;/h3&gt;&lt;p&gt;这个点我现在看得越来越重：&lt;strong&gt;不要放任 AI 一直往项目里加代码&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;AI，尤其是 Agent，天然有一个倾向，就是在当前上下文里做“最小修复”。它看到哪里有问题，第一反应往往不是把整个模块重新想一遍，而是在现有结构里继续补、继续改、继续往下长。短期看，这种方式很快；长期看，问题会越来越多。&lt;/p&gt;
+&lt;p&gt;我见过最典型的情况就是：一个模块本来就设计得很别扭，AI 会在这个模块里反复迭代、反复补丁式修改，业务逻辑越加越长，但它从来不会从&lt;strong&gt;全局视角&lt;/strong&gt;主动问一句：&lt;strong&gt;这个模块是不是本来就不该存在？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;所以我现在非常强调，&lt;strong&gt;工程师本人必须作为项目架构师这样的监督层而存在&lt;/strong&gt;。&lt;br&gt;
+AI 可以干活，但架构判断不能全交给它。你得时不时停下来问自己：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;这里能不能向上抽象？&lt;/li&gt;
+&lt;li&gt;这些重复实现能不能收拢成一个接口？&lt;/li&gt;
+&lt;li&gt;这些分叉代码是不是该统一到同一套约束里？&lt;/li&gt;
+&lt;li&gt;这个功能是不是应该删掉重构，而不是继续补丁式修修补补？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果这些问题没人管，AI 很容易一路产新代码，越写越多，越分越散。最后项目表面上是“功能越来越全”，实际上是&lt;strong&gt;结构越来越烂&lt;/strong&gt;，直到后面根本没法管理，也没法控制。&lt;/p&gt;
+&lt;p&gt;所以我现在的态度很明确：&lt;strong&gt;AI 适合帮人实现，人主要负责收敛。&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="结论"&gt;结论
+&lt;/h2&gt;&lt;p&gt;暂时先写这么多。现在 AI 大模型的辅助编程，已经不是去年那种在聊天框里复制粘贴的阶段了，自动化程度确实上了一个台阶。&lt;/p&gt;
+&lt;p&gt;但它再强，也只是把工程师从低价值重复劳动里往外拉一点，真正的架构判断、功能抽象和结果兜底，还是得人来做。&lt;/p&gt;
+&lt;p&gt;那就先这样，预祝各位51快乐~&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;原创声明：本文首发于我的个人博客 &lt;code&gt;https://blog.knowckx.top/&lt;/code&gt;，未经授权请勿转载。&lt;/p&gt;
+
+ &lt;/blockquote&gt;</description></item></channel></rss>

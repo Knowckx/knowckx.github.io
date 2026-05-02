@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://blog.knowckx.top/sitemap-posts.xml
+Sitemap: https://blog.knowckx.top/sitemap.xml
