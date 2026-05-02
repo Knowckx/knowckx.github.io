@@ -7,6 +7,7 @@ links:
     description: 我的开源项目、实验仓库和长期维护的代码沉淀。
     website: https://github.com/Knowckx
     image: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+    alt: GitHub 标志
 menu:
   main:
     weight: 5
