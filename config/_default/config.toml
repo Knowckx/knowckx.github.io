@@ -36,4 +36,14 @@ enableGitInfo = true
   changefreq = 'daily'
   filename = 'sitemap.xml'
 
-enableRobotsTXT = true
+enableRobotsTXT = false
+
+[outputFormats."sitemap-posts"]
+  mediaType = "application/xml"
+  baseName = "sitemap-posts"
+  isPlainText = true
+  notAlternative = true
+  root = true
+
+[outputs]
+  home = ["html", "rss", "sitemap-posts"]

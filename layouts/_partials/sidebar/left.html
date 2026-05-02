@@ -46,12 +46,6 @@
                     </a>
                 </li>
             {{ end }}
-            {{ if (default false $.Site.Params.colorScheme.toggle) }}
-                <li id="dark-mode-toggle" title="{{ T `darkMode` }}">
-                    {{ partial "helper/icon" "toggle-left" }}
-                    {{ partial "helper/icon" "toggle-right" }}
-                </li>
-            {{ end }}
         </ol>
     {{- end -}}
 
