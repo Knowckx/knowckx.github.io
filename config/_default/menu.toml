@@ -8,7 +8,7 @@
 # newtab = true
 
 
-# 很重要 可以帮助博客的其他域名 为.top域名贡献外链
+# 可以让博客的其他域名 为.top域名贡献外链
 [[social]]
 identifier = "Blog"
 name = "主页"
@@ -35,6 +35,10 @@ url = "mailto:knowckx@foxmail.com"
 icon = "mail"
 
 
+[[social]]
+identifier = "Text-Calc"
+name = "text-calcer"
+url = "https://text-calcer.knowckx.top/"
 
-# [social.params]
-# icon = "brand-twitter"
+[social.params]
+icon = "calculator"
