@@ -99,3 +99,31 @@
     color: var(--card-text-color-main);
     font-weight: 600;
 }
+
+/* Archive category fallback cards: keep them soft, but add a little depth. */
+.main .article-list--tile article.has-fallback .article-details {
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.48),
+        inset 0 -18px 30px rgba(0, 0, 0, 0.035),
+        0 8px 16px rgba(0, 0, 0, 0.025);
+}
+
+.main .article-list--tile article.has-fallback .article-details::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.5), transparent 46%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04) 40%, rgba(0, 0, 0, 0.012) 100%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.main .article-list--tile article.has-fallback .article-title {
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.01em;
+}

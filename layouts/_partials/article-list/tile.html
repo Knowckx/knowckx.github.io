@@ -1,0 +1,46 @@
+{{- $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources "Context" .) -}}
+{{- $color := partial "helper/color-from-str" .LinkTitle -}}
+{{- $detailsStyle := "" -}}
+{{- $titleStyle := "" -}}
+
+{{- if $image -}}
+    {{- if reflect.IsImageResourceProcessable $image.Resource -}}
+        {{- $colors := $image.Resource.Colors -}}
+        {{- if $colors -}}
+            {{- $vibrant := index $colors 0 -}}
+            {{- $darkMuted := index $colors 1 | default $vibrant -}}
+            {{- $detailsStyle = printf "background: linear-gradient(0deg, %s80 0%%, %sC0 100%%);" $darkMuted $vibrant -}}
+        {{- end -}}
+    {{- end -}}
+{{- else -}}
+    {{- $detailsStyle = printf "background: linear-gradient(135deg, hsl(%d, 30%%, 89%%) 0%%, hsl(%d, 28%%, 95%%) 100%%);" $color.Hue $color.Hue -}}
+    {{- $titleStyle = printf "color: %s;" $color.TextColor -}}
+{{- end -}}
+
+<article class="{{ if $image }}has-image{{ else }}has-fallback{{ end }}">
+    <a href="{{ .RelPermalink }}">
+        {{- if $image -}}
+        <div class="article-image">
+            {{ partial "helper/thumbnail-image" (dict
+                "Resource" $image.Resource
+                "Width" 250
+                "Height" 150
+                "Resize" .Site.Params.ImageProcessing.Thumbnail.Enabled
+                "Attributes" (dict
+                    "src" $image.Permalink
+                    "alt" (printf "Featured image for %s" .Title)
+                    "loading" "lazy"
+                    "width" $image.Width
+                    "height" $image.Height
+                )
+            ) }}
+        </div>
+        {{- end -}}
+
+        <div class="article-details"{{ if $detailsStyle }} style="{{ $detailsStyle | safeCSS }}"{{ end }}>
+            <h2 class="article-title"{{ if $titleStyle }} style="{{ $titleStyle | safeCSS }}"{{ end }}>
+                {{- .Title -}}
+            </h2>
+        </div>
+    </a>
+</article>
