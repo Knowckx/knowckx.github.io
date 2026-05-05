@@ -1,6 +1,6 @@
 ---
 title: go打印嵌套的复杂结构体
-description: go打印嵌套的复杂结构体
+description: 分享一种用 JSON 序列化打印复杂嵌套结构体的办法，比 fmt 输出更适合调试嵌套数据。
 date: 2022-07-02 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "golang"]

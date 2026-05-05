@@ -1,6 +1,6 @@
 ---
 title: Redash可选的条件变量
-description: Redash可选的条件变量
+description: 对比 Metabase 和 Redash 的条件变量写法，记录如何用 SQL 短路实现可选筛选项。
 date: 2022-06-15 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]

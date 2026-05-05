@@ -1,6 +1,6 @@
 ---
 title: selenium设置Chrome忽略https证书
-description: selenium设置Chrome忽略https证书
+description: 记录如何在 Go 的 Selenium 配置里忽略 HTTPS 证书错误，方便调试证书异常的内部站点。
 date: 2024-05-05 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]

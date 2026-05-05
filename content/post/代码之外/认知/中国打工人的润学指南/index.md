@@ -1,7 +1,7 @@
 +++
 title = "awesome-run 中国打工人的润学指南"
 slug = "awesome-run"
-description = "awesome-run是一份为技术人才准备的全球机遇指南 & 移民攻略。"
+description = "汇总技术人才可参考的海外机遇、永居与入籍路径，做成一份持续更新的移民对照表。"
 categories = ["认知"]
 tags = ["认知"]
 keywords = ["移民", "IT移民", "绿卡"]

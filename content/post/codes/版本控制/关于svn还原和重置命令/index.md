@@ -1,6 +1,6 @@
 ---
 title: 关于svn还原和重置命令
-description: 关于svn还原和重置命令
+description: 整理 SVN 里对应 git reset --hard 的还原方式，以及清理未跟踪文件时可用的命令。
 date: 2022-08-18 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]

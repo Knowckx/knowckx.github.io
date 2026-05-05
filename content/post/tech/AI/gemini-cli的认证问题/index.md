@@ -1,7 +1,7 @@
 +++
 title = "一行命令解决gemini-cli在国内卡认证的问题"
 slug = "gemini-cli-auth-proxy-solution"
-description = "在国内网络环境下，gemini-cli的OAuth网页认证经常失败..."
+description = "本文记录我在国内网络环境下排查 gemini-cli OAuth 网页认证失败的过程，说明为什么终端也需要代理，并给出 Windows PowerShell 与 Linux/Mac 的可用配置命令。"
 categories = ["编程相关"]
 tags = ["编程相关"]
 keywords = ["Gemini", "gemini-cli", "认证失败", "代理设置", "terminal proxy"]

@@ -1,7 +1,7 @@
 +++
 title = "Markdown新文章模版"
 slug = "todo-link"
-description = "Markdown文章模版"
+description = "提供一份可直接复制的 Hugo 新文章模板，包含 front matter、分类、标签和描述字段。"
 categories = ["认知"]
 tags = ["认知"]
 keywords = ["认知"]
@@ -35,7 +35,6 @@ draft = true
 
 ### 级别3
 级别3内容
-
 
 
 

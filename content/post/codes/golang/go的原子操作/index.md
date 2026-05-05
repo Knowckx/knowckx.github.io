@@ -1,6 +1,6 @@
 ---
 title: go的原子操作
-description: go的原子操作
+description: 结合 sync/atomic 介绍 Go 的原子操作与 CAS，说明如何在不加锁的前提下完成并发读写和条件更新。
 date: 2023-03-09 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "golang"]

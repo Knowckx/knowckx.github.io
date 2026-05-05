@@ -1,6 +1,6 @@
 ---
 title: golang错误处理 使用errors包
-description: golang错误处理 使用errors包
+description: 结合 Go 的 errors 包讲解常见错误处理方式，以及如何编写更清晰的错误判断代码。
 date: 2024-10-29 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "golang"]

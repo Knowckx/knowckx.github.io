@@ -1,6 +1,6 @@
 ---
 title: 理解sync.once
-description: sync.once的源码理解和拓展
+description: 讲解 sync.Once 的工作原理、源码实现和一个限制并发只执行一次的扩展示例。
 date: 2025-01-05 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "golang"]

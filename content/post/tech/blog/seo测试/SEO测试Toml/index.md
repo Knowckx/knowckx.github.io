@@ -1,7 +1,7 @@
 +++
 title = "knckx未来148"
 slug = "seo-test-148"
-description = "此博文仅为了测试Gooogle的收录更新时间"
+description = "专门用来测试搜索引擎收录与更新时间表现的文章，方便验证 sitemap 和 lastmod 配置。"
 keywords = ["seo测试", "未来5159"]
 categories = ["blog"]
 tags = ["blog"]
@@ -22,7 +22,6 @@ disable = true
 ## knowckxSEO测试
 
 内容 knckx未来369
-
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: k8s端口转发脚本
-description: 分享一个自用的k8s端口转发脚本
+description: 分享一个借助临时 Pod 和 kubectl port-forward 转发内网服务端口的脚本，方便本地调试数据库或 API。
 date: 2022-07-22 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "k8s"]

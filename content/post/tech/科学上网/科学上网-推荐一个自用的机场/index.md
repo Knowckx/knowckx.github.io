@@ -1,6 +1,6 @@
 
 +++
-title = "科学上网-推荐一个自用的机场"
+title = "科学上网：推荐一个自用的机场配置"
 slug = "cfw-v2rayn-airport"
 description = "科学上网-机场推荐"
 categories = ["科学上网"]

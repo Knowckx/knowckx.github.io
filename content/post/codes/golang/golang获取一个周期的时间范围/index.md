@@ -1,6 +1,6 @@
 ---
 title: golang获取一个周期的时间范围
-description: golang获取一个周期的时间范围
+description: 封装一个 Go 小工具，用来按天、周、月生成时间范围，方便接口查询和报表参数拼接。
 date: 2022-07-02 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "golang"]

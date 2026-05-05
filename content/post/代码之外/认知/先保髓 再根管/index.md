@@ -1,7 +1,7 @@
 +++
-title = "先保髓 再根管"
+title = "先保髓，再根管：牙齿保健与就诊经历记录"
 slug = "tooth-needs-pulp-preserved-before-root-canal-treatment"
-description = "蛀牙了尽量先尝试保髓，再根管"
+description = "结合看牙经历，讨论深龋时为什么应先尝试保髓，再决定是否进入根管治疗。"
 categories = ["认知"]
 tags = ["认知"]
 keywords = ["牙齿保健", "保髓", "深龋", "蛀牙", "根管"]

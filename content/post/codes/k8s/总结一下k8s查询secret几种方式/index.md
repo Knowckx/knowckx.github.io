@@ -1,6 +1,6 @@
 ---
 title: 总结一下k8s查询secret几种方式
-description: 总结一下k8s查询secret几种方式
+description: 整理在 Kubernetes 中查询 Secret 的几种常见方式，包括命令行、JSONPath 和快速查看技巧。
 date: 2022-03-02 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "k8s"]

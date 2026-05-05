@@ -1,0 +1,55 @@
+{{- $page := . -}}
+{{- $siteDesc := site.Params.description | default site.Title -}}
+{{- $minLength := 50 -}}
+{{- $desc := "" -}}
+
+{{- /* Prefer explicit descriptions, but fall back to page or site copy when they are too short. */ -}}
+{{- if $page.IsHome -}}
+  {{- $desc = $siteDesc -}}
+{{- else if eq $page.Kind "taxonomy" -}}
+  {{- if eq $page.Data.Plural "categories" -}}
+    {{- $desc = "Knowckx 博客分类索引页，按主题浏览 Golang、Python、AI 和前端相关内容。" -}}
+  {{- else if eq $page.Data.Plural "tags" -}}
+    {{- $desc = "Knowckx 博客标签索引页，按关键词快速查找相关文章、笔记和实践记录。" -}}
+  {{- else -}}
+    {{- $desc = printf "%s 索引页，汇总站点中的相关内容。" $page.Title -}}
+  {{- end -}}
+{{- else if eq $page.Kind "term" -}}
+  {{- if eq $page.Data.Plural "categories" -}}
+    {{- $desc = printf "%s 分类页，汇总与 %s 相关的文章、笔记和实践记录。" $page.Title $page.Title -}}
+  {{- else if eq $page.Data.Plural "tags" -}}
+    {{- $desc = printf "%s 标签页，汇总与 %s 相关的文章、笔记和实践记录。" $page.Title $page.Title -}}
+  {{- else -}}
+    {{- $desc = printf "%s 页面，汇总站点中的相关内容。" $page.Title -}}
+  {{- end -}}
+{{- else if and $page.IsSection (eq $page.Section "post") -}}
+  {{- $desc = "Knowckx 博客文章列表，汇总技术实践、AI 编程、前端开发和思考记录。" -}}
+{{- else if eq $page.Layout "archives" -}}
+  {{- $desc = "按时间顺序浏览 Knowckx 博客的全部文章归档，方便回顾不同阶段的技术实践和思考记录。" -}}
+{{- else if eq $page.Layout "search" -}}
+  {{- $desc = "站内搜索页，可按标题和正文查找 Knowckx 博客中的文章、代码示例和笔记。" -}}
+{{- else -}}
+  {{- $desc = $page.Description | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
+  {{- if or (not (strings.ContainsNonSpace $desc)) (lt (strings.RuneCount $desc) $minLength) (eq $desc $page.Title) (eq $desc $page.LinkTitle) -}}
+    {{- $summary := $page.Summary | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
+    {{- if ge (strings.RuneCount $summary) $minLength -}}
+      {{- $desc = $summary -}}
+    {{- else -}}
+      {{- $content := $page.Plain | replaceRE `\s+` " " | strings.TrimSpace -}}
+      {{- if strings.ContainsNonSpace $content -}}
+        {{- $desc = $content -}}
+      {{- else -}}
+        {{- $desc = $siteDesc -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $desc = $desc | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
+{{- if gt (strings.RuneCount $desc) 100 -}}
+  {{- $desc = strings.Truncate 100 "" $desc -}}
+{{- end -}}
+{{- if not (strings.ContainsNonSpace $desc) -}}
+  {{- $desc = $siteDesc -}}
+{{- end -}}
+{{- $desc -}}

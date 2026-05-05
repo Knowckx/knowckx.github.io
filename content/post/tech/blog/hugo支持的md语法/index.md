@@ -1,7 +1,7 @@
 +++
-title = "Hugo的Markdown语法示例"
+title = "Hugo 的 Markdown 语法示例与写作规范"
 slug = "Hugo-Markdown"
-description = "Hugo的Markdown语法示例"
+description = "把 Hugo 常见的 Markdown 语法、扩展标记和短代码示例整理成一份可直接查阅的笔记。"
 categories = ["blog"]
 tags = ["blog", "Markdown"]
 keywords = ["blog", "Markdown"]
@@ -227,6 +227,4 @@ For more details, check out the [documentation](https://stack.jimmycai.com/writi
 < tencent "g0014r3khdw" >
 < video "https://www.w3schools.com/tags/movie.mp4" > # 通用视频地址
 ```
-
-
 

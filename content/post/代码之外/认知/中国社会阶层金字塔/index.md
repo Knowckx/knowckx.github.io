@@ -1,7 +1,7 @@
 +++
 title = "中国社会阶层金字塔"
 slug = "China-social-class-pyramid"
-description = "今天晚上花点时间，整理了一下我们目前社会的金字塔结构"
+description = "整理我对中国社会阶层结构的观察，讨论不同层级的资源分布、流动性和现实处境。"
 categories = ["认知"]
 tags = ["认知"]
 keywords = ["认知", "社会阶层金字塔"]

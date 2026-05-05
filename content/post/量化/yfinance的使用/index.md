@@ -1,6 +1,6 @@
 ---
 title: yfinance使用的示例
-description: yfinance使用代理访问数据
+description: 记录在国内使用 yfinance 抓取美股行情时如何配置代理，并给出一段可直接运行的查询示例。
 date: 2025-03-07 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "量化"]

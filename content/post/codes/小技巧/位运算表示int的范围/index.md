@@ -1,6 +1,6 @@
 ---
 title: 位运算表示int的范围
-description: 位运算表示int的范围
+description: 用位运算快速表示 int32 的上下界，并顺带回顾左移、右移和整数范围的基本概念。
 date: 2023-07-29 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]

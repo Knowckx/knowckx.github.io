@@ -1,7 +1,7 @@
 +++
 title = "git rebase有个坑"
 slug = "git-rebase-push-rejected"
-description = "这是个老问题，以前没注意.."
+description = "解释 git rebase 为什么会让 push 失败，以及 merge、force push 和 --force-with-lease 的区别。"
 categories = ["编程相关"]
 tags = ["git"]
 keywords = ["git", "rebase"]
@@ -115,7 +115,6 @@ Commit ID的历史会是一条直线，就像前面例子的`A --- B --- D --- C
 换句话说，如果在你执行 rebase 到你准备 push 的这段时间里，有其他人也向这个远程分支推送了新的提交，
 `--force-with-lease` 就会失败。这可以防止你覆盖掉别人在你不知情的情况下推送的工作。
 日常工作中，推荐使用 `git push --force-with-lease` 代替 `git push -f`。
-
 
 
 

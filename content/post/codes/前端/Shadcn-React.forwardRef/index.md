@@ -1,7 +1,7 @@
 +++
 title = "Shadcn的一个坑 forwardRef问题"
 slug = "Shadcn-React.forwardRef"
-description = "今天被一个shadcn-ui的问题坑了3个小时……"
+description = "记录一次 Shadcn 组件没有生成 forwardRef 的排查过程，说明 React 19、Tailwind v4 和 CLI 版本的关系。"
 categories = ["编程相关", "前端"]
 tags = ["前端", "Shadcn", "React19"]
 keywords = ["Shadcn", "React.forwardRef", "React19"]
@@ -198,7 +198,6 @@ return (
 不仅自身需要时时学习，更何况现在还有**AI编程**的入场。 真的是脚步停下来就会被淘汰。
 
 收工！
-
 
 
 

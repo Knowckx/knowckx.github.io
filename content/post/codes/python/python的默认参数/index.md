@@ -1,7 +1,7 @@
 +++
 title = "Python函数的默认参数为何不能是[]或{}？"
 slug = "python-mutable-default-arguments-pitfall"
-description = "今天在写一个接口爬虫时，遇到了一个Python中关于函数默认参数的经典陷阱..."
+description = "解释 Python 函数默认参数为什么不要写成可变对象，并给出避免共享状态的写法。"
 categories = ["python"]
 tags = ["python","最佳实践"]
 keywords = ["python", "函数", "默认参数", "可变对象"]
@@ -80,7 +80,6 @@ def fn_test(inputMap:dict|None = None):
 反正记住一个简单的规则：不要使用`可变对象（如 [] 或 {}）`作为函数的默认参数就可以了。
 
 > AI写业务代码真的太强了，我准备好退休了
-
 
 
 

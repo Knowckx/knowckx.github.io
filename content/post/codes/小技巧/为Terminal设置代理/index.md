@@ -1,6 +1,6 @@
 ---
 title: 为Terminal设置代理
-description: 为Terminal设置代理
+description: 记录在终端里通过环境变量配置代理的方式，方便 Go 命令和 curl 等工具稳定走代理。
 date: 2024-12-05 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]

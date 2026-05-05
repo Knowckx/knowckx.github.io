@@ -1,6 +1,6 @@
 ---
 title: Git删除远程分支某次commit的方法
-description: Git删除远程分支某次commit的方法
+description: 整理删除远程分支中某次 commit 的思路，以及在重写历史时需要注意的安全边界。
 date: 2024-09-18 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]

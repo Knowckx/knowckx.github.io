@@ -1,6 +1,6 @@
 ---
 title: 关于Golang切片的几个注意点
-description: Golang切片
+description: 结合切片扩容、len/cap 区别和底层数组共享，整理 Go slice 的常见注意事项和拷贝方法。
 date: 2023-01-02 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关", "golang"]

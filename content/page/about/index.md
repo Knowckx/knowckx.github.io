@@ -1,7 +1,7 @@
 ---
-title: 关于我
+title: 关于我：Knowckx 的技术栈、经历与项目
 slug: about-me
-description: 个人简介、技术栈、工作经历与当前关注方向。
+description: Knowckx 的个人介绍页，汇总 Go、Python、AI 编程、Kubernetes、React/TypeScript 以及独立开发和开源项目方向。
 links:
   - title: GitHub
     description: 我的开源项目、实验仓库和长期维护的代码沉淀。

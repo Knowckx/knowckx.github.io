@@ -1,6 +1,6 @@
 ---
 title: mysql模拟开窗函数
-description: mysql使用子查询来模拟开窗函数
+description: 在 MySQL 8.0 以下用子查询模拟开窗函数，解决每行统计总和这类查询需求。
 date: 2024-01-26 08:00:00+0800
 lastmod: 2025-12-24T11:01:31+08:00
 categories: ["编程相关"]

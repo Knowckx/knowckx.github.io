@@ -1,5 +1,5 @@
 ---
-title: 常用链接
+title: 常用链接：开发资源与个人主页入口
 slug: links
 description: 我常用的开发资源与个人主页入口，当前仍在持续整理中。
 links:

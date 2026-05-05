@@ -1,7 +1,7 @@
 +++
-title = "hugo的lastmod更新问题"
+title = "Hugo 的 lastmod 更新问题：sitemap 中的最后修改时间"
 slug = "hugo-lastmod-update"
-description = "sitemap.xml里的lastmod配置"
+description = "记录 Hugo 站点里 sitemap.xml 的 lastmod 更新方式，以及如何让搜索引擎更准确识别文章更新时间。"
 categories = ["blog"]
 tags = ["blog"]
 keywords = ["hugo", "sitemap", "lastmod"]
@@ -67,8 +67,6 @@ enableGitInfo = true  # 启用GitInfo支持
 
 
 [具体的配置解释参考](https://gohugo.io/configuration/front-matter/)
-
-
 
 
 

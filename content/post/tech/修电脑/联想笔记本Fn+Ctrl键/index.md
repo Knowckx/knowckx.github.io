@@ -1,7 +1,7 @@
 +++
 title = "联想笔记本Fn+Ctrl键会唤醒cortana的问题"
 slug = "Lenovo-Laptops-Disabling-Fn+Ctrl-cortana"
-description = "介绍如何禁用联想的Fn+Ctrl快捷键"
+description = "记录联想笔记本上 Fn+Ctrl 触发 Cortana 的问题，以及关闭这个快捷键唤醒的方法。"
 categories = ["修电脑"]
 tags = ["修电脑"]
 keywords = ["Lenovo", "Fn+Ctrl", "cortana","禁用快捷键"]
@@ -63,7 +63,6 @@ Fn+M  启用/禁用触摸板
 Fn+Q  不同操作模式间切换（节能、性能、智能）
 
 Fn+Esc 开启和关闭Fn
-
 
 
 

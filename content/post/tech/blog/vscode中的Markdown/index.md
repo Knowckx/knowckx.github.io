@@ -1,7 +1,7 @@
 +++
-title = "vscode中的Markdown"
+title = "VS Code 中的 Markdown 写作技巧"
 slug = "vscode-Markdown"
-description = "vscode中的Markdown"
+description = "整理 VS Code 的 Markdown 常用操作，包括目录生成、加粗、链接、表格格式化和快捷键。"
 categories = ["blog"]
 tags = ["vscode", "Markdown"]
 keywords = ["vscode", "Markdown"]
@@ -24,6 +24,4 @@ lastmod = "2025-07-15T16:53:00+08:00"
 - <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd> -> 表格文本格式化（惊奇）
 
 ![alt text](https://github.com/yzhang-gh/vscode-markdown/raw/master/images/gifs/table-formatter.gif)
-
-
 

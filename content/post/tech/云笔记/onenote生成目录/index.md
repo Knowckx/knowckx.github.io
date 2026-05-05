@@ -1,6 +1,6 @@
 ---
 title: onenote生成目录
-description: onenote生成目录
+description: 记录如何借助 OneMore 在 OneNote 中为分级标题自动生成目录，并支持跳转和刷新。
 date: 2022-09-17 08:00:00+0800
 lastmod: 2025-04-13T12:20:37+08:00
 categories: ["云笔记"]

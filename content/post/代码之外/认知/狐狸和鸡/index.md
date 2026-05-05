@@ -1,7 +1,7 @@
 +++
-title = "狐狸和鸡的故事"
+title = "狐狸和鸡的故事：养老金与代际转移的思考"
 slug = "The-fable-of-the-fox-and-the-chicken"
-description = "每一位打工人都值得一读的故事"
+description = "用狐狸和鸡的寓言影射养老金与代际转移问题，记录一篇对现实政策的个人观察。"
 categories = ["认知"]
 tags = ["认知"]
 keywords = ["认知", "养老金", "少子化"]
@@ -44,8 +44,6 @@ lastmod = "2025-12-24T11:01:31+08:00"
 ...
 
 你看，狐狸还是很有信用的，说给，就真的给了。
-
-
 
 
 
