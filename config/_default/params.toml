@@ -10,8 +10,8 @@ favicon = "favicon.ico"
 
 # Pages placed under these sections will be shown on homepage and archive page.
 mainSections = ["post"]
-# Output page's full content in RSS.
-rssFullContent = true
+# RSS 默认只发摘要，避免 feed 过重。
+rssFullContent = false
 
 
 [seo.person]

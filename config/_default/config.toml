@@ -47,3 +47,4 @@ enableRobotsTXT = false
 
 [outputs]
   home = ["html", "rss", "sitemap-posts"]
+  section = ["html", "rss"]

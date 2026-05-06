@@ -47,7 +47,7 @@
             <guid>{{ .Permalink }}</guid>
             <description>
                 {{- $content := .Summary -}}
-                {{- if .Site.Params.RSSFullContent -}}
+                {{- if .Site.Params.rssFullContent -}}
                     {{- $content = .Content -}}
                 {{- end -}}
                 {{- $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources "Context" .) -}}
