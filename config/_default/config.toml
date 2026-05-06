@@ -45,6 +45,9 @@ enableRobotsTXT = false
   notAlternative = true
   root = true
 
+[outputFormats.rss]
+  baseName = "rss"
+
 [outputs]
   home = ["html", "rss", "sitemap-posts"]
   section = ["html", "rss"]

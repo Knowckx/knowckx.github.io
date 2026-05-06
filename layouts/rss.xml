@@ -46,14 +46,13 @@
             {{- with $authorEmail }}<author>{{ . }}{{ with $authorName }} ({{ . }}){{ end }}</author>{{ end }}
             <guid>{{ .Permalink }}</guid>
             <description>
-                {{- $content := .Summary -}}
-                {{- if .Site.Params.rssFullContent -}}
-                    {{- $content = .Content -}}
-                {{- end -}}
-                {{- $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources "Context" .) -}}
-                {{- if $image -}}
-                    {{- $imgTag := printf "<img src=\"%s\" alt=\"Featured image of post %s\" />" ($image.Permalink | absURL) .Title -}}
-                    {{- $content = printf "%s%s" $imgTag $content -}}
+                {{- $content := "" -}}
+                {{- with .Params.description -}}
+                    {{- $content = . -}}
+                {{- else with .Params.summary -}}
+                    {{- $content = . -}}
+                {{- else -}}
+                    {{- $content = .Summary | plainify -}}
                 {{- end -}}
                 {{- $content | transform.XMLEscape | safeHTML -}}
             </description>
