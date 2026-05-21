@@ -1,3 +1,3 @@
 # 项目说明
 
-请先阅读 `ai_doc\AI_CONTEXT.md.md`，然后等待用户指示
+读取 `ai_doc\AI_CONTEXT.md`, 报告读取文档中遇到的问题，最后向用户报告
