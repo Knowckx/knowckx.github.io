@@ -1,11 +1,11 @@
 +++
-title = "AI编程经验分享1: AI 协作编程的个人工作流心得"
+title = "AI编程心得1: AI 协作编程的个人工作流心得"
 slug = "ai-collaboration-workflow-notes"
 description = "记录我在与 AI 协作编程时总结的四个工作流心得，重点是文档分层、多开窗口、先 plan 后执行、及时抽象重构。"
 categories = ["编程相关", "AI"]
-tags = ["Codex", "AI编程", "工作流", "协作编程"]
+tags = ["Codex", "AI编程", "工作流", "协作编程", "AI编程心得"]
 keywords = ["Codex", "AI编程", "工作流", "协作编程", "文档管理", "多窗口"]
-weight = 3
+weight = 4
 date = "2026-04-30 08:00:00+0800"
 lastmod = "2026-05-01T00:07:00+08:00"
 # draft = true
