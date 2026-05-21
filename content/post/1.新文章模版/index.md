@@ -25,7 +25,8 @@ draft = true
 ### 注意点:
 - lastmod date 这两个时间别忘记更新
 
-- 文章的末尾固定加上一行:
-> 原创声明: 本文首发于我的个人博客 [原文链接地址](https://blog.knowckx.top/p/{slug})
+- AI注意: 需要文章的末尾固定加下文的声明:
+
+> 原创声明: 本文首发于我的个人博客 [原文链接地址](https://blog.knowckx.top)
 
 
