@@ -5,7 +5,7 @@ description = "记录一次 Shadcn 组件没有生成 forwardRef 的排查过程
 categories = ["编程相关", "前端"]
 tags = ["前端", "Shadcn", "React19"]
 keywords = ["Shadcn", "React.forwardRef", "React19"]
-weight = 2
+weight = 3
 date = "2025-04-27 01:04:49+0800"
 lastmod = "2025-12-24T11:01:31+08:00"
 +++

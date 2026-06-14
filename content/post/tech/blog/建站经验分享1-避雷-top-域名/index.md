@@ -85,4 +85,4 @@ Google 继续抓取，继续观察，继续不编入索引。
 
 以上。
 
-> 原创声明: 本文首发于我的个人博客 [原文链接地址](https://blog.knowckx.top/p/top-domain-google-not-indexed)
+> 原创声明: 本文首发于我的个人博客 [原文地址](https://blog.knowckx.top/p/top-domain-google-not-indexed)

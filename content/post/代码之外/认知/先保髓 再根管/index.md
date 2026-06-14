@@ -11,7 +11,7 @@ lastmod = "2025-12-24T11:59:30+08:00"
 +++
 
 > 最近个人Blog建好了，慢慢把过去零散的文章进行整合  
-> 原创声明: 本文首发于我的个人博客 [原文链接地址](https://blog.knowckx.top/p/tooth-needs-pulp-preserved-before-root-canal-treatment/)
+> 原创声明: 本文首发于我的个人博客 [原文地址](https://blog.knowckx.top/p/tooth-needs-pulp-preserved-before-root-canal-treatment/)
 
 
 写这篇文章来源于自己切身的看牙经历后，对背景知识的调研，希望可以唤起更多人对牙齿保健知识的重视

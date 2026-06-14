@@ -27,6 +27,6 @@ draft = true
 
 - AI注意: 需要文章的末尾固定加下文的声明:
 
-> 原创声明: 本文首发于我的个人博客 [原文链接地址](https://blog.knowckx.top)
+> 原创声明: 本文首发于我的个人博客 [原文地址](https://blog.knowckx.top)
 
 
