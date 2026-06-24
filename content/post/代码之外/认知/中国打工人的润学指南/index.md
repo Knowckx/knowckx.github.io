@@ -15,7 +15,7 @@ lastmod = "2026-04-27T21:06:24+08:00"
 我的初心是尽量用最少的文字把各个国家和地区技术移民的关键信息展示出来。  
 
 
-本文来源于个人Blog文章，我的个人博客 [knowckx's blog](https://blog.knowckx.top/)  源文地址 [awesome-run](https://blog.knowckx.top/p/awesome-run/)
+本文来源于个人Blog文章，我的个人博客 [knowckx's blog](https://blog.knowckx.de/)  源文地址 [awesome-run](https://blog.knowckx.de/p/awesome-run/)
 
 假如觉得有问题或者需要补充，请回帖告诉我  
 **[📁 本项目 GitHub 仓库](https://github.com/Knowckx/awesome-run)** (欢迎 Star ⭐)
